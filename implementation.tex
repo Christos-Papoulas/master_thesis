@@ -3,17 +3,16 @@
 This section describes the implementation of social network site
 and how the system scales.
 
-The system is composed by the following components: (1) The Social Networking engine, which runs all PHP scripts and described in section \ref{sec:implementaion_of_social_netowrk} (2) the Social Network MySQL database, (3) The CDO server - client components and the CDO repository, and (4) the Memcached caching system, which described in section \ref{sec:memcache_implementation}.
-The overall architecture of Social Network is shown at figure\ref{fig:system_architecture}
+The system is composed by the following components, as shown in figure \ref{fig:system_architecture}: At the first layer lives (1) the Social Networking engine, which runs all PHP scripts and described in section \ref{sec:implementaion_of_social_netowrk}. At the second layer lives (2) the Memcached caching system, which described in section \ref{sec:memcache_implementation}. At the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components and the CDO repository.
 
 \begin{figure}[h]
 	\caption{The overall architecture of Social Network.}
 	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/system_architecture.pdf}
 	\centering
-	\label{fig:elgg_architecture}
+	\label{fig:system_architecture}
 \end{figure}
 
-Achieving the scalability of the system, two system architectures are examined at the two layers of the system. We added more than one Social Network engine in the first layer of the system. In order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url}.
+Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url}. (2) We added more than one memcached machines at the second layer in order to add more cpu capacity and improve the system response time.
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
@@ -48,5 +47,5 @@ This section describes the experience gained by using memcached\cite{memcache_ur
 
 Memcached stores all entities of Social Network, applications, components, users, group discussions and most important the executions of applications. Storing the executions of applications at Memcached the responce time of the system increased because the PHP modules do not need to go through the heavy CDO client but get directly the executions of applications from Memcached.
 
-The apache jmeter\cite{jmeter_url} was used to measure the responce time of the system and the sysstat tool\cite{sysstat_url} was used to measure the cpu usage.  
-
+The apache jmeter\cite{jmeter_url} was used to measure the responce time of the system and the sysstat tool\cite{sysstat_url} was used to measure the cpu usage. Section \ref{sec:eval_memcache} 
+ shows the performance results of this implementation.
