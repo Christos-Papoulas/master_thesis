@@ -8,10 +8,12 @@ The overall architecture of Social Network is shown at figure\ref{fig:system_arc
 
 \begin{figure}[h]
 	\caption{The overall architecture of Social Network.}
-	%\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/system_architecture.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/system_architecture.pdf}
 	\centering
 	\label{fig:elgg_architecture}
 \end{figure}
+
+Achieving the scalability of the system, two system architectures are examined at the two layers of the system. We added more than one Social Network engine in the first layer of the system. In order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url}.
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
@@ -30,7 +32,7 @@ Figure\ref{fig:elgg_architecture} shows the model, view, and control parts of El
 
 \begin{figure}[h]
 	\caption{Architecture of the Elgg Social Networking engine.}
-	%\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/elgg_architecture.pdf}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/elgg_architecture.pdf}
 	\centering
 	\label{fig:elgg_architecture}
 \end{figure}
