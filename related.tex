@@ -1,2 +1,14 @@
 \section{Related Work}
+This section describes related work for other professional networks and their system architecture.
 
+\subsection{Professional Networks}
+{\color{red}Copy from jisa and add more sites?}
+
+\subsection{Memcached}
+Facebook serves billions of requests per second using memcached ~\cite{nishtala2013scaling}. In this magnitude of scale Facebook has several pools of memcached servers (regional pools) along the globe. A single request for a page can produce hundred of requests to the back-end system. Memcached used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
+In order to achieve a near real time communication experience to the end user, memcached server have to be efficient, reducing latency. 
+
+The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity in the same time. Stale sets resolved by a N-bit token, bound to specific key, sent from memcached to web server that want to update the key when cache miss occurs. If a delete request received then the request for updating this value from that client is rejected. The thundering herbs solved by configuring memcached servers return a N-bit token only once every ten seconds per key.
+
+{\color{red}Describe linkedin caching systems?}
+ 
