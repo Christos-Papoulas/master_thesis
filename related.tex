@@ -1,14 +1,92 @@
 \section{Related Work}
-This section describes related work for other professional networks and their system architecture.
+This section describes related work for other professional networks and their caching architecture.
 
-\subsection{Professional Networks}
-{\color{red}Copy from jisa and add more sites?}
-
-\subsection{Memcached}
-Facebook serves billions of requests per second using memcached ~\cite{nishtala2013scaling}. In this magnitude of scale Facebook has several pools of memcached servers (regional pools) along the globe. A single request for a page can produce hundred of requests to the back-end system. Memcached used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
+\subsection{Caching data}
+Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale Facebook has several pools of memcached servers (regional pools) along the globe. A single request for a page can produce hundred of requests to the back-end system. Memcached used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
 In order to achieve a near real time communication experience to the end user, memcached server have to be efficient, reducing latency. 
 
 The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity in the same time. Stale sets resolved by a N-bit token, bound to specific key, sent from memcached to web server that want to update the key when cache miss occurs. If a delete request received then the request for updating this value from that client is rejected. The thundering herbs solved by configuring memcached servers return a N-bit token only once every ten seconds per key.
 
-{\color{red}Describe linkedin caching systems?}
+Linkedin, the largest professional network, stores hundreds of terabytes of data to Project Voldemord~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}. Linkedin stores to Voldemort pre-computed offline data for example results of data mining applications such as features like ``People You May Know'' which running on hundreds of terabytes to make an estimation, using Hadoop as the computational component of those estimations. 
+Voldemord compared with Dynamo has the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock (3) a \emph{required read} factor to succeed a get request, (4) a \emph{required write} factor to succeed a put request. 
+
+\subsection{Professional Networks}
+
+%During the last few years social networking has evolved into a fundamental daily activity for many individuals and a new frontier for business marketing. Besides “traditional” social networking, a recent trend is professional and domain-specific networking services focused on interactions and relationships of a business nature around a specific target domain. These online communities have the potential to become a platform for collective intelligence and open innovation~\cite{leimeister2010}, a medium for knowledge-centered collaboration~\cite{faraj2011}, and a trustworthy decision-support tool~\cite{bulmer2010}.
  
+IT professionals use a variety of online sources as aids in their daily tasks. Developers typically prefer community-moderated forums over vendor-moderated sites.%~\cite{evans-date}
+ Social networks focusing on software technology in particular provide developers with the opportunity to leverage the knowledge and expertise of their peers.
+ 
+One of the most popular such platforms is GitHub~\cite{github_url}, a collaborative revision control platform for developers launched in April 2008, and arguably the largest code-hosting site in the world. 
+GitHub provides social networking functionality such as feeds, followers, wikis and a social network graph that captures how developers work on versions of their repositories, which version is newest, etc.
+Gitter~\cite{gitter} is a related service that facilitates discussions between members of GitHub communities by providing a long-term chat integrated with code and issues.
+Sourceforge~\cite{sourceforge} was the first code-hosting platform offered to open-source projects. It was launched in 1999 and offered IT professionals the ability to develop, download, review, and publish open-source software. Sourceforge is similar to GitHub in its support for social features.
+Other similar code-hosting platforms are Google Code~\cite{googlecode} and Microsoft CodePlex~\cite{codeplex}.
+None of those platforms collect, analyze, or use information from executions of application deployments to improve the level of technical discussion between users or abstract code structure through modelling or enhance user interactions through the use of analytics over application execution histories.
+
+StackOverflow~\cite{stackoverflow} advances on earlier Q\&A sites in which users ask and answer questions. Users can vote up or down questions and answers and earn \emph{reputation points} and \emph{badges} in return for their active participation. 
+Although StackOverflow and GitHub address different aspects of software development (StackOverflow is not a code-hosting platform) there is a synergy and correlation between the two~\cite{stackgit}. The proposed social network platform extends StackOverflow through the use of social networking features that enable users interested in reasoning about application deployments to use and share knowledge drawn from analyses of information repositories.
+ 
+IBM's BlueMix~\cite{Bluemix-dev} is a development and support platform for communities of DevOps users wishing to compose distributed applications out of components drawn from libraries and deploy them at IBM-provided and supported cloud infrastructure.  BlueMix is a key component of IBM's DevOps best practices~\cite{ibm-devops} for achieving rapid prototyping, automated deployment, and continuous testing of software. BlueMix encourages its users to ask their questions to StackOverflow but also includes a community forum~\cite{Bluemix-dev} with rating of answers contributes to eventually building a basic knowledge base, similar to traditional approaches such as StackOverflow.  The proposed social network platform system differs from BlueMix in its support for expressing applications as models (CloudML, CAMEL) and its use of two information repositories, the PaaSage repository of models and execution histories and Chef supermarket, and the use of analytics over past executions to enable users to reason about application deployments. A common feature between the proposed social network platform and BlueMix is support for deployment of distributed applications. 
+
+LinkedIn widely adopted across a range of professional communities due to its robust set of social features (and to some extent due to its use of extensive analytics over collected information~\cite{sumbaly2013big}), LinkedIn provides no specific support for software engineering activities and thus more closely resembles traditional social networking platforms such as Facebook.
+
+The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowsourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef Supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowsourcing. Our professional network is the only solution that analyzes information in its software-related repositories to assist users with suggestions and hints. 
+
+\begin{table*}[h]
+
+\begin{threeparttable}
+
+\caption{Feature comparison.}
+\label{tab:related}
+
+
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|cc}
+
+\cline{2-10}
+  &  \multicolumn{4}{c|}{Interaction Between Users} & \multicolumn{5}{c|}{Repository} &  &  \\ 
+\cline{2-12} 
+  &
+   
+  \begin{tabular}[c]{@{}c@{}}\rot{Social features \tnote{a}} \end{tabular} & 
+  \begin{tabular}{c@{\hskip 0.1in}} \rot{Groups}\end{tabular} & 
+  \begin{tabular}{c} \rot{Q \& A} \end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Personal  messaging}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Software code}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Software models}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Software config}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Execution histories}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Crowd sourced}\end{tabular} & 
+  \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Repo\\ assisted\\ hints \tnote{b} \end{tabular}} & 
+  \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Application\\ deployment\end{tabular}} \\ 
+\hline
+
+\multicolumn{1}{|c|}{GitHub} & \cmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\
+\hline
+\multicolumn{1}{|c|}{Sourceforge} & \cmark & \xmark & \cmark & \cmark & \cmark & \xmark & \xmark & \xmark & \cmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\
+\hline
+\multicolumn{1}{|c|}{GoogleCode} & \xmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\
+\hline
+\multicolumn{1}{|c|}{CodePlex} & \cmark & \xmark & \cmark & \cmark & \cmark & \xmark & \xmark & \xmark & \cmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\
+\hline
+\multicolumn{1}{|c|}{StackOverflow} & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
+\hline
+\multicolumn{1}{|c|}{BlueMix} & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\cmark} \\ 
+\hline
+\multicolumn{1}{|c|}{Chef Supermarket} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \cmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
+\hline
+\multicolumn{1}{|c|}{LinkedIn} & \cmark & \cmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
+\hline
+\hline
+\multicolumn{1}{|c|}{PaaSage SN} & \cmark & \cmark & \cmark & \cmark & \xmark & \cmark & \cmark & \cmark & \cmark & \multicolumn{1}{c|}{\cmark} & \multicolumn{1}{c|}{\cmark} \\ 
+\hline
+
+\end{tabular}
+
+\begin{tablenotes}
+      \small
+       \item[a] Features: follow and news feed
+      \item[b] User assistance based on data analysis of the repository
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
