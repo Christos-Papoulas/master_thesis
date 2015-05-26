@@ -1,3 +1,4 @@
+
 \chapter{Implementation}
 
 This section describes the implementation of social network site
@@ -16,13 +17,21 @@ Achieving the scalability of the system, two system architectures are examined a
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
-The social networking platform is implemented over the extensible Elgg social network framework\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  The Elgg framework is structured around the following key concepts:
+The social networking platform is implemented over the extensible Elgg social network framework\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  The architecture of Elgg Social Network shown in figure ~\ref{fig:elgg_architecture}. The Model of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}
 \begin{itemize}
-\item \emph{Entities}, classes capturing social networking concepts: users, communities, application models, etc.
+\item \emph{Entities}, classes capturing social networking concepts: users, communities, application models. Elgg Core comes with four basic objects: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache and a lot of other classes necessary for the proper engine operation.
 \item \emph{Metadata} describing and extending entities (e.g., a response to a question, a review of an application model, etc.).
 \item  \emph{Relationships} connecting two entities (e.g., user A is a friend of user B, user C is a contributor to an application model, etc.).
+\item \emph{Annotations} are pieces of simple data attached to an entity that allow users to leave ratings, or other relevant feedback.
 \end{itemize}
 All Elgg objects inherit from ElggEntity, which provides the general attributes of an object. Elgg core comes with the following basic entities: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache, as well as other classes necessary for the operation of the engine.
+
+\begin{figure}[h]
+	\caption{The Elgg Engine Data model.}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/elgg_data_model.png}
+	\centering
+	\label{fig:elgg_entities}
+\end{figure}
 
 Elgg comprises a core system that can be extended through plugins (examples are the Cart system or the handling of Application Models). Plugins add new functionality, can customize aspects of the Elgg engine, or change the representation of pages.
 A plugin can create new objects (e.g., ApplicationObject) characterized (through inheritance of ElggEntity) by a numeric globally unique identifier (GUID), owner GUID, Access ID. Access ID encodes permissions ensuring that when a page requests data it does not touch data the current user does not have permissions on. 
@@ -37,7 +46,14 @@ Figure\ref{fig:elgg_architecture} shows the model, view, and control parts of El
 \end{figure}
 
 
-All plugins share a common structure of folders and php files. Folder {\em actions} includes the actions applied on application models (delete, save, or search). The {\em views} folder contains the {\em php} forms applied on application models, {\em river} events (Elgg terminology for live feeds), and the application model editor. {\em Pages} overrides elements of core Elgg pages.  The {\em js} and {\em lib} folder provides javascript and {\em php} library functions. Finally, the {\em vendors} folders include third-party frameworks such as Twitter's bootstrap front-end.
+The extensibility of Elgg can be established not by modifying the core system but by introducing new plug-ins which follow the MVC model. A new plug-in can create a new entity. Thus, each entity is characterized by a numeric Globally Unique Identifier and Access ID. The Access ID determines the permissions that other users have. Thus, when a page requests data, it never touches those data that the current user does not have permission to see. All plug-ins share a common structure of folders and PHP files, following the MVC model of figure~\ref{fig:elgg_architecture}. The hierarchy of a plug-in is shown in figure~\ref{fig:elgg_hierarchy}. Folder {\em actions} includes the actions applied on application models (delete, save, or search). The {\em views} folder contains the {\em php} forms applied on application models, {\em river} events (Elgg terminology for live feeds), and the application model editor. {\em Pages} overrides elements of core Elgg pages.  The {\em js} and {\em lib} folder provides javascript and {\em php} library functions. Finally, the {\em vendors} folders include third-party frameworks such as Twitter's bootstrap front-end.
+
+\begin{figure}[h]
+	\caption{The structure of the application description plug-in.}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/folder_hierarchy.jpg}
+	\centering
+	\label{fig:elgg_hierarchy}
+\end{figure}
 
 Social network relationships (friendship, group, ownership, etc.) are persisted in the Elgg back-end database. The execution history of deployments of application models and the description of those models is stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. The exchange of information between Elgg and the CDO server is implemented over sockets.
 
