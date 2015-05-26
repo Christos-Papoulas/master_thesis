@@ -46,7 +46,15 @@ Figure\ref{fig:elgg_architecture} shows the model, view, and control parts of El
 \end{figure}
 
 
-The extensibility of Elgg can be established not by modifying the core system but by introducing new plug-ins which follow the MVC model. A new plug-in can create a new entity. Thus, each entity is characterized by a numeric Globally Unique Identifier and Access ID. The Access ID determines the permissions that other users have. Thus, when a page requests data, it never touches those data that the current user does not have permission to see. All plug-ins share a common structure of folders and PHP files, following the MVC model of figure~\ref{fig:elgg_architecture}. The hierarchy of a plug-in is shown in figure~\ref{fig:elgg_hierarchy}. Folder {\em actions} includes the actions applied on application models (delete, save, or search). The {\em views} folder contains the {\em php} forms applied on application models, {\em river} events (Elgg terminology for live feeds), and the application model editor. {\em Pages} overrides elements of core Elgg pages.  The {\em js} and {\em lib} folder provides javascript and {\em php} library functions. Finally, the {\em vendors} folders include third-party frameworks such as Twitter's bootstrap front-end.
+The extensibility of Elgg can be established not by modifying the core system but by introducing new plug-ins which follow the MVC model. A new plug-in can create a new entity. Thus, each entity is characterized by a numeric Globally Unique Identifier and Access ID. The Access ID determines the permissions that other users have. Thus, when a page requests data, it never touches those data that the current user does not have permission to see. All plug-ins share a common structure of folders and PHP files, following the MVC model of figure~\ref{fig:elgg_architecture}. 
+
+The hierarchy of a plug-in is shown in figure~\ref{fig:elgg_hierarchy}. 
+Folder {\em actions} includes the actions applied on application models. Every active participation by the user is performed via an action. Logging in, creating, updating or deleting content are all generic categories of actions.
+The {\em views} folder contains the {\em php} forms applied on application models, {\em river} events (Elgg terminology for live feeds). Viewss are responsible for creating the output for the client browser. Generally, this will be HTML, but it can be also JSON or other format. 
+{\em Pages} overrides elements of core Elgg pages and can be from chunks of presentation output (like sidebars) down to individual html code.  
+The {\em js} and {\em lib} folder provides javascript and {\em php} library functions. 
+Finally, the {\em vendors} folders include third-party frameworks such as Twitter's bootstrap front-end~\cite{bootstrap_url}.
+
 
 \begin{figure}[h]
 	\caption{The structure of the application description plug-in.}
