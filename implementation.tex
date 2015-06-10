@@ -57,7 +57,6 @@ Finally, the {\em vendors} folders include third-party frameworks such as Twitte
 The most important file of a plug-in is the \emph{start.php} script, which contains the \emph{page handler}. Page handler is a function manages the plug-in pages enabling custom url redirect to a specific page. 
 The plug-in initialization is also defined in the start.php and registers actions, events and determines the views. 
 
-
 \begin{figure}[h]
 	\caption{The structure of the application description plug-in.}
 	\includegraphics[width=0.4\textwidth]{./fig/folder_hierarchy.png}
@@ -75,7 +74,16 @@ The design of User interface of Social Network based on 102 mock-ups designed by
 \label{sec:memcache_implementation}
 This section describes the experience gained by using memcached\cite{memcache_url}. Memcached is an open source, high-performance, distributed memory object caching system. We choose memcached, because is a generic simple in-memory key-value store. It has a powerful API available for PHP. After memcached integration the system increase the response time and performance.
 
-Memcached stores all entities of Social Network, applications, components, users, group discussions and most important the executions of applications. Storing the executions of applications at Memcached the response time of the system increased because the PHP modules do not need to go through the heavy CDO client but get directly the executions of applications from Memcached.
+Memcached added in layer 2 of system architecture and used for storing the following key-value tuples: (1) values from Social Network Database such as entities of Social Network, applications, components, users, group discussions, (2) evaluated javascript code results and (3) executions histories from repository of application models. Storing the executions of applications at Memcached the response time of the system increased because the PHP modules do not need to go through the heavy CDO client but get directly the executions of applications from Memcached.
 
 The apache jmeter\cite{jmeter_url} was used to measure the responce time of the system and the sysstat tool\cite{sysstat_url} was used to measure the cpu usage. Section \ref{sec:eval_memcache} 
  shows the performance results of this implementation.
+
+All tuples at Memcached are inserted with maximum key expiration time of thirty days. When a value in social network is updated, the memcached key will deleted~\ref{fig:memcache_key_value}.
+
+\begin{figure}[h]
+	\caption{The scenario a depicts a request from memcached when the key does not exist and scenario b depicts a updated operation of a value) }
+	\includegraphics[width=0.9\textwidth]{./fig/memcached_key_value.pdf}
+	\centering
+	\label{fig:memcache_key_value}
+\end{figure}

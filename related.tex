@@ -14,8 +14,7 @@ Voldemord compared with Dynamo has the same following requirements: (1) a simple
 
 %During the last few years social networking has evolved into a fundamental daily activity for many individuals and a new frontier for business marketing. Besides “traditional” social networking, a recent trend is professional and domain-specific networking services focused on interactions and relationships of a business nature around a specific target domain. These online communities have the potential to become a platform for collective intelligence and open innovation~\cite{leimeister2010}, a medium for knowledge-centered collaboration~\cite{faraj2011}, and a trustworthy decision-support tool~\cite{bulmer2010}.
  
-IT professionals use a variety of online sources as aids in their daily tasks. Developers typically prefer community-moderated forums over vendor-moderated sites.%~\cite{evans-date}
- Social networks focusing on software technology in particular provide developers with the opportunity to leverage the knowledge and expertise of their peers.
+IT professionals use a variety of online sources as aids in their daily tasks. Developers typically prefer community-moderated forums over vendor-moderated sites. Social networks focusing on software technology in particular provide developers with the opportunity to leverage the knowledge and expertise of their peers.
  
 One of the most popular such platforms is GitHub~\cite{github_url}, a collaborative revision control platform for developers launched in April 2008, and arguably the largest code-hosting site in the world. 
 GitHub provides social networking functionality such as feeds, followers, wikis and a social network graph that captures how developers work on versions of their repositories, which version is newest, etc.
@@ -31,7 +30,12 @@ IBM's BlueMix~\cite{Bluemix-dev} is a development and support platform for commu
 
 LinkedIn widely adopted across a range of professional communities due to its robust set of social features (and to some extent due to its use of extensive analytics over collected information~\cite{sumbaly2013big}), LinkedIn provides no specific support for software engineering activities and thus more closely resembles traditional social networking platforms such as Facebook.
 
-The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowsourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef Supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowsourcing. Our professional network is the only solution that analyzes information in its software-related repositories to assist users with suggestions and hints. 
+
+The lack of Social Networking features of github came to fill the Geeklist platform~\cite{geeklist_url}, where developers and IT companies can discover and share the work they have done, connect with other companies with a social network manner or join development communities. Another code hosting platform is Snipplr ~\cite{Snipplr_url}, where developers can upload short code snippets and not full programs in order to keep all of their frequently used code in one place that's accessible from any computer and any user. Masterbranch~\cite{masterbranch_url} is a new under development platform that allows collating and sharing of projects within user profile. Profile works similarly to LinkedIn and has an incentivisation scheme called DevScore coupled with unlockable achievements in adds gamification element. Dzone~\cite{dzone_url} is essentially a link repository for developers allowing link sharing and incentivisation based around voting for popular links. The Code project~\cite{codeproject_url} website and forum allows code-specific discussion and shares relevant articles and news, contains blogs,  newsletter and has a questions and answers section.
+
+The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowd sourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef Supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowd sourcing. Our professional network is the only solution that analyzes information in its software-related repositories to assist users with suggestions and hints. 
+
+
 
 \begin{table*}[h]
 
@@ -44,14 +48,14 @@ The above systems can be further classified based on whether they use a reposito
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c|cc}
 
 \cline{2-10}
-  &  \multicolumn{4}{c|}{Interaction Between Users} & \multicolumn{5}{c|}{Repository} &  &  \\ 
+  &  \multicolumn{4}{c|}{User Interaction} & \multicolumn{5}{c|}{Repository} &  &  \\ 
 \cline{2-12} 
   &
    
   \begin{tabular}[c]{@{}c@{}}\rot{Social features \tnote{a}} \end{tabular} & 
-  \begin{tabular}{c@{\hskip 0.1in}} \rot{Groups}\end{tabular} & 
-  \begin{tabular}{c} \rot{Q \& A} \end{tabular} & 
-  \begin{tabular}[c]{@{}c@{}}\rot{Personal  messaging}\end{tabular} & 
+  \begin{tabular}[c]{@{}c@{}}\rot{Groups} \end{tabular} &
+  \begin{tabular}[c]{@{}c@{}}\rot{Q \& A} \end{tabular} &
+  \begin{tabular}[c]{@{}c@{}}\rot{Personal  messaging} \end{tabular} & 
   \begin{tabular}[c]{@{}c@{}}\rot{Software code}\end{tabular} & 
   \begin{tabular}[c]{@{}c@{}}\rot{Software models}\end{tabular} & 
   \begin{tabular}[c]{@{}c@{}}\rot{Software config}\end{tabular} & 
@@ -77,25 +81,15 @@ The above systems can be further classified based on whether they use a reposito
 \hline
 \multicolumn{1}{|c|}{LinkedIn} & \cmark & \cmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
 \hline
-\multicolumn{1}{|c|}{geeklist} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\
+\multicolumn{1}{|c|}{geeklist} & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark &  & \multicolumn{1}{c|}{ \xmark } & \multicolumn{1}{c|}{ \xmark } \\
 \hline
-\multicolumn{1}{|c|}{Snipplr} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
+\multicolumn{1}{|c|}{Snipplr} & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark &  & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
 \hline
-\multicolumn{1}{|c|}{Masterbranch} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
+\multicolumn{1}{|c|}{Masterbranch} & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark &  & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\ 
 \hline
-\multicolumn{1}{|c|}{Bisquits} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
+\multicolumn{1}{|c|}{Dzone} & \cmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark &  & \multicolumn{1}{c|}{ \xmark} & \multicolumn{1}{c|}{\xmark } \\ 
 \hline
-\multicolumn{1}{|c|}{Codesnipp.it} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\
-\hline
-\multicolumn{1}{|c|}{Bettercodes} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\  
-\hline
-\multicolumn{1}{|c|}{Mashant} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
-\hline
-\multicolumn{1}{|c|}{Dzone} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
-\hline
-\multicolumn{1}{|c|}{codeproject} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\ 
-\hline
-\multicolumn{1}{|c|}{codeproject} &  &  &  &  &  &  &  &  &  & \multicolumn{1}{c|}{ } & \multicolumn{1}{c|}{ } \\
+\multicolumn{1}{|c|}{codeproject} & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark &  & \multicolumn{1}{c|}{\xmark} & \multicolumn{1}{c|}{\xmark} \\
 \hline
 \hline
 \multicolumn{1}{|c|}{PaaSage SN} & \cmark & \cmark & \cmark & \cmark & \xmark & \cmark & \cmark & \cmark & \cmark & \multicolumn{1}{c|}{\cmark} & \multicolumn{1}{c|}{\cmark} \\ 
