@@ -2,13 +2,13 @@
 This section describes related work for other professional networks and their caching architecture.
 
 \subsection{Caching data}
-Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale Facebook has several pools of memcached servers (regional pools) along the globe. A single request for a page can produce hundred of requests to the back-end system. Memcached used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
-In order to achieve a near real time communication experience to the end user, memcached server have to be efficient, reducing latency. 
+Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
+In order to achieve a near real time communication experience to the end user, memcached servers have to be efficient, reducing latency. 
 
-The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity in the same time. Stale sets resolved by a N-bit token, bound to specific key, sent from memcached to web server that want to update the key when cache miss occurs. If a delete request received then the request for updating this value from that client is rejected. The thundering herbs solved by configuring memcached servers return a N-bit token only once every ten seconds per key.
+The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity at the same time. Stale sets are resolved by an N-bit token, that is bound to a specific key and sent from the memcached to the web server that wants to update the key when a cache miss occurs. If a delete request is received, the request for updating this value from the client is rejected. The thundering herbs are solved by configuring the memcached servers to return an N-bit token only once every ten seconds per key.
 
-Linkedin, the largest professional network, stores hundreds of terabytes of data to Project Voldemord~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}. Linkedin stores to Voldemort pre-computed offline data for example results of data mining applications such as features like ``People You May Know'' which running on hundreds of terabytes to make an estimation, using Hadoop as the computational component of those estimations. 
-Voldemord compared with Dynamo has the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock (3) a \emph{required read} factor to succeed a get request, (4) a \emph{required write} factor to succeed a put request. 
+Linkedin, the largest professional network, stores hundreds of terabytes of data to Project Voldemort~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}. Linkedin stores to Voldemort pre-computed offline data. For example, the results of data mining applications, such as features like ``People You May Know'', that are running on hundreds of terabytes to make an estimation and are using Hadoop as the computational component of those estimations. 
+Voldemort and Dynamo have the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock, (3) a \emph{required read} factor to succeed a get request and (4) a \emph{required write} factor to succeed a put request. 
 
 \subsection{Professional Networks}
 
@@ -31,22 +31,16 @@ IBM's BlueMix~\cite{Bluemix-dev} is a development and support platform for commu
 LinkedIn widely adopted across a range of professional communities due to its robust set of social features (and to some extent due to its use of extensive analytics over collected information~\cite{sumbaly2013big}), LinkedIn provides no specific support for software engineering activities and thus more closely resembles traditional social networking platforms such as Facebook.
 
 
-The lack of Social Networking features of github came to fill the Geeklist platform~\cite{geeklist_url}, where developers and IT companies can discover and share the work they have done, connect with other companies with a social network manner or join development communities. Another code hosting platform is Snipplr ~\cite{Snipplr_url}, where developers can upload short code snippets and not full programs in order to keep all of their frequently used code in one place that's accessible from any computer and any user. Masterbranch~\cite{masterbranch_url} is a new under development platform that allows collating and sharing of projects within user profile. Profile works similarly to LinkedIn and has an incentivisation scheme called DevScore coupled with unlockable achievements in adds gamification element. Dzone~\cite{dzone_url} is essentially a link repository for developers allowing link sharing and incentivisation based around voting for popular links. The Code project~\cite{codeproject_url} website and forum allows code-specific discussion and shares relevant articles and news, contains blogs,  newsletter and has a questions and answers section.
+The lack of Social Networking features of github came to fill the Geeklist platform~\cite{geeklist_url}, where developers and IT companies can discover and share the work they have done, connect with other companies in a social network manner or join development communities. Another code hosting platform is Snipplr ~\cite{snipplr_url}, where developers can upload short code snippets but not full programs, in order to keep all of their frequently used code in one place that is accessible from any computer and any user. Masterbranch~\cite{masterbranch_url} is a new under development platform that allows collating and sharing of projects within a user's profile. This profile works similarly to LinkedIn and has an incentivisation scheme called DevScore, coupled with unlockable achievements that add a gamification element. Dzone~\cite{dzone_url} is essentially a link repository for developers allowing link sharing and incentivisation based on voting for the popular links. The Code project~\cite{codeproject_url} website and forum allow code-specific discussion and share relevant articles and news, contains blogs, newsletter and a questions and answers section.
 
 The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowd sourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef Supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowd sourcing. Our professional network is the only solution that analyzes information in its software-related repositories to assist users with suggestions and hints. 
 
-
-
 \begin{table*}[h]
-
 \begin{threeparttable}
-
 \caption{Feature comparison.}
 \label{tab:related}
 
-
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c|cc}
-
 \cline{2-10}
   &  \multicolumn{4}{c|}{User Interaction} & \multicolumn{5}{c|}{Repository} &  &  \\ 
 \cline{2-12} 

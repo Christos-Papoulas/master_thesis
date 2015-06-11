@@ -1,8 +1,7 @@
 \chapter{Introduction}
-In this work proposed the design and implementation of a model-driven social networking platform for designers of Multi-Cloud applications. In this target specific social networking platform, DevOps can benefit from other users experience and answer design questions such as which is the most cost-effectiveness deployment, which configuration fits their needs. This social networking platform joins together all social networking concepts such as personal messaging, groups, new feeds with modelling-driven concepts of application composition and deployment, integrating a repository of cloud applications and infrastructure description based on Cloud Application Modelling and Execution Language (CAMEL). 
+In this work, the design and implementation of a model-driven social networking platform for designers of Multi-Cloud applications is presented. The model-driven concept is not included in the Social Network Implementation but in the design of the users' application. In this targeted social networking platform, DevOps can benefit from other users' experience and answer design questions such as which is the most cost-effective deployment and which configuration fits their needs. This social networking platform binds all social networking concepts such as personal messaging, groups, new feeds with modelling-driven concepts of application composition and deployment, integrating a repository of cloud applications and infrastructure description based on Cloud Application Modelling and Execution Language (CAMEL). 
 
 This repository means to several benefits. 
-%besides the ease of a unified user interface and a single sign-on. 
 An integrated environment can enrich user interactions with structured references to applications and their components, execution data, and mined knowledge from real deployments. Mined knowledge can be combined with user activity and profiles to provide personalized suggestions and hints.  An improved mode of user interaction is expected to result to stronger incentives for DevOps users to contribute information to the underlying repositories. More content should lead to better quality of mined knowledge, benefiting the DevOps community and providing further incentive for contributions.  The social networking platform designed to be closely integrated with a set of information repositories satisfying the following requirements: 
 (R1) handle entire applications rather than just software components; (R2) abstract application structure through software modeling; (R3) capture and analyze application runtime performance. Raising the level of abstraction from components to applications and from code-centric to model-centric is expected to facilitate interaction between DevOps professionals. The analysis of application execution data can provide answers to many interesting questions of the community and
 support discussions and arguments with hard data. 
@@ -11,6 +10,18 @@ These requirements can provide software developers with strong incentives to con
 %\section{Motivation}
 
 \section{Background}
+Application models inside social network platform are described in CAMEL. CAMEL integrates various domain-specific languages (DSLs). These DSLs cover a wealth of aspects of specification and execution of multi-cloud applications like CloudML, Scalability rules, WS Agreement, Saloon and Historical Execution Data. CAMEL is using the Eclipse Modelling Framework (EMF) on top of the Connected Data Objects (CDO). Applications is persisted on CDO repository.
+CloudML~\cite{FerryRossiniCMS13} is a recent approach that focuses on the provisioning and deployment of multi-cloud applications, is built upon MDE techniques and methods, and provides a models@run-time environment for enacting the provisioning.  WS Agreement~\cite{andrieux2007web} is a Web Services protocol for establishing agreement between two parties, such as between a service provider and customer. Saloon ~\cite{quinton2013towards} is an approach that uses models to represent clouds variability, as well as ontologies to describe the heterogeneous aspect of the cloud ecosystem. The CAMEL model couple together aAll those DSLs as shown in figure~\ref{fig:dsls}.
+
+Chef \ldots
+
+
+\begin{figure}[h]
+	\caption{CAMEL DSLs.}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/dsl.png}
+	\centering
+	\label{fig:dsls}
+\end{figure}
 
 %\section{Methodology}
 
