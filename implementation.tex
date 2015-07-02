@@ -87,3 +87,21 @@ All tuples at Memcached are inserted with maximum key expiration time of thirty 
 	\centering
 	\label{fig:memcache_key_value}
 \end{figure}
+
+\section{Natural Language Processing}
+Natural Language Processing(NLP)~\cite{manning1999foundations} is feature added to Social Network. NLP concerned with the interactions between the users of SN and how the platform can understand and determine the type of user input. Particularly, Natural Language Understanding using Naivy Bayes algorithm is added to SN. The Natural framework~\cite{nodenatural_url} implemented with node.js is used. In general, Machine Learning algorithms such as Naivy Bayes, wants an input data set of training data. Those data is pooled from StackOverflow. When users ask questions in StackOverflow, must specify tags describing their questions. Those questions is an excellent repository to train the NB algorithm. NB is trained with 50K questions from StackOverflow Q\&A site, fifty questions for each tag. The general algorithm is shown below. First, the algorithm starts with a tag which is relevant to the Social Network Platform such as \emph{scalability} at line 01. Afterwards, using the stackexchange api the algorithm gets the 50 most voted questions tagged with \emph{scalability}. For each question (line 04), the trainClassifier clears the body from html tags inserted by the StackOverflow users to beatify their questions (line 05) and classify this question's body with each tag. Automatically, the trainClassifier proceeds to the next tag of this question. When the trainClassifier is finished the NB is trained with 50K questions, fifty questions per tag. It should be noted that a question may have more than one tag, so a question maybe classified up to five tags / classes.
+
+\begin{lstlisting} 
+01:var tags = ['scalability']
+02:trainClassifier(0)
+03:function trainClassifier(index) {
+04:  var questions = stackexchange.api.getQuestionsByTag(tags[index])
+05:  foreach(questions as q)
+06:    body = clear(q.body)
+07:    foreach(q.tags as t)
+08:    	 classify(body, t)
+09:    	 if(not tags.exist(t) and tags.length() < threshold)
+10:    	   tags.push(t)	  
+11:        trainClassifier(tags.indexOf(t))
+12:}		
+\end{lstlisting}
