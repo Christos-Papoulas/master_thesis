@@ -75,4 +75,26 @@ The CPU utilization to SN Engines decreased as shown in the figure~\ref{fig:cpu2
 
 \section{Evaluation of NLP classification}
 \label{sec:nlp_evaluation}
-\ldots
+This section evaluates the Natural Language Processing Tool as described in section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification was not an error of our classifier but some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
+
+Another example showing that the classifier is not misclassifying is the following question:
+``I want to perform some data manipulation tasks and analysis in spark and want to \textbf{optimize} the run times. 
+here is the problem: \ldots ''. 
+This question was marked by the user with both scalability and optimization tags. Even though this question is retrieved with the scalability tag and in the table it is shown as a wrong classification, after examining this question, one can realize that the \emph{scalability} tag was wrongly added by the user and only the \emph{optimization} tag should be placed.
+
+This shows that our tool can further be used by StackOverflow to mark new questions that are wrongly tagged or misguided. There is a trend among StackOverflow users to add as many tags as they can in order to attract the attention of other users, increase the views of their question and finally get their answers.  
+
+\begin{table}[]
+\centering
+\caption{NLP Evaluation of Classification}
+\label{table:nlp_eval}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+class / class & \multicolumn{1}{l|}{reliability} & \multicolumn{1}{l|}{design} & \multicolumn{1}{l|}{optimazation} & \multicolumn{1}{l|}{performance} & \multicolumn{1}{l|}{scalability} \\ \hline
+reliability   & \textbf{21}                    & 0                           & 8                                 & 1                                & 0                                \\ \hline
+design        & 2                                & \textbf{15}               & 8                                 & 3                                & 2                                \\ \hline
+optimazation  & 2                                & 3                           & \textbf{15}                     & 9                                & 1                                \\ \hline
+performance   & 2                                & 1                           & 17                                & \textbf{9}                     & 1                                \\ \hline
+scalability   & 10                               & 6                           & 3                                 & 3                                & \textbf{8}                     \\ \hline
+\end{tabular}
+\end{table}
