@@ -1,7 +1,7 @@
 \section{Related Work}
 This section describes related work for other professional networks and their caching architecture.
 
-\subsection{Caching data}
+\subsection{Caching Application Data}
 Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
 In order to achieve a near real time communication experience to the end user, memcached servers have to be efficient, reducing latency. 
 
@@ -98,3 +98,12 @@ The above systems can be further classified based on whether they use a reposito
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
+
+\subsection{Natural Language Processing}
+The research questions are:
+\begin{itemize}
+\item The platform identities the similarity of a given question with the others questions already posted in the system.
+\item The platform maps a question with a relevant query to the repository providing to the one who asks with an appropriate response.
+\item The platform can paraphrase the queries according to the user's arbitrary input in order to meet the previous objective. 
+\end{itemize}
+\ldots
