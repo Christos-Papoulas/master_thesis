@@ -16,6 +16,9 @@ In order to measure the response time (RT) the Apache JMeter application~\cite{j
 \label{sec:eval_memcache}
 By adding a memcached node at the system architecture, the Social Network Engine first asks the memcached node if it has the tuples that the SN Engine needs. So the steps(\emph{I} to \emph{V}), mentioned previously, are not necessary if the memcached node has cached the values that the Social Network Engine needs. The loop through CDO CIient - CDO Server and the repositories is bypassed. 
 
+For the following experiments all the memcached nodes are warm up and have cached all the needed CDO and Social entities information. Furthermore the CDO server has been warm up after a fresh restart. As the table~\ref{tab:num_of_queries} shows
+the starting process of the CDO server produces 1938 queries to MySQL database. The \emph{fresh query} for an application model (both social information and executions) produces 15182 queries to MySQL database. The CDO server caches the results, so a second query for this application model produces 251 queries, which the most of them are the queries for the social information of the application. Introducing memcached, if the request for the application model is cached, the queries to database are lowering to 147.  
+
 The test performed with the following loads: (L1) ten users requests \emph{two} applications, (L2) ten users requests \emph{four} applications and (L3) ten users requests \emph{eight} applications. All three Loads run consecutively one hundred times each. Those Loads request applications, which have ten execution rows pulled from the repository of applications models and executions, and about one hundred queries to the Social Network DB. In this experiment we kept constant the following components of the system: the Elgg front-end Apache2 server, the Social network BD, and the CDO server - client communication but increased the number of memcached nodes.
 The figure~\ref{fig:rtavg} shows the  average, minimum and maximum response time (RT) in milliseconds with the following system configuration: (C1) no memcached node, (C2) one memcached node and (C3) two memcached nodes.
 
@@ -27,6 +30,19 @@ The figure~\ref{fig:rtavg} shows the  average, minimum and maximum response time
 \end{figure}
 
 As we going from C1 to C3 and specifically for L(oad) 3, the RT is reduced by 80,4\% at C2 and by 88,78\% at C3. As the figure~\ref{fig:rtavg} shows, at the first configuration C1, the L3 takes 8836 ms, an RT which is definitely prohibitive for web applications. Introducing more memcached nodes at C2 and C3 the RT is decreased dramatically at 1764 ms at L2 and at 992 ms at L3. Going from C1 to C2, the 80,4\% reduction of RT is due to the introduction of memcached node and bypassed the steps I - V. Going from C2 to C3, the 43,77\% reduction of RT is due to adding more memcached nodes, resulting to more cpu cores  introduced to the architecture.
+
+\begin{table}[]
+\centering
+\caption{Number of Queries to Social Network and CDO server Databases.}
+\label{tab:num_of_queries}
+\begin{tabular}{ll}
+State        & \# of Queries \\
+Fresh start  & 1938          \\
+Fresh Query  & 15182         \\
+Cached Query from CDO & 251           \\
+Cached Query from Memcached & 147  
+\end{tabular}
+\end{table} 
 
 \begin{figure}[h]
 	\caption{The average CPU utilization for all components.}
