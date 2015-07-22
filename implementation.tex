@@ -122,12 +122,12 @@ The first training set of our Natural Processing Tool consisted of five tags, re
 
 Every time a user asks a question to a platform's community, the classifier determines the class of the question. Then, if the platform is able to determine a heuristic answer, it will post it to the user's question. All the users of the platform can vote up or down this answer, depending on its accuracy, or provide their own answers.
 
-The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with 10K questions from StackOverflow Q\&A site, fifty questions per tag. The general algorithm is shown below. Firstly, the algorithm starts with a tag which is relevant to the Social Network Platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the trainClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the trainClassifier proceeds to the next tag of this question. When the trainClassifier is finished the NB is trained. It should be noted that a question may have more than one tag, so a question can be classified up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{trainClassifier} can classified with an arbitrary number of tags.
+The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with 10K questions from StackOverflow Q\&A site, fifty questions per tag. The general algorithm is shown below. Firstly, the algorithm starts with a tag which is relevant to the Social Network Platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the populateClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the populateClassifier proceeds to the next tag of this question. When the populateClassifier is finished the NB is trained. It should be noted that a question may have more than one tag, so a question can be classified up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{populateClassifier} can classified with an arbitrary number of tags. At the following section the process to Bayes classification is described in more details.
 
 \begin{lstlisting} 
 01:var tags = ['scalability']
-02:trainClassifier(0)
-03:function trainClassifier(index) {
+02:populateClassifier(0)
+03:function populateClassifier(index) {
 04:  var questions = stackexchange.api.getQuestionsByTag(tags[index])
 05:  foreach(questions as q)
 06:    body = clear(q.body)
@@ -135,6 +135,17 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 08:    	 classify(body, t)
 09:    	 if(not tags.exist(t) and tags.length() < threshold)
 10:    	   tags.push(t)	  
-11:        trainClassifier(tags.indexOf(t))
+11:        populateClassifier(tags.indexOf(t))
 12:}		
 \end{lstlisting}
+
+\subsubsection{Bayes Classification Algorithm}
+\textcolor{blue}{In this section the Bayes classification algorithm is being described. As the above code snippet show at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. Diving in this function, the \emph{body} transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural part of the words and the \emph{-ing} and \emph{s} parts of verbs are removed. Thus the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm is not using any dictionary but a simple list of suffixes which makes the algorithm fast (10.000 different words in 8.1 seconds). After this process the table of words of this \emph{body} is kept.}
+
+\textcolor{blue}{After the populateClassifier has finished, the \emph{trainClassifier} is called (for simplicity not shown in the above code snippet). The work of \emph{trainClassifier} is to make the Bayes Classification ready for process and determine the class of other future documents. So, \emph{trainClassifier} counts for each word the number of occurrences for each class.}
+
+\textcolor{blue}{Since the Classifier is ready, when a future request for classification comes, the Classifier returns for each class the probability to be part of this class. The probability of each class is calculated by following formula:} 
+\\
+\[prob(d / c) = log\left ( \frac{countedTerms(d, c)}{totalsTerms(c)} \right )\]
+\\
+\textcolor{blue}{Where the probability of a document {\it d} to be a class {\it c} is the logarithmic value of the division of the words(terms) of {\it d} found in class {\it c} by the total number of terms in {\it c}.}
