@@ -83,7 +83,39 @@ Social Networking Engine uses Apache ZooKeeper in order to keep consistent the f
 
 
 \section{User interface}
-The design of User interface of Social Network based on 102 mock-ups designed by HCI experts. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written. \ldots
+In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
+collaboration between users. The interconnections between the two in the design of the user interface are depicted in Figure \ref{fig:two_aspects}.
+The prototype implementation is publicly accessible on-line at http://socialnetwork.paasage.eu. 
+
+\begin{figure}[h]
+	\caption{The engineering \& social activities are seamlessly within the Platform.}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/two_aspectes.png}
+	\centering
+	\label{fig:two_aspects}
+\end{figure}
+
+\subsection{User Interface Design}
+The discrete entities, which bound together the Social Networking with model aspects of Platform are:
+\begin{itemize}
+\item \emph{Application Models}. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watches (label 5 in fig.\ref{fig:jenter_home}) 
+\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models. 
+\item \emph{Groups}.
+\item \emph{Users}.
+\end{itemize}
+
+\begin{figure}[h]
+	\caption{The application model home page}
+	\includegraphics[width=1\textwidth,natwidth=200,natheight=150]{./fig/jenterprise_home_page.pdf}
+	\centering
+	\label{fig:jenter_home}
+\end{figure}
+
+\subsubsection{Gamification}
+Following recent trends in social networks design and with the aim to motivate users active and regular participation in
+the professional network, the design employs gamification features, namely use of video game elements to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
+
+
+ In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
 
 \section{Memcache}
 \label{sec:memcache_implementation}
