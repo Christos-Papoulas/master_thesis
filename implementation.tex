@@ -81,42 +81,6 @@ Apache ZooKeeper provides a tree abstraction where every node in that tree (or z
 
 Social Networking Engine uses Apache ZooKeeper in order to keep consistent the file system in rear but possible scenarios such as two users try to upload in the same time a file to the same group. When a SN Engine wants to write a file in file system first locks the specific path and after finish the write operation releases the lock.
 
-
-\section{User interface}
-In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
-collaboration between users. The interconnections between the two in the design of the user interface are depicted in Figure \ref{fig:two_aspects}.
-The prototype implementation is publicly accessible on-line at http://socialnetwork.paasage.eu. 
-
-\begin{figure}[h]
-	\caption{The engineering \& social activities are seamlessly within the Platform.}
-	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/two_aspectes.png}
-	\centering
-	\label{fig:two_aspects}
-\end{figure}
-
-\subsection{User Interface Design}
-The discrete entities, which bound together the Social Networking with model aspects of Platform are:
-\begin{itemize}
-\item \emph{Application Models}. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watches (label 5 in fig.\ref{fig:jenter_home}) 
-\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models. 
-\item \emph{Groups}.
-\item \emph{Users}.
-\end{itemize}
-
-\begin{figure}[h]
-	\caption{The application model home page}
-	\includegraphics[width=1\textwidth,natwidth=200,natheight=150]{./fig/jenterprise_home_page.pdf}
-	\centering
-	\label{fig:jenter_home}
-\end{figure}
-
-\subsubsection{Gamification}
-Following recent trends in social networks design and with the aim to motivate users active and regular participation in
-the professional network, the design employs gamification features, namely use of video game elements to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
-
-
- In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
-
 \section{Memcache}
 \label{sec:memcache_implementation}
 This section describes the experience gained by using memcached\cite{memcache_url}. Memcached is an open source, high-performance, distributed memory object caching system. We choose memcached, because is a generic simple in-memory key-value store. It has a powerful API available for PHP. After memcached integration the system increase the response time and performance.
@@ -172,12 +136,48 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 \end{lstlisting}
 
 \subsubsection{Bayes Classification Algorithm}
-\textcolor{blue}{In this section the Bayes classification algorithm is being described. As the above code snippet show at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. Diving in this function, the \emph{body} transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural part of the words and the \emph{-ing} and \emph{s} parts of verbs are removed. Thus the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm is not using any dictionary but a simple list of suffixes which makes the algorithm fast (10.000 different words in 8.1 seconds). After this process the table of words of this \emph{body} is kept.}
+\textcolor{blue}{In this section the Bayes classification algorithm is being described. As the above code snippet shows at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. Diving in this function, the \emph{body} is transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural part of the words and the suffixes are removed (such as \emph{-ing} and \emph{s}). Thus the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm is not using any dictionary but a simple list of suffixes which makes the algorithm fast (10.000 different words in 8.1 seconds). After this process a table of words of this \emph{body} is kept.}
 
-\textcolor{blue}{After the populateClassifier has finished, the \emph{trainClassifier} is called (for simplicity not shown in the above code snippet). The work of \emph{trainClassifier} is to make the Bayes Classification ready for process and determine the class of other future documents. So, \emph{trainClassifier} counts for each word the number of occurrences for each class.}
+\textcolor{blue}{After the populateClassifier has finished, the \emph{trainClassifier} is called (for simplicity not shown in the above code snippet). The objective of \emph{trainClassifier} is to make the document body ready for Bayes Classification. So, \emph{trainClassifier} counts the number of occurrences of each word in each class.}
 
-\textcolor{blue}{Since the Classifier is ready, when a future request for classification comes, the Classifier returns for each class the probability to be part of this class. The probability of each class is calculated by following formula:} 
+\textcolor{blue}{Since the Classifier is ready, when a future request for classification comes, the Classifier returns the probability for each class to be part of this class. The probability of each class is calculated with the following formula:} 
 \\
 \[prob(d / c) = log\left ( \frac{countedTerms(d, c)}{totalsTerms(c)} \right )\]
 \\
 \textcolor{blue}{Where the probability of a document {\it d} to be a class {\it c} is the logarithmic value of the division of the words(terms) of {\it d} found in class {\it c} by the total number of terms in {\it c}.}
+
+
+\section{User interface}
+In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
+collaboration between users. The interconnections between the two in the design of the user interface are depicted in Figure \ref{fig:two_aspects}.
+The prototype implementation is publicly accessible on-line at http://socialnetwork.paasage.eu. 
+
+\begin{figure}[h]
+	\caption{The engineering \& social activities are seamlessly within the Platform.}
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/two_aspectes.png}
+	\centering
+	\label{fig:two_aspects}
+\end{figure}
+
+\subsection{User Interface Design}
+The discrete entities, which bound together the Social Networking with model aspects of Platform are:
+\begin{itemize}
+\item \emph{Application Models}. Application Models is a key entity of the platform. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watches (label 5 in fig.\ref{fig:jenter_home}) 
+\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models. 
+\item \emph{Users}. Users which basically be Cloud Deployment specialists and other users who want to know which deployment configuration should use, exchange knowledge to groups and benefit from CAMEL repository. 
+\item \emph{Groups}. Every user of PaaSage Social Network Platform can create or join groups. Groups help users to interact with each other and gain knowledge from experts.
+\end{itemize}
+
+\begin{figure}[h]
+	\caption{The application model home page}
+	\includegraphics[width=1\textwidth,natwidth=200,natheight=150]{./fig/jenterprise_home_page.pdf}
+	\centering
+	\label{fig:jenter_home}
+\end{figure}
+
+\subsubsection{Gamification}
+Following recent trends in social networks design and with the aim to motivate users active and regular participation in
+the professional network, the design employs gamification features, namely use of video game elements to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
+
+
+ In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.

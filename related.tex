@@ -23,7 +23,7 @@ Sourceforge~\cite{sourceforge} was the first code-hosting platform offered to op
 Other similar code-hosting platforms are Google Code~\cite{googlecode} and Microsoft CodePlex~\cite{codeplex}.
 None of those platforms collect, analyze, or use information from executions of application deployments to improve the level of technical discussion between users or abstract code structure through modelling or enhance user interactions through the use of analytics over application execution histories.
 
-StackOverflow~\cite{stackoverflow} advances on earlier Q\&A sites in which users ask and answer questions. Users can vote up or down questions and answers and earn \emph{reputation points} and \emph{badges} in return for their active participation. 
+StackOverflow~\cite{stackoverflow} advances on earlier community-driven Q\&A sites in which users ask and answer questions. Users can vote up or down questions and answers and earn \emph{reputation points} and \emph{badges} in return for their active participation. 
 Although StackOverflow and GitHub address different aspects of software development (StackOverflow is not a code-hosting platform) there is a synergy and correlation between the two~\cite{stackgit}. The proposed social network platform extends StackOverflow through the use of social networking features that enable users interested in reasoning about application deployments to use and share knowledge drawn from analyses of information repositories.
  
 IBM's BlueMix~\cite{Bluemix-dev} is a development and support platform for communities of DevOps users wishing to compose distributed applications out of components drawn from libraries and deploy them at IBM-provided and supported cloud infrastructure.  BlueMix is a key component of IBM's DevOps best practices~\cite{ibm-devops} for achieving rapid prototyping, automated deployment, and continuous testing of software. BlueMix encourages its users to ask their questions to StackOverflow but also includes a community forum~\cite{Bluemix-dev} with rating of answers contributes to eventually building a basic knowledge base, similar to traditional approaches such as StackOverflow.  The proposed social network platform system differs from BlueMix in its support for expressing applications as models (CloudML, CAMEL) and its use of two information repositories, the PaaSage repository of models and execution histories and Chef supermarket, and the use of analytics over past executions to enable users to reason about application deployments. A common feature between the proposed social network platform and BlueMix is support for deployment of distributed applications. 
@@ -100,10 +100,18 @@ The above systems can be further classified based on whether they use a reposito
 \end{table*}
 
 \subsection{Natural Language Processing}
-The research questions are:
+\textcolor{blue}{The Natural Language Processing (NLP)~\cite{manning1999foundations} has been used in several aspects of computer science. We focus on social networking usage of NLP and how knowledge can be mined from repositories of Q\&A sites. NLP has been used to process Twitter's messages and come to some results according to the classifications. Twitter has a good pool of micro-blog text which is suitable for NLP because of the small text sentences that users are allowed to post. Those posts describe emotions, feelings, opinions or situations. So several techniques~\cite{pak2010twitter}~\cite{verma2011natural}~\cite{go2009twitter} have been introduced to process and classify twitter posts in several categories.} 
+
+\textcolor{blue}{StackOverflow (SO) is not left without NLP, because it can be seen as a repository of Q\&A for programming questions. This means, that most of the questions and answers in SO contain some kind of a description at first and some code afterwards.    
+An autoComment tool~\cite{wong2013autocomment} is proposed using NLP which maps the code from developer projects and locates the same code somewhere in the SO Q\&A, if it exists. If autoComment matches a code segment of the developer with a code segment at SO, it performs NLP to the description of the code and inserts the modified description to the developer's code. }
+
+\textcolor{blue}{A trend in Social Networking sites is the ability of users to ``tag'' their posts. Those tags describe the users' goals and interests. Tagging SO questions involves askers selecting appropriate keywords to broadly identify the domains
+to which their questions are related. There also exist mechanisms by which other users can subscribe to tags, search via
+tags, mark tags as favorites, etc. This users' classification of context is used by PaaSage Social Network Platform as described in section~\ref{sec:natural_implementation}}. 
+
+PaaSage Social Network Platform uses those tags and Natural Language Processing to answer to the following research questions:
 \begin{itemize}
-\item The platform identities the similarity of a given question with the others questions already posted in the system.
-\item The platform maps a question with a relevant query to the repository providing to the one who asks with an appropriate response.
-\item The platform can paraphrase the queries according to the user's arbitrary input in order to meet the previous objective. 
+\item Can the platform identify the similarity of a given question with other questions already posted in the system.
+\item Can the platform map a question with a relevant query to the repository in order to provide the one who asks with an appropriate response.
+\item Can the platform paraphrase the queries according to the user's arbitrary input in order to meet the previous objective. 
 \end{itemize}
-\ldots
