@@ -148,7 +148,8 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 
 
 \section{User interface}
-In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
+In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
+The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
 collaboration between users. The interconnections between the two in the design of the user interface are depicted in Figure \ref{fig:two_aspects}.
 The prototype implementation is publicly accessible on-line at http://socialnetwork.paasage.eu. 
 
@@ -179,5 +180,64 @@ The discrete entities, which bound together the Social Networking with model asp
 Following recent trends in social networks design and with the aim to motivate users active and regular participation in
 the professional network, the design employs gamification features, namely use of video game elements to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
 
+\subsection{Automated Application Model Creation}
+\textcolor{blue}{The DevOps users of PaaSage Social Network Platform can benefit from the automated creation of CAMEL baseline models or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor. In order users to create automated generated baseline CAMEL models, they can browse around the integrated Chef Components inside the Social Network and find the appropriate components for their applications. The platform has integrate a pointer for each Chef cookbook to the Social Network Database using the Chef Supermarket API~\cite{chef_api_url}.}
 
- In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
+\textcolor{blue}{Through the Application Model Creation Page of the PaaSage Social Network Platform, the users can upload an external CAMEL model description of their application or create a new one with the help of the Platform in 4 simple steps as shown in figure ~\ref{fig:model_creation_0}. In the step zero~\ref{fig:sfig0}, the user asked if the new Application model has already an CAMEL model or the user want to create a new Application CAMEL model through automated generation. For automated generation the users should have put in the user's cart the Chef cookbooks that wants. Then, in step one~\ref{fig:sfig1}, the user selects from his/her list of components which of those will be included in the Application Model. 
+As the figure~\ref{fig:sfig1} shows, the user has four components {\it mysqld}, {\it apache2}, {\it nodejs} and 
+{\it ruby\_installer} and selects three of them. In the next step, shown in figure~\ref{fig:sfig2} the user provides the deployment information (to which cloud provider the Application will run and which type of VMs will be used). Also, some components, in this example the {\it nodejs} component will be collocated in the same VM as the {\it apache2}. In step tree, shown in figure~\ref{fig:sfig3}, the user provides the communication information between the components, for example the 
+{\it nodejs} communicates with {\it mysqld} in the default mysql port {\it 3306}.}
+
+\textcolor{blue}{In the final step as shown in figure~\ref{fig:sfig4}, the user provides the final needed information about the name of the Application model, a human friendly description and the version of the model. In the bottom of the form of the figure~\ref{fig:sfig4} the user can find three actions: the \emph{Previous} action, the \emph{Save as draft} action and the \emph{Finalize} action. The \emph{Previous} action can performed all around the steps and make the user easily walk around the steps. The \emph{Save as draft} action creates the CAMEL model of the application but the model is publicly available and the creator or the contributors of the Application can edit the Model. At the \emph{Finalize} action, the model is now publicly available to the PaaSage Social Network users.}
+
+\begin{figure}
+\begin{subfigure}{.8\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{./fig/model_creation0.png}
+  \caption{Step 0: Upload external or create baseline model.}
+  \label{fig:sfig0}
+\end{subfigure} \\[1ex]
+\begin{subfigure}{.8\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{./fig/model_creation1.png}
+  \caption{Step 1: Choose the Components from the users' list.}
+  \label{fig:sfig1}
+\end{subfigure} \\[1ex]
+\begin{subfigure}{.8\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{./fig/model_creation2.png}
+  \caption{Step 2: Deployment information.}
+  \label{fig:sfig2}
+\end{subfigure} \\[1ex]
+\begin{subfigure}{.8\textwidth}
+  \centering
+  \includegraphics[scale=0.4]{./fig/model_creation3.png}
+  \caption{Step 3: Communication Information.}
+  \label{fig:sfig3}
+\end{subfigure} \\[1ex]
+\caption{Steps for Automated creation of baseline model.}
+\label{fig:model_creation_0}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{./fig/model_creation4.png}
+  \caption{Final Step of Automated creation of baseline model.}
+  \label{fig:sfig4}
+\end{figure}
+
+\clearpage
+
+\subsection{Graphical modeling of applications}
+\label{sec:gmf}
+
+Advanced users of the PaaSage Social Network Platform can compose application models through Graphical Modeling Framework (GMF)~\cite{gmf_url} which is an external Eclipse editor. GMF provides a set of generative components and runtime infrastructures for developing graphical editors based on Eclipse Modeling Framework (EMF) and Graphical Editing Framework (GEF). The GMF editor is generated from CAMEL {\em ecore} schema and provides the graphical palette to compose applications. 
+
+Figure~\ref{fig:sensapp_as_gmf} shows the composition of a sample application model with the GMF editor. The palette in the right, contains all nodes and relationships needed to describe an application model. In the center, the composition of a sample application is shown, consisting of three VM types, the VM information about these VMs and the owner/user of the application. The GMF editor generates two files, one responsible for the graphical representation and the XMI description of the application model that can be uploaded to the social networking platform.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{./fig/gmf_editor.png}
+  \caption{GMF editor composition of a sample application.}
+  \label{fig:sensapp_as_gmf}
+\end{figure}
