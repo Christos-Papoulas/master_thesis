@@ -146,6 +146,16 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 \\
 \textcolor{blue}{Where the probability of a document {\it d} to be a class {\it c} is the logarithmic value of the division of the words(terms) of {\it d} found in class {\it c} by the total number of terms in {\it c}.}
 
+\subsubsection{Automated answers from Natural Language Processing}
+\label{sec:example_nlp}
+As described in section~\ref{sec:natural_implementation} Natural Language Processing is used to determine the users' input question in groups. When a user asks a question, the body of the question classified into categories and when the NLP classifies the question to a specific category, an approximate answer can be given in response. As shown in figure~\ref{fig:nlp_example}, after the user's question, the classifier process the body and if the question is about the {\it JEnterprise} and the {\it cost effectivess} the approxiame answer ``The most cost effectiveness configuration of SPEC JEntreprise2010 is: jEnterprise18F \ldots'' is given. The users of the PaaSage Social Network Platform can vote up or down the answer and/or provide their own answers.
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.6]{./fig/nlp_example.png}
+  \caption{Automated answer to user's question using NLP.}
+  \label{fig:nlp_example}
+\end{figure}
+
 
 \section{User interface}
 In this section described the User Interface of Social Network implementated based on 104 mock-ups created by HCI expert team. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
@@ -160,12 +170,12 @@ The prototype implementation is publicly accessible on-line at http://socialnetw
 	\label{fig:two_aspects}
 \end{figure}
 
-\subsection{User Interface Design}
-The discrete entities, which bound together the Social Networking with model aspects of Platform are:
+\subsection{User Interface Design Principles}
+The discrete entities, which bound together the Social Networking with application model aspects of Platform are:
 \begin{itemize}
-\item \emph{Application Models}. Application Models is a key entity of the platform. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watches (label 5 in fig.\ref{fig:jenter_home}) 
-\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models. 
-\item \emph{Users}. Users which basically be Cloud Deployment specialists and other users who want to know which deployment configuration should use, exchange knowledge to groups and benefit from CAMEL repository. 
+\item \emph{Application Models}. Application Models is a key entity of the platform. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watch (label 5 in fig.\ref{fig:jenter_home}). The {\it share} action broadcast the model to the friends of the user that shares the model. The {\it watch} action notifies the user for future updates of the application model. 
+\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models as described in~\ref{sec:automatedcreation}. 
+\item \emph{Users}. Users which basically be Cloud Deployment specialists and other users who want to know which deployment configuration should use. Users can exchange knowledge to groups and benefit from CAMEL repository. They can create or join groups, ask and answer questions, follow application models and create their own network of friends.
 \item \emph{Groups}. Every user of PaaSage Social Network Platform can create or join groups. Groups help users to interact with each other and gain knowledge from experts.
 \end{itemize}
 
@@ -181,6 +191,7 @@ Following recent trends in social networks design and with the aim to motivate u
 the professional network, the design employs gamification features, namely use of video game elements to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
 
 \subsection{Automated Application Model Creation}
+\label{sec:automatedcreation}
 \textcolor{blue}{The DevOps users of PaaSage Social Network Platform can benefit from the automated creation of CAMEL baseline models or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor. In order users to create automated generated baseline CAMEL models, they can browse around the integrated Chef Components inside the Social Network and find the appropriate components for their applications. The platform has integrate a pointer for each Chef cookbook to the Social Network Database using the Chef Supermarket API~\cite{chef_api_url}.}
 
 \textcolor{blue}{Through the Application Model Creation Page of the PaaSage Social Network Platform, the users can upload an external CAMEL model description of their application or create a new one with the help of the Platform in 4 simple steps as shown in figure ~\ref{fig:model_creation_0}. In the step zero~\ref{fig:sfig0}, the user asked if the new Application model has already an CAMEL model or the user want to create a new Application CAMEL model through automated generation. For automated generation the users should have put in the user's cart the Chef cookbooks that wants. Then, in step one~\ref{fig:sfig1}, the user selects from his/her list of components which of those will be included in the Application Model. 
