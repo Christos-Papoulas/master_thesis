@@ -17,7 +17,9 @@ Achieving the scalability of the system, two system architectures are examined a
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
-The social networking platform is implemented over the extensible Elgg social network framework\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  The architecture of Elgg Social Network shown in figure ~\ref{fig:elgg_architecture}. The Model of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}:
+The social networking platform is implemented over the extensible Elgg social network framework\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  The architecture of Elgg Social Network shown in figure ~\ref{fig:elgg_architecture}.
+
+The Model of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}:
 \begin{itemize}
 \item \emph{Entities}, classes capturing social networking concepts: users, communities, application models. Elgg Core comes with four basic objects: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache and a lot of other classes necessary for the proper engine operation.
 \item \emph{Metadata} describing and extending entities (e.g., a response to a question, a review of an application model, etc.).
@@ -65,14 +67,37 @@ The plug-in initialization is also defined in the start.php and registers action
 	\label{fig:elgg_hierarchy}
 \end{figure}
 
-\subsubsection{CDO communication}
+\subsubsection{New functionality of Elgg Social Network Platform}
+As described in the previous section, the new functionality of Elgg Social Networking Platform can be introduced by new plugins. The modification of the core system is not a good practice because make the system more difficult to implemented and can not upgrade to the new versions of Elgg framework. Though, the following plugins are implemented:
+
+\textbf{ApplicationModel}. The ApplicationModel plugin has a {\it page handler} to manage the application Model pages. Also, ApplicationModel has client side JavaScript for manipulating User Interaction and dynamic pages. Some php libraries, for example a library for interaction with CDO client. 
+
+\textbf{Components}. The Components plugin has a {\it page handler} to manage the Components pages and the Categories of them.
+
+\textbf{CustomView}. The CustomView plugin has all the necessary customization of the PaaSage Social Networking Platform (PSNP). All custom views of the system are implemented in this plugin. This plugin overrides all the default views of the Elgg that should be changed and contains client side JavaScript. Furthermore, CustomView has the following seven page handlers: {\t profile} responsible for profile pages, {\t avatar} responsible for the photos of user pages, {\t settings} responsible for the pages of user settings, {\t friends} responsible for the friends of the user pages, {\t contact} responsible for the Contact Information of the PSNP, {\t review} responsible for the reviews of Application Models and {\t search} responsible for the main search facility of PSNP. Finally, CustomView has all the required \emph{Actions} of the plugin such as the vote up or down, the action of add a review etc.
+
+\textbf{NotificationSystem}. This plugin is responsible for the notifications of the Social Network which contains a relevant page handler, JavaScript for client side scripting and a php server side library.
+
+\textbf{Tags}. This plugin does not include any page handler but only the necessary actions for the Tags such as {\it add} or {\it delete} a Tag and a php library responsible for those. \ldots
+
+\textbf{UserStatistics}. This plugin is responsible for collecting and displaying the information about the Users.
+
+\textbf{Memcached}. This plugin has all the essential functionality for memcached implementation as will described in section~\ref{sec:memcache_implementation}.
+
+\textbf{ZookeeperRecipes}. This plugin has all the essential functionality for memcached implementation as will described in section~\ref{sec:engine_scale}.
+
+\textbf{Groups}. The Groups plugin is the default plugin of Elgg Framework modified to support the required functionality.
+
+\textbf{Messages}. The Messages plugin is the default plugin of Elgg Framework modified to support the required functionality.
+
+\subsubsection{CDO communication with Social Networking Platform}
 As mentioned in~\ref{sec:background}, the execution history of deployments of application models and the description of those models are stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. In order to communicate with the CDO Server, a CDO Java Client is needed. The CDO client is in the middle between the Social Networking Engine (Elgg Server) and the CDO server, making possible the exchange of information between those two as shown in figure~\ref{fig:system_architecture}.
 
 Specifically, for the communication between the CDO Server and the Client, the CDO Client opens one or more sessions to the CDO Server. Each session represents a connection to the CDO repository and provides a broad API to interact with it. A session does not provide direct access to model instances; views or transactions are needed to navigate or modify the model instance graph. The implemented CDO Client expose read/write access to the repository for viewing the execution histories or the model of the applications, or store new execution models. For the communication between the Social Networking Engine and the CDO Client, the CDO Client expose a RESTful API to the Social Networking engine providing all the necessary methods. 
 
 For example, when a user from the Social Network requests the execution histories of an application, the Engine sends a request to the CDO Client through the RESTful API, the CDO Client receives the request and forwards an appropriate request to the CDO Server. The CDO Server receives the request and queries the Repository of Application models and executions. When the CDO Server receiving the response, it forwards the response back to the CDO Client, which forwards the response back to the Social Networking Engine. The Social Networking Engine transforms the response to JSON format, in order to be readable by the JavaScript. JavaScript plays the final role, by viewing the execution histories to a proper table to the user that request the page of the executions of application.
 
-\subsection{Scaling Social Network Engine}
+\section{Scaling Social Network Engine}
 \label{sec:engine_scale}
 
 This subsection describes how the horizontal scale of Social Network engine achieved. At the layer 1 of figure~\ref{fig:elgg_architecture} lives the Apache2 server which as the stress test of the system shows in chapter~\ref{chapt:evaluation}, the Apache2 server takes a heavy load on CPU utilization. Therefore, we introduce more than one Apache2 Servers running the Social Networking Engine of Elgg Framework. 
