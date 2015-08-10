@@ -1,6 +1,6 @@
 
 \chapter{Implementation}
-
+\label{chap:implementation}
 This section describes the implementation of social network site
 and how the system scales.
 
@@ -13,7 +13,7 @@ The system is composed by the following components, as shown in figure \ref{fig:
 	\label{fig:system_architecture}
 \end{figure}
 
-Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url}. (2) We added more than one memcached machines at the second layer in order to add more cpu capacity and improve the system response time.
+Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system response time as described in section~\ref{sec:memcache_implementation}.
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
@@ -65,7 +65,12 @@ The plug-in initialization is also defined in the start.php and registers action
 	\label{fig:elgg_hierarchy}
 \end{figure}
 
-The execution history of deployments of application models and the description of those models is stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. The exchange of information between Elgg and the CAMEL information repository is going through CDO Client who retrieves the information from CDO server and sent it to the Elgg over sockets.
+\subsubsection{CDO communication}
+As mentioned in~\ref{sec:background}, the execution history of deployments of application models and the description of those models are stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. In order to communicate with the CDO Server, a CDO Java Client is needed. The CDO client is in the middle between the Social Networking Engine (Elgg Server) and the CDO server, making possible the exchange of information between those two as shown in figure~\ref{fig:system_architecture}.
+
+Specifically, for the communication between the CDO Server and the Client, the CDO Client opens one or more sessions to the CDO Server. Each session represents a connection to the CDO repository and provides a broad API to interact with it. A session does not provide direct access to model instances; views or transactions are needed to navigate or modify the model instance graph. The implemented CDO Client expose read/write access to the repository for viewing the execution histories or the model of the applications, or store new execution models. For the communication between the Social Networking Engine and the CDO Client, the CDO Client expose a RESTful API to the Social Networking engine providing all the necessary methods. 
+
+For example, when a user from the Social Network requests the execution histories of an application, the Engine sends a request to the CDO Client through the RESTful API, the CDO Client receives the request and forwards an appropriate request to the CDO Server. The CDO Server receives the request and queries the Repository of Application models and executions. When the CDO Server receiving the response, it forwards the response back to the CDO Client, which forwards the response back to the Social Networking Engine. The Social Networking Engine transforms the response to JSON format, in order to be readable by the JavaScript. JavaScript plays the final role, by viewing the execution histories to a proper table to the user that request the page of the executions of application.
 
 \subsection{Scaling Social Network Engine}
 \label{sec:engine_scale}
