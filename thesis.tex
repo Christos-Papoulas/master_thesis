@@ -3,7 +3,8 @@
 %% \documentclass[a4paper,11pt]{report}
 
 \usepackage{graphicx}
-
+\usepackage{enumerate} % my addition
+\usepackage{subcaption}  % my addition
 \graphicspath{ {fig/} }
 \DeclareGraphicsExtensions{.png,.pdf}
 \usepackage{color}
@@ -62,7 +63,7 @@ This work was partially supported by {\bf fill in sponsor name}
 \lstset{language=C++}
 \input {./frontpage.tex}
 \input{./signatures.tex}
-\input{./abstract_en.tex}
+\input{./abstract_en.tex}	
 \input{./abstract_gr.tex}
 \input{./ack.tex}
 \pagenumbering{Roman}
@@ -76,7 +77,7 @@ This work was partially supported by {\bf fill in sponsor name}
 \input{./chapters.tex}
 \input{./implementation.tex}
 \input{./results.tex}
-\input{./comparison.tex}
+%\input{./comparison.tex}
 \input {./conclusions.tex}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
