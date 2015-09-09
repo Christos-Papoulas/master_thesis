@@ -59,6 +59,8 @@ This work was partially supported by {\bf fill in sponsor name}
 }}
 \newcommand{\thesisdate}{July 2015}
 
+\newcounter{savepage} %begin counter coupled with (1)
+
 \begin{document}
 \lstset{language=C++}
 \input {./frontpage.tex}
@@ -69,7 +71,11 @@ This work was partially supported by {\bf fill in sponsor name}
 \pagenumbering{Roman}
 \pagestyle{plain}
 \tableofcontents
-\listoffigures\listoftables
+\listoffigures
+\listoftables
+
+\cleardoublepage \setcounter{savepage}{\arabic{page}} % (1) my addition 
+	
 \pagenumbering{arabic}
 \pagestyle{headings}
 \input{./introduction.tex}
