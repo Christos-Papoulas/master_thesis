@@ -1,10 +1,9 @@
 
 \chapter{Implementation}
 \label{chap:implementation}
-This section describes the implementation of social network site
-and how the system scales.
+This section describes the implementation of social network site, the User Interface and how the system scales.
 
-The system is composed by the following components, as shown in figure \ref{fig:system_architecture}: At the first layer lives (1) the Social Networking engine, which runs all PHP scripts and described in section \ref{sec:implementaion_of_social_netowrk}. At the second layer lives (2) the Memcached caching system, which described in section \ref{sec:memcache_implementation}. At the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components and the CDO repository. The Social Networking Engine at layer 1 is considered as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are considered as the back end system. 
+The system is composed by the following components, as shown in figure~\ref{fig:system_architecture}: At the first layer lives (1) the Social Networking engine, which runs all PHP scripts and described in section~\ref{sec:implementaion_of_social_netowrk}. At the second layer lives (2) the Memcached caching system, which described in section~\ref{sec:memcache_implementation}. At the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components and the CDO repository. The Social Networking Engine at layer 1 is considered as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are considered as the back end system. 
 
 \begin{figure}[h]
 	\caption{The overall architecture of Social Network.}
@@ -13,13 +12,21 @@ The system is composed by the following components, as shown in figure \ref{fig:
 	\label{fig:system_architecture}
 \end{figure}
 
-Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system response time as described in section~\ref{sec:memcache_implementation}.
+Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper~\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system response time as described in section~\ref{sec:memcache_implementation}.
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
-The social networking platform is implemented over the extensible Elgg social network framework\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
+The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
 
 The jQuery is prefered instead of pure JavaScript~\cite{mccormick2004jquery} since it's a light library which pushes content to the client machine, it therefore reduces the wait time for server response. Plus, it's smaller than Flash, so it results in smoother playbacks and less errors. Furthermore, jQuery works anywhere since is cross-browser compatible with any browser, mobile phone or tablet, and Apple devices. Finally, jQuery's syntax is designed to make it easier to navigate to a document, select an HTML DOM elements, create animations, handle events, and developing Ajax applications. So, the jQuery is used for implementing client side scripting and in the remaining of this chapter, when we refer to JavaScript, we actually refer to the jQuery library. 
+Furthermore, some other JavaScript libraries are used in order to make the User Interface more powerful. The Chart.js~\cite{chartjs_url} library is used to generate the graphs and charts in execution's page.
+
+\begin{figure}[h]
+	\caption{Architecture of the Elgg Social Networking engine.}
+	\includegraphics[width=0.9\textwidth,natwidth=200,natheight=150]{./fig/elgg_architecture.pdf}
+	\centering
+	\label{fig:elgg_architecture}
+\end{figure}
 
 The architecture of Elgg Social Network shown in figure ~\ref{fig:elgg_architecture}. The Model of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}:
 \begin{itemize}
@@ -37,17 +44,10 @@ All Elgg objects inherit from ElggEntity, which provides the general attributes 
 	\label{fig:elgg_entities}
 \end{figure}
 
-Figure\ref{fig:elgg_architecture} shows the model, view, and control parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page returned to the web client.
+Figure~\ref{fig:elgg_architecture} shows the model, view, and control parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page returned to the web client.
 
 Elgg comprises a core system that can be extended through plugins (examples are the Cart system or the handling of Application Models). Plugins add new functionality, can customize aspects of the Elgg engine, or change the representation of pages.
 A plugin can create new objects (e.g., ApplicationObject) characterized (through inheritance of ElggEntity) by a numeric globally unique identifier (GUID), owner GUID, Access ID. Access ID encodes permissions ensuring that when a page requests data it does not touch data the current user does not have permissions on. 
-
-\begin{figure}[h]
-	\caption{Architecture of the Elgg Social Networking engine.}
-	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/elgg_architecture.pdf}
-	\centering
-	\label{fig:elgg_architecture}
-\end{figure}
 
 The controller component of MVC model of Elgg consisting of the \emph{Actions} of the system which are the primary way the users interact with the Elgg site. An action in Elgg Framework is the code that make changes to the database when a user does something such as logging in, posting a comment, and creating an application model. The action script processes input, makes the appropriate modifications to the database, and provides feedback to the user about the action. By default, actions are only available to logged in users and include Cross-Site Request Forgery (CSRF) Security token to overcome session fixation~\cite{kolvsek2002session}, Session Hijacking~\cite{burgersposter} and Cross-site Scripting~\cite{thamescomparing}.
 
@@ -99,9 +99,10 @@ As described in the previous section, the new functionality of Elgg Social Netwo
 \subsubsection{Twitter bootstraping of Elgg}
 Twitter Bootstrap~\cite{twitter_bootstrap}~\cite{cochran2012twitter} is a free and open-source collection of tools for creating dynamic websites and web applications. It contains HTML and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions. It aims to ease the development of dynamic websites and web applications. 
 
-We customize the Elgg View inserting the Twitter Bootstrap View System. \ldots\ldots
+We customize the Elgg View inserting the Twitter Bootstrap View System. The default View System of Elgg changed to support the Bootstrap responsive grip.
 
-\subsubsection{CDO communication with Social Networking Platform}
+\subsection{CDO communication with Social Networking Platform}
+\label{sec:cdo_comm}
 As mentioned in~\ref{sec:background}, the execution history of deployments of application models and the description of those models are stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. In order to communicate with the CDO Server, a CDO Java Client is needed. The CDO client is in the middle between the Social Networking Engine (Elgg Server) and the CDO server, making possible the exchange of information between those two as shown in figure~\ref{fig:system_architecture}.
 
 Specifically, for the communication between the CDO Server and the Client, the CDO Client opens one or more sessions to the CDO Server. Each session represents a connection to the CDO repository and provides a broad API to interact with it. A session does not provide direct access to model instances; views or transactions are needed to navigate or modify the model instance graph. The implemented CDO Client expose read/write access to the repository for viewing the execution histories or the model of the applications, or store new execution models. For the communication between the Social Networking Engine and the CDO Client, the CDO Client expose a RESTful API to the Social Networking engine providing all the necessary methods. 
@@ -132,7 +133,7 @@ This section describes the experience gained by using memcached~\cite{memcache_u
 
 Memcached added in layer 2 of system architecture and used for storing the following key-value tuples: (1) values from Social Network Database such as entities of Social Network, applications, components, users, group discussions, (2) evaluated javascript code results and (3) executions histories from repository of application models. Storing the executions of applications at Memcached the response time of the system increased because the PHP modules do not need to go through the heavy CDO client but get directly the executions of applications from Memcached.
 
-The apache jmeter\cite{jmeter_url} was used to measure the responce time of the system and the sysstat tool\cite{sysstat_url} was used to measure the cpu usage. Section \ref{sec:eval_memcache} 
+The apache jmeter~\cite{jmeter_url} was used to measure the responce time of the system and the sysstat tool~\cite{sysstat_url} was used to measure the cpu usage. Section~\ref{sec:eval_memcache} 
  shows the performance results of this implementation.
 
 All tuples at Memcached are inserted with maximum key expiration time of thirty days. When a value in social network is updated, the memcached key will deleted as shows the figure~\ref{fig:memcache_key_value}.
