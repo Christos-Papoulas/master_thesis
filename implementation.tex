@@ -1,9 +1,11 @@
 
 \chapter{Implementation}
 \label{chap:implementation}
-This section describes the implementation of social network site, the User Interface and how the system scales.
+This chapter describes the implementation of our social networking site, the User Interface and how the system scales.
 
-The system is composed by the following components, as shown in figure~\ref{fig:system_architecture}: At the first layer lives (1) the Social Networking engine, which runs all PHP scripts and described in section~\ref{sec:implementaion_of_social_netowrk}. At the second layer lives (2) the Memcached caching system, which described in section~\ref{sec:memcache_implementation}. At the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components and the CDO repository. The Social Networking Engine at layer 1 is considered as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are considered as the back end system. 
+The system consists of the following components, as shown in figure~\ref{fig:system_architecture}: In the first layer lives (1) the Social Networking engine, which runs all PHP scripts, as described in section~\ref{sec:implementaion_of_social_netowrk}. 
+In the second layer lives (2) the Memcached caching system, which described in section~\ref{sec:memcache_implementation}. 
+In the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components as well as the CDO repository. The Social Networking Engine at layer 1 is defined as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are defined as the back end system. 
 
 \begin{figure}[h]
 	\caption{The overall architecture of Social Network.}
@@ -12,14 +14,23 @@ The system is composed by the following components, as shown in figure~\ref{fig:
 	\label{fig:system_architecture}
 \end{figure}
 
-Achieving the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engine at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper~\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system response time as described in section~\ref{sec:memcache_implementation}.
+In order to achieve the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engines at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper~\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system's response time as described in section~\ref{sec:memcache_implementation}.
 
 \section{Implementation of Social Network}
 \label{sec:implementaion_of_social_netowrk}
-The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is open source software written in PHP, uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
+The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is an open source software written in PHP, that uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
 
-The jQuery is prefered instead of pure JavaScript~\cite{mccormick2004jquery} since it's a light library which pushes content to the client machine, it therefore reduces the wait time for server response. Plus, it's smaller than Flash, so it results in smoother playbacks and less errors. Furthermore, jQuery works anywhere since is cross-browser compatible with any browser, mobile phone or tablet, and Apple devices. Finally, jQuery's syntax is designed to make it easier to navigate to a document, select an HTML DOM elements, create animations, handle events, and developing Ajax applications. So, the jQuery is used for implementing client side scripting and in the remaining of this chapter, when we refer to JavaScript, we actually refer to the jQuery library. 
-Furthermore, some other JavaScript libraries are used in order to make the User Interface more powerful. The Chart.js~\cite{chartjs_url} library is used to generate the graphs and charts in execution's page.
+The overall architecture of Elgg Social Network is shown in figure ~\ref{fig:elgg_architecture}. The Elgg Social Network is structured following the key concepts of Model-View-Controller (MVC) known architectural pattern for User Interfaces. The MVC system is analyzed here, depicting the most important aspects of it from the Elgg perspective.
+
+Figure~\ref{fig:elgg_architecture} shows the model, view, and controller parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page returned to the web client.
+
+The {\bf Model} of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}:
+\begin{itemize}
+\item \emph{Entities}, classes capturing social networking concepts: users, communities, application models. Elgg Core comes with four basic objects: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache and a lot of other classes necessary for the proper engine operation.
+\item \emph{Metadata} describing and extending entities (e.g., a response to a question, a review of an application model, etc.).
+\item  \emph{Relationships} connect two entities (e.g., user A is a friend of user B, user C is a contributor to an application model, etc.) and are persisted in the Social Network DB.
+\item \emph{Annotations} are pieces of simple data attached to an entity that allow users to leave ratings, or other relevant feedback.
+\end{itemize}
 
 \begin{figure}[h]
 	\caption{Architecture of the Elgg Social Networking engine.}
@@ -28,13 +39,6 @@ Furthermore, some other JavaScript libraries are used in order to make the User 
 	\label{fig:elgg_architecture}
 \end{figure}
 
-The architecture of Elgg Social Network shown in figure ~\ref{fig:elgg_architecture}. The Model of the framework is structured around the following key concepts as shown in figure ~\ref{fig:elgg_entities}:
-\begin{itemize}
-\item \emph{Entities}, classes capturing social networking concepts: users, communities, application models. Elgg Core comes with four basic objects: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache and a lot of other classes necessary for the proper engine operation.
-\item \emph{Metadata} describing and extending entities (e.g., a response to a question, a review of an application model, etc.).
-\item  \emph{Relationships} connect two entities (e.g., user A is a friend of user B, user C is a contributor to an application model, etc.) and are persisted in the Social Network DB.
-\item \emph{Annotations} are pieces of simple data attached to an entity that allow users to leave ratings, or other relevant feedback.
-\end{itemize}
 All Elgg objects inherit from ElggEntity, which provides the general attributes of an object. Elgg core comes with the following basic entities: ElggObject, ElggUser, ElggGroup, ElggSite, ElggSession, ElggCache, as well as other classes necessary for the operation of the engine.
 
 \begin{figure}[h]
@@ -44,18 +48,16 @@ All Elgg objects inherit from ElggEntity, which provides the general attributes 
 	\label{fig:elgg_entities}
 \end{figure}
 
-Figure~\ref{fig:elgg_architecture} shows the model, view, and control parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page returned to the web client.
+The {\bf controller} component of MVC model of Elgg consisting of the \emph{Actions} of the system which are the primary way the users interact with the Elgg site. An action in Elgg Framework is the code that make changes to the database when a user does something such as logging in, posting a comment, and creating an application model. The action script processes input, makes the appropriate modifications to the database, and provides feedback to the user about the action. By default, actions are only available to logged in users and include Cross-Site Request Forgery (CSRF) Security token to overcome session fixation~\cite{kolvsek2002session}, Session Hijacking~\cite{burgersposter} and Cross-site Scripting~\cite{thamescomparing}.
+
+Additional, the controller component includes the \emph{Events} and the \emph{Plugin Hooks}, which are used in Elgg Plugins to interact with the Elgg engine. Events and hooks are triggered at important times throughout Elgg’s boot and execution process, and allows plugins to modify or cancel the default behaviour of Elgg. When an event is triggered, a set of handlers is executed in order of priority. Each handler is passed arguments and has a chance to influence the process. After execution, the ``trigger'' function returns a value based on the behaviour of the handlers.
+
+The {\bf View} component is responsible for creating the output. Generally, this will be HTML sent to a web browser, but it could also be XML, JSON or any other data formats. The Views handles everything from the layout of pages and chunks of presentation output (like a topbar ) down to individual links and form inputs.
 
 Elgg comprises a core system that can be extended through plugins (examples are the Cart system or the handling of Application Models). Plugins add new functionality, can customize aspects of the Elgg engine, or change the representation of pages.
 A plugin can create new objects (e.g., ApplicationObject) characterized (through inheritance of ElggEntity) by a numeric globally unique identifier (GUID), owner GUID, Access ID. Access ID encodes permissions ensuring that when a page requests data it does not touch data the current user does not have permissions on. 
 
-The controller component of MVC model of Elgg consisting of the \emph{Actions} of the system which are the primary way the users interact with the Elgg site. An action in Elgg Framework is the code that make changes to the database when a user does something such as logging in, posting a comment, and creating an application model. The action script processes input, makes the appropriate modifications to the database, and provides feedback to the user about the action. By default, actions are only available to logged in users and include Cross-Site Request Forgery (CSRF) Security token to overcome session fixation~\cite{kolvsek2002session}, Session Hijacking~\cite{burgersposter} and Cross-site Scripting~\cite{thamescomparing}.
-
-Additional, the controller component includes the \emph{Events} and the \emph{Plugin Hooks}, which are used in Elgg Plugins to interact with the Elgg engine. Events and hooks are triggered at important times throughout Elgg’s boot and execution process, and allows plugins to modify or cancel the default behaviour of Elgg. When an event is triggered, a set of handlers is executed in order of priority. Each handler is passed arguments and has a chance to influence the process. After execution, the ``trigger'' function returns a value based on the behaviour of the handlers.
-
-The View component is responsible for creating the output. Generally, this will be HTML sent to a web browser, but it could also be XML, JSON or any other data formats. The Views handles everything from the layout of pages and chunks of presentation output (like a topbar ) down to individual links and form inputs.
-
-The extensibility of Elgg can be established not by modifying the core system but by introducing new plug-ins which follow the MVC model. A new plug-in can create a new entity. Thus, each entity is characterized by a numeric Globally Unique Identifier and Access ID. The Access ID determines the permissions that other users have. Thus, when a page requests data, it never touches those data that the current user does not have permission to see. All plug-ins share a common structure of folders and PHP files, following the MVC model of figure~\ref{fig:elgg_architecture}. 
+The extensibility of Elgg, as mentioned, can be established not by modifying the core system but by introducing new plug-ins which follow the MVC model. A new plug-in can create a new entity. Thus, each entity is characterized by a numeric Globally Unique Identifier and Access ID. The Access ID determines the permissions that other users have. Thus, when a page requests data, it never touches those data that the current user does not have permission to see. All plug-ins share a common structure of folders and PHP files, following the MVC model of figure~\ref{fig:elgg_architecture}. 
 
 The hierarchy of a plug-in is shown in figure~\ref{fig:elgg_hierarchy}. 
 Folder {\em actions} includes the actions applied on application models. Every active participation by the user is performed via an action. Logging in, creating, updating or deleting content are all generic categories of actions.
@@ -72,6 +74,11 @@ The plug-in initialization is also defined in the start.php and registers action
 	\centering
 	\label{fig:elgg_hierarchy}
 \end{figure}
+
+Finally, as mentioned before, for client side scripting the jQuery is used. The main reason why jQuery is preferred in this work over of pure JavaScript~\cite{mccormick2004jquery} is that it's a light library which pushes content to the client machine, it therefore reduces the wait time for server response. Plus, it's smaller than Flash, so it results in smoother playbacks and less errors. Furthermore, jQuery works anywhere since is cross-browser compatible with any browser, mobile phone or tablet, and Apple devices. Finally, another hand-solving advantage of jQuery is its simple syntax.It is designed to make it easier to navigate in a document, select HTML DOM elements, create animations, handle events, and developing Ajax applications. 
+
+Thus, the jQuery is used by SNP for implementing client side scripting and for the remaining of this chapter, when we refer to JavaScript, we actually refer to the jQuery library. 
+Furthermore, some other JavaScript libraries are used in order to make the User Interface more powerful. One of those libraries is the Chart.js~\cite{chartjs_url} library which is used to generate the graphs and charts in execution's page.
 
 \subsubsection{New functionality of Elgg Social Network Platform}
 As described in the previous section, the new functionality of Elgg Social Networking Platform can be introduced by new plugins. The modification of the core system is not a good practice because make the system more difficult to implemented and can not upgrade to the new versions of Elgg framework. Though, the following plugins are implemented:
@@ -99,7 +106,7 @@ As described in the previous section, the new functionality of Elgg Social Netwo
 \subsubsection{Twitter bootstraping of Elgg}
 Twitter Bootstrap~\cite{twitter_bootstrap}~\cite{cochran2012twitter} is a free and open-source collection of tools for creating dynamic websites and web applications. It contains HTML and CSS-based design templates for typography, forms, buttons, navigation and other interface components, as well as optional JavaScript extensions. It aims to ease the development of dynamic websites and web applications. 
 
-We customize the Elgg View inserting the Twitter Bootstrap View System. The default View System of Elgg changed to support the Bootstrap responsive grip.
+We customize the Elgg View inserting the Twitter Bootstrap View System. The default View System of Elgg changed to support the Bootstrap responsive grid.
 
 \subsection{CDO communication with Social Networking Platform}
 \label{sec:cdo_comm}
