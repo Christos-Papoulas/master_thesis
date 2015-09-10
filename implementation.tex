@@ -183,7 +183,7 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 12:}		
 \end{lstlisting}
 
-\subsubsection{Bayes Classification Algorithm}
+\subsection{Bayes Classification Algorithm}
 In this section the Bayes classification algorithm is being described. As the above code snippet shows at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. Diving in this function, the \emph{body} is transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural part of the words and the suffixes are removed (such as \emph{-ing} and \emph{s}). Thus the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm is not using any dictionary but a simple list of suffixes which makes the algorithm fast (10.000 different words in 8.1 seconds). After this process a table of words of this \emph{body} is kept.
 
 After the populateClassifier has finished, the \emph{trainClassifier} is called (for simplicity not shown in the above code snippet). The objective of \emph{trainClassifier} is to make the document body ready for Bayes Classification. So, \emph{trainClassifier} counts the number of occurrences of each word in each class.
@@ -194,7 +194,7 @@ Since the Classifier is ready, when a future request for classification comes, t
 \\
 Where the probability of a document {\it d} to be a class {\it c} is the logarithmic value of the division of the words(terms) of {\it d} found in class {\it c} by the total number of terms in {\it c}.
 
-\subsubsection{Automated answers from Natural Language Processing}
+\subsection{Automated answers from Natural Language Processing}
 \label{sec:example_nlp}
 As described in section~\ref{sec:natural_implementation} Natural Language Processing is used to determine the users' input question in groups. When a user asks a question, the body of the question classified into categories and when the NLP classifies the question to a specific category, an approximate answer can be given in response. As shown in figure~\ref{fig:nlp_example}, after the user's question, the classifier process the body and if the question is about the {\it JEnterprise} and the {\it cost effectivess} the approxiame answer ``The most cost effectiveness configuration of SPEC JEntreprise2010 is: jEnterprise18F \ldots'' is given. The users of the PaaSage Social Network Platform can vote up or down the answer and/or provide their own answers.
 \begin{figure}
@@ -240,7 +240,9 @@ the professional network, the design employs gamification features, namely use o
 
 \subsection{Automated Application Model Creation}
 \label{sec:automatedcreation}
-The DevOps users of PaaSage Social Network Platform can benefit from the automated creation of CAMEL baseline models or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor. In order users to create automated generated baseline CAMEL models, they can browse around the integrated Chef Components inside the Social Network and find the appropriate components for their applications. The platform has integrate a pointer for each Chef cookbook to the Social Network Database using the Chef Supermarket API~\cite{chef_api_url}.
+The DevOps users of PaaSage Social Network Platform can benefit from the automated creation of CAMEL baseline models or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor. 
+
+In order users to create automated generated baseline CAMEL models, they can browse around the integrated Chef Components inside the Social Network and find the appropriate components for their applications. The platform has integrate a pointer for each Chef cookbook to the Social Network Database using the Chef Supermarket API~\cite{chef_api_url}. A PHP command has implemented in order to iterate through all Chef cookbooks and update the repository of SNP. This command has been configured and runs one time every day.
 
 Through the Application Model Creation Page of the PaaSage Social Network Platform, the users can upload an external CAMEL model description of their application or create a new one with the help of the Platform in 4 simple steps as shown in figure ~\ref{fig:model_creation_0}. In the step zero~\ref{fig:sfig0}, the user asked if the new Application model has already an CAMEL model or the user want to create a new Application CAMEL model through automated generation. For automated generation the users should have put in the user's cart the Chef cookbooks that wants. Then, in step one~\ref{fig:sfig1}, the user selects from his/her list of components which of those will be included in the Application Model. 
 As the figure~\ref{fig:sfig1} shows, the user has four components {\it mysqld}, {\it apache2}, {\it nodejs} and 
