@@ -71,7 +71,7 @@ Moving from configuration C1 to C2, the CPU consumption went to memcached node. 
 \end{table}
 
 \section{Improving Performance with engine}
-This section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources are kept the same in the previous experiment, shown in the table~\ref{table:vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. The load from one SN Engine is now distributed to two SN Engines instances. So, the response time improved, as shown in the figure~\ref{fig:rt2SN} for the Load 3 compared to the previous test-bench. 
+This section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources are kept the same in the previous experiment and shown in the table~\ref{table:vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. The load from one SN Engine is now distributed to two SN Engines instances. So, the response time improved, as shown in the figure~\ref{fig:rt2SN} for the Load 3 compared to the previous test-bench. 
 
 \begin{figure}[h]
 	\caption{The Response time for two Social Network Engines.}
