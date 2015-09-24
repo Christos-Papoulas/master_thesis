@@ -169,7 +169,20 @@ The Apache JMeter~\cite{jmeter_url} was used to measure the response time of the
 
 \section{Natural Language Processing and classification}
 \label{sec:natural_implementation}
-Natural Language Processing(NLP)~\cite{manning1999foundations} is a feature added to the Social Network Platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. Particularly, Naivy Bayes Natural Language Understanding algorithm is added to the SN using the Natural framework~\cite{nodenatural_url} implemented with node.js. In general, Machine Learning algorithms such as Naivy Bayes, want an input, called data set, of training data. This training data is pulled from questions users post in StackOverflow (SO). Those questions are an excellent repository to train the NB algorithm, because they are categorised by tags and because by the time that this implementation took place, the Social Network did not include a big variety of questions in the repository.
+Natural Language Processing(NLP)~\cite{manning1999foundations} is a feature added to the Social Network Platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
+
+As the figure~\ref{fig:auto_classification} shows, a user of SNP poses a question to our platform. The platform can process the user's input and classified into: (1) a similar question that exists in our community or (2) an automated generated query to the CAMEL repository. In the first scenario, a list of answers from the pre-existing question can be provided as feedback to the new question. In the second scenario, the question can be further processed and automatically generate a query to CAMEL repository. An automated mechanism can be implement for the second scenario but this is out of the scope of this thesis.  
+
+\begin{figure}[h]
+	\caption{Classification of questions and automated feedback to user}
+	\includegraphics[width=1\textwidth]{./fig/Decision_making.pdf}
+	\centering
+	\label{fig:auto_classification}
+\end{figure}
+
+Our implementation is in-between of those two scenarios. Some queries to the CAMEL repository is implemented and if a question asked and in a way talk about this specific query, the Platform will provide this query's results as an answer to the user's question. Furthermore, if this question has a similar question and that last question has an answer from a sophisticated user, who had created an hand-crafted query to the repository and had provided the results back to the user. Those results can be used as a feedback to the new question. 
+
+Particularly, Naivy Bayes Natural Language Understanding algorithm is added to the SN using the Natural framework~\cite{nodenatural_url} implemented with node.js. In general, Machine Learning algorithms such as Naivy Bayes, want an input, called data set, of training data. This training data is pulled from questions users post in StackOverflow (SO). Those questions are an excellent repository to train the NB algorithm, because they are categorised by tags and because by the time that this implementation took place, the Social Network did not include a big variety of questions in the repository.
 
 In general, the main actions that SO users is shown in figure~\ref{fig:stackoverflow_questions}. When users ask questions in SO, they must specify some tags describing their questions. A tag is a keyword or a label that places their question in a category with other, similar questions. The users of SO sometimes, try to add as many tags as possible in order to make their questions popular and get them answered. SO permits the users to add up to only five tags in each of their questions. After a question is posed, the whole community of SO can vote the question up or down and the privileged users can flag the question as \emph{duplicate}, \emph{off-topic}, \emph{unclear}, \emph{too broad} or \emph{primarily opinion-based}. This way, low quality questions will be removed from the site resulting in keeping the questions repository clear and helpful for other potential developers to use.
 
@@ -228,6 +241,8 @@ When a user asks a question, the body of the question classified into categories
 \end{figure}
 
 The automated replies provide the user with a direct possible answer to the question. So, it reduces the time waiting for an answer and provides a first helping hint about the user's question. If the answer is not efficient, other potential user of SNP can provide answers to the question and down-vote the automated reply.
+
+Finally, a relevant question can be asked to the platform as ``Which deployments of JEnterprise provide the best performance for the lowest cost in a multi-cloud setup?''. This question is a paraphrased question of the previous one, talking about the same thing. The platform can find this similarity and provide the same automated answer.
 
 \section{User interface}
 This part of the thesis describes the User Interface of the Social Network Platform that is implementated based on 104 mock-ups created by HCI expert team. A mockup is a realistic representation of what the product will look like, in our case the Social Network Platform. The design of look \& feel of SNP is made by HCI expert team in order to follow the modern trends in Web Applications design. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
