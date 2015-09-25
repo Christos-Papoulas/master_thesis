@@ -11,12 +11,11 @@ Among the range of possible DevOps tasks, the Social Network focuses on selectin
 configuration for an application. This is especially challenging in a multi-cloud setting due to the
 large diversity of deployment possibilities and tradeoffs. 
 
-Currently DevOps users work with a small set of
-well-understood deployment options, missing on opportunities for improving performance, reliability and/or
-lower cost. Investigation of new options involves time consuming testing over new infrastructures. Discussing those topics with the community in online social or technical forums may provide insight over deployment options;
-however, the answer to a hard question often needs to be backed by experimental data that is not readily
+Currently DevOps users work with a small set of well-understood deployment options, missing on opportunities for improving performance, reliability and/or lower cost. Investigation of new options involves time consuming testing over new infrastructures. Discussing those topics with the community in online social or technical forums may provide insight over deployment options; however, the answer to a hard question often needs to be backed by experimental data that is not readily
 available. 
 
+Such an option is Chef Supermarket~\cite{Chef_base}. Chef Supermarket is a system and cloud infrastructure automation framework that makes it easy to deploy servers and applications to any physical, virtual, or cloud location. The representation of the application is presented as code using Chef cookbooks. Another option is IBM Bluemix~\cite{Bluemix-dev}, which is a development and support platform for communities of DevOps users wishing to compose distributed applications out of components drawn from libraries and deploy them at IBM-provided and supported cloud infrastructure.
+ 
 An integrated environment like our proposal, comes to solve the above issues by enriching user interactions with structured references to applications and their components, execution data, and mined knowledge from real deployments. Mined knowledge can be combined with user activity and profiles to provide personalized suggestions and hints.  An improved mode of user interaction is expected to result in stronger incentives for DevOps users to contribute information to the underlying repositories. Richer content should lead to better quality of mined knowledge, benefiting the DevOps community and providing further incentive for contributions.  The social networking platform is designed to be closely integrated with a set of information repositories satisfying the following requirements: 
 (R1) handle entire applications rather than just software components; (R2) abstract application structure through software modeling; (R3) capture and analyze application runtime performance. 
 
@@ -44,7 +43,7 @@ CAMEL is using the Eclipse Modelling Framework (EMF)~\cite{steinberg2008emf} on 
 	\label{fig:dsls}
 \end{figure}
 
-\textcolor{blue}{A representation of a model using the EMF editor is shown in figure~\ref{fig:app_view_emf}. The Cloud Deployment Specialist can add all the information needed for the deployment of the application. For example, the figure~\ref{fig:app_view_emf} shows the ``Deployment Model'', which contains the configuration of CloudML. This information is needed for the application to be deployed. The ``Provider Model'' and the ``Location Model'' contains information about the Cloud Providers that will be used for this specific deployment of the application. This application has not any historical executions yet, but after the deployment can be populated with those data.}
+A representation of a model using the EMF editor is shown in figure~\ref{fig:app_view_emf}. The Cloud Deployment Specialist can add all the information needed for the deployment of the application. For example, the figure~\ref{fig:app_view_emf} shows the ``Deployment Model'', which contain the configuration of CloudML. This information is needed for the application to be deployed. The ``Provider Model'' and the ``Location Model'' contains information about the Cloud Providers that will be used for this specific deployment of the application. This application has not any historical executions yet, but after the deployment it will be populated with those data.
  
 The CAMEL repository is currently being populated with a wealth of information from multi-cloud deployments of various distributed applications~\cite{Papaioannou2013}. Also, SNP performs analytics over the CAMEL repository to extract knowledge about deployments characteristics that work best for certain applications and use it in the context of the professional network.
 
@@ -63,7 +62,7 @@ The Social Network Platform brings to the DevOps users a friendly interface to b
 The key contributions of this Social Network Platform(SNP) are the following:
 \begin{itemize}
 \item The SNP binds all the Social Networking aspects such as friends, new feeds, personal messages etc. with the engineering aspects of creating and deploying application models.
-\item The SNP brings the execution histories of the CAMEL applications in the light, providing the end users the ability to browse, discus, point and find essential information needed for other applications.
+\item The SNP brings the execution histories of the CAMEL applications in the light, providing the end users the ability to browse, discuss, point and find essential information needed for other applications.
 \item The SNP uses the best known practices both for the front end viewing system and the back end technology.
 \item The SNP runs on a horizontal scale architecture with memcached at the back end to reach near real time interaction. 
 \end{itemize}
