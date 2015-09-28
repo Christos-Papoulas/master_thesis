@@ -101,9 +101,9 @@ Since, the load from one SN Engine is now distributed to two SN Engines instance
 
 We can combine the two architectures together, meaning that we have more than one SN Engine and more than one Memcached to support as many loads as we want.
 
-\section{Evaluation of NLP classification}
+\section{Evaluation of topic classification}
 \label{sec:nlp_evaluation}
-This section evaluates the Natural Language Processing Tool as described in section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
+This section evaluates the topic classification tool as described in section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
 
 Another example showing that the classifier is not misclassifying, but the problem stands in the users' tagging, is the following question:
 ``I want to perform some data manipulation tasks and analysis in spark and want to \textbf{optimize} the run times. 
@@ -111,6 +111,8 @@ here is the problem: \ldots ''.
 This question was marked by the user with both scalability and optimization tags. Even though this question is retrieved with the scalability tag and in the table it is shown as a wrong classification, after examining this question, one can realize that the \emph{scalability} tag was wrongly added by the user and only the \emph{optimization} tag should be placed.
 
 This shows that our tool can further be used by StackOverflow to mark new questions that are wrongly tagged or misguided. There is a trend among StackOverflow users to add as many tags as they can in order to attract the attention of other users, increase the views of their question and finally get their answers.  
+
+The true positive, which means a document is recognized in the correct class, according the table~\ref{table:nlp_eval} is 85. The false positive, which means a document is not correctly recognized, of this topic evaluation is 65. According to those precision metrics the accuracy or sensitivity of our topic classifier for this specific experiment is 56,67\%.
 
 \begin{table}[]
 \centering
@@ -128,7 +130,7 @@ scalability   & 6                               & 3                           & 
 \end{table}
 
 \section{Evaluation of requirements and User interface}
-The User Interface of SNP is designed through the iterative process of several expert-based evaluations being carried out in group sessions. To obtain additional feedback from non-experts, three additional user-based evaluation experiments were designed and carried out involving potential users and presented in~\cite{magoutis2015design}.
+The User Interface of SNP is designed through the iterative process of several expert-based evaluations being carried out in group sessions. To obtain additional feedback from non-experts, three additional user-based evaluation experiments were designed and carried out involving potential users and presented in~\cite{magoutis2015design}. The contributions of the author, in this user interface evaluation, was to make the platform support them and author took part in the third evaluation process.  
 
 The first experiment, carried out by Flexiant Ltd. aimed at assessing the overall look and feel of the network, the navigation mechanisms, as well as the design of fundamental functionality.
 

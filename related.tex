@@ -1,20 +1,6 @@
 \chapter{Related Work}
 \label{sec:related}
-In this chapter the related work of other professional networks and their caching architecture is described in section~\ref{sec:caching_rel}. In addition, an overview and related work of Natural Language Processing is presented in section~\ref{sec:networks_rel}. 
-
-\section{Caching Application Data}
-\label{sec:caching_rel}
-Arguably two of the largest existing networking platforms are Linkedin and Facebook. The caching technologies of these networks are of great interest for the way they are managing and storing vast amounts of data.
-
-Linkedin, the largest professional network, stores hundreds of terabytes of data to Project Voldemort~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}, another well-known key-value store. Linkedin stores to Voldemort pre-computed offline data. For example, it stores the results of data mining applications, such as ``People You May Know'' feature, that are running on hundreds of terabytes to make an estimation and are using Hadoop as the computational component of those estimations. 
-Voldemort and Dynamo have the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock, (3) a \emph{required read} factor to succeed a get request and (4) a \emph{required write} factor to succeed a put request. 
-
-Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
-In order to achieve a near real time communication experience to the end user, memcached servers have to be efficient, reducing latency to minimum. 
-
-The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity at the same time. Stale sets are resolved by an N-bit token, that is bound to a specific key and sent from the memcached to the web server that wants to update the key when a cache miss occurs. If a delete request is received, the request for updating this value from the client is rejected. The thundering herbs are solved by configuring the memcached servers to return an N-bit token only once every ten seconds per key.
-
-The PaaSage Social Network, inspired by Facebook, integrates memcached in its back-end architecture and it is configured to properly interact with the caching application.
+In this chapter the related work of other professional networks is presented in section~\ref{sec:networks_rel} and their caching architecture is described in section~\ref{sec:caching_rel}. In addition, the section~\ref{sec:config_manag} describes related tools and systems that the DevOps use in order to make their deployment faster. Finally, an overview and related work of topic classification is presented in section~\ref{sec:topic_class}. 
 
 \section{Professional Networks} 
 \label{sec:networks_rel}
@@ -120,7 +106,33 @@ The lack of Social Networking features of github came to fill the Geeklist platf
 
 The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowd sourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowd sourcing. Our Social Network Platform is the only solution that analyzes information in its software-related repositories in order to provide users with assisting suggestions and hints. The Platform targets the model of the application and the Software code of the application is not stored inside the Social Network Platform. 
 
-\section{Natural Language Processing}
+\section{Scalable caching in professional networks}
+\label{sec:caching_rel}
+Arguably two of the largest existing networking platforms are Linkedin and Facebook. The caching technologies of these networks are of great interest for the way they are managing and storing vast amounts of data.
+
+Linkedin, the largest professional network, stores hundreds of terabytes of data to Project Voldemort~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}, another well-known key-value store. Linkedin stores to Voldemort pre-computed offline data. For example, it stores the results of data mining applications, such as ``People You May Know'' feature, that are running on hundreds of terabytes to make an estimation and are using Hadoop as the computational component of those estimations. 
+Voldemort and Dynamo have the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock, (3) a \emph{required read} factor to succeed a get request and (4) a \emph{required write} factor to succeed a put request. 
+
+Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
+In order to achieve a near real time communication experience to the end user, memcached servers have to be efficient, reducing latency to minimum. 
+
+The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity at the same time. Stale sets are resolved by an N-bit token, that is bound to a specific key and sent from the memcached to the web server that wants to update the key when a cache miss occurs. If a delete request is received, the request for updating this value from the client is rejected. The thundering herbs are solved by configuring the memcached servers to return an N-bit token only once every ten seconds per key.
+
+The PaaSage Social Network, inspired by Facebook, integrates memcached in its back-end architecture and it is configured to properly interact with the caching application.
+
+
+\section{Configuration management and deployment}
+\label{sec:config_manag}
+Another key component in a portfolio of DevOps tools is configuration management (CM)~\cite{lueninghoener2011getting}, the process of maintaining a detailed recording of software and hardware components in an infrastructure. An effective CM process provides significant benefits including reduced complexity through abstraction, greater flexibility, faster machine deployment, faster disaster recovery, etc. There are numerous configuration management tools from which a system administrator can choose, however the most widely known are: Bcfg2~\cite{Bcfg2}, CFEngine~\cite{CFEngine}, Chef~\cite{Chef_base} and Puppet~\cite{Puppet}. Each of these tools has its strengths and weaknesses~\cite{tsalolikhin2010summary},~\cite{Delaet2010a}. In a DevOps environment, a CM solution is often combined with provisioning and deployment tooling~\cite{ibm-devops}.
+
+The Social Network Platform uses Chef as a CM and deployment automation tool to support professional network users, and SNP integrates the Chef cookbooks in its platform.
+
+Furthermore, a recent trend in DevOps software development is continuous integration (CI)~\cite{fowler2006continuous} and automated code deployment and testing off of online code repositories. Travis~\cite{travis_url} is a CI tool that automatically detects when a commit has been made and pushed to a GitHub repository, subsequently tries to build the project, deploy and run tests, and notify the user of the status. Another popular CI tool is Jenkins~\cite{jenkins_url}, an open-source software tool for testing and reporting on isolated code changes in real time. Similar to Travis, Jenkins enables developers to find and solve defects in their code rapidly and automates the testing of their builds. 
+
+Although our Social Networking Platform does not provide a complete CI solution because it is not a code hosting platform, but it automates the deployment of complex applications through a model-driven process. 
+
+\section{Topic classification}
+\label{sec:topic_class}
 Another technology that has been frequently used by networking platforms and we have integrated to our SNP is Natural Language Processing (NLP)~\cite{manning1999foundations}. Specifically, we focus on social networking usage of NLP and how knowledge can be mined from repositories of Q\&A sites. 
 
 NLP has been used to process Twitter's messages and come to some results according to the classifications. Twitter has a good pool of micro-blog text which is suitable for NLP because of the small text sentences that users are allowed to post. Those posts describe emotions, feelings, opinions or situations. So several techniques~\cite{pak2010twitter}~\cite{verma2011natural}~\cite{go2009twitter} have been introduced to process and classify twitter posts in several categories.
@@ -138,12 +150,3 @@ Social Network Platform uses those tags and Natural Language Processing to answe
 \item Can the platform map a question with a relevant query to the repository in order to provide the one who asks with an appropriate response.
 \item Can the platform paraphrase the queries according to the user's arbitrary input in order to meet the previous objective. 
 \end{itemize}
-
-\section{Configuration management and deployment}
-Another key component in a portfolio of DevOps tools is configuration management (CM)~\cite{lueninghoener2011getting}, the process of maintaining a detailed recording of software and hardware components in an infrastructure. An effective CM process provides significant benefits including reduced complexity through abstraction, greater flexibility, faster machine deployment, faster disaster recovery, etc. There are numerous configuration management tools from which a system administrator can choose, however the most widely known are: Bcfg2~\cite{Bcfg2}, CFEngine~\cite{CFEngine}, Chef~\cite{Chef_base} and Puppet~\cite{Puppet}. Each of these tools has its strengths and weaknesses~\cite{tsalolikhin2010summary},~\cite{Delaet2010a}. In a DevOps environment, a CM solution is often combined with provisioning and deployment tooling~\cite{ibm-devops}.
-
-The Social Network Platform uses Chef as a CM and deployment automation tool to support professional network users, and SNP integrates the Chef cookbooks in its platform.
-
-Furthermore, a recent trend in DevOps software development is continuous integration (CI)~\cite{fowler2006continuous} and automated code deployment and testing off of online code repositories. Travis~\cite{travis_url} is a CI tool that automatically detects when a commit has been made and pushed to a GitHub repository, subsequently tries to build the project, deploy and run tests, and notify the user of the status. Another popular CI tool is Jenkins~\cite{jenkins_url}, an open-source software tool for testing and reporting on isolated code changes in real time. Similar to Travis, Jenkins enables developers to find and solve defects in their code rapidly and automates the testing of their builds. 
-
-Although our Social Networking Platform does not provide a complete CI solution because it is not a code hosting platform, but it automates the deployment of complex applications through a model-driven process. 

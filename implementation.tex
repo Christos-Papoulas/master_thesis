@@ -169,9 +169,9 @@ The Elgg Framework comes with the potential use of memcached but is restricted t
 The Apache JMeter~\cite{jmeter_url} was used to measure the response time of the system and the sysstat tool~\cite{sysstat_url} was used to measure the CPU usage. Section~\ref{sec:eval_memcache} 
  shows the performance results of this implementation.
 
-\section{Natural Language Processing and classification}
+\section{Topic classification}
 \label{sec:natural_implementation}
-Natural Language Processing(NLP)~\cite{manning1999foundations} is a feature added to the Social Network Platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
+Topic classification, using Natural Language Processing(NLP)~\cite{manning1999foundations}, is a feature added to the Social Network Platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
 
 As the figure~\ref{fig:auto_classification} shows, a user of SNP poses a question to our platform. The platform can process the user's input and classify it into: (1) a similar question that exists in our community or (2) an automated generated query to the CAMEL repository. In the first scenario, a list of answers from the pre-existing question can be provided as feedback to the new question. In the second scenario, the question can be further processed and a query to CAMEL repository be automatically generated. An automated mechanism can be implement for the second scenario but this is out of the scope of this thesis.  
 
@@ -191,7 +191,7 @@ In general, the main actions that SO users is shown in figure~\ref{fig:stackover
 For the training sets, the data to train the NB algorithm, the most voted questions of the SO community are used. Those questions have emerged as the best questions in their field and surely, we avoid the case of using a training set with miss-tagged questions that would result a miss-guided NLP classification. The NLP training set is retrieved from SO site using the stack exchange(SE) API~\cite{stackexchange_url}. The SE API is a powerful API, which allows us to take the questions, the answers, the users and all the information that exists in SO site through a programming interface.
 
 \begin{figure}[h]
-	\caption{The main StackOverflow users' actions and NLP Classifier. }
+	\caption{The main StackOverflow users' actions and topic classifier. }
 	\includegraphics[width=1\textwidth]{./fig/StackOverFlow.pdf}
 	\centering
 	\label{fig:stackoverflow_questions}
@@ -229,7 +229,7 @@ After the above process is done, the Classifier is ready, so when a future reque
 \\
 Where the probability of a document {\it d} to be in a class {\it c} is the logarithmic value of the division of the words(terms) of {\it d} found in class {\it c} by the total number of terms in {\it c}.
 
-\subsection{Automated answers from Natural Language Processing}
+\subsection{Automated answers}
 \label{sec:example_nlp}
 As described in section~\ref{sec:natural_implementation} Natural Language Processing is used to determine the users' input question in groups. 
 
@@ -238,7 +238,7 @@ When a user asks a question, the body of the question classified into categories
 \begin{figure}
   \centering
   \includegraphics[scale=0.6]{./fig/nlp_example.png}
-  \caption{Automated answer to user's question using NLP.}
+  \caption{Automated answer to user's question.}
   \label{fig:nlp_example}
 \end{figure}
 
