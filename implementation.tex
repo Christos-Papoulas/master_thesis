@@ -1,10 +1,10 @@
 
 \chapter{Implementation}
 \label{chap:implementation}
-This chapter describes the implementation of our social networking site, the User Interface and how the system scales.
+This Chapter describes the implementation of our social networking site, the User Interface and how the system scales.
 
-The system consists of the following components, as shown in figure~\ref{fig:system_architecture}: In the first layer lives (1) the Social Networking engine, which runs all PHP scripts, as described in section~\ref{sec:implementaion_of_social_netowrk}. 
-In the second layer lives (2) the Memcached caching system, which described in section~\ref{sec:memcache_implementation}. 
+The system consists of the following components, as shown in figure~\ref{fig:system_architecture}: In the first layer lives (1) the Social Networking engine, which runs all PHP scripts, as described in Section~\ref{sec:implementaion_of_social_netowrk}. 
+In the second layer lives (2) the Memcached caching system, which described in Section~\ref{sec:memcache_implementation}. 
 In the third layer lives (3) the Social Network MySQL database, and (4) the CDO server - client components as well as the CDO repository. The Social Networking Engine at layer 1 is defined as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are defined as the back end system. 
 
 \begin{figure}[h]
@@ -14,9 +14,9 @@ In the third layer lives (3) the Social Network MySQL database, and (4) the CDO 
 	\label{fig:system_architecture}
 \end{figure}
 
-In order to achieve the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engines at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper~\cite{zookeeper_url} as described in section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system's response time as described in section~\ref{sec:memcache_implementation}.
+In order to achieve the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one Social Network engines at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integraded Apache Zookeeper~\cite{zookeeper_url} as described in Section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system's response time as described in Section~\ref{sec:memcache_implementation}.
 
-\section{Implementation of Social Network}
+\section{Social networking platform}
 \label{sec:implementaion_of_social_netowrk}
 The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is an open source software written in PHP, that uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
 
@@ -75,17 +75,17 @@ The plug-in initialization is also defined in the start.php and registers action
 
 Finally, as mentioned before, for client side scripting the jQuery is used. The main reason why jQuery is preferred in this work over of pure JavaScript~\cite{mccormick2004jquery} is that it's a light library which pushes content to the client machine, it therefore reduces the wait time for server response. Plus, it's smaller than Flash, so it results in smoother playbacks and less errors. Furthermore, jQuery works anywhere since is cross-browser compatible with any browser, mobile phone or tablet, and Apple devices. Finally, another hand-solving advantage of jQuery is its simple syntax.It is designed to make it easier to navigate in a document, select HTML DOM elements, create animations, handle events, and developing Ajax applications. 
 
-Thus, the jQuery is used by SNP for implementing client side scripting and for the remaining of this chapter, when we refer to JavaScript, we actually refer to the jQuery library. 
+Thus, the jQuery is used by SNP for implementing client side scripting and for the remaining of this Chapter, when we refer to JavaScript, we actually refer to the jQuery library. 
 Furthermore, some other JavaScript libraries are used in order to make the User Interface more powerful. One of those libraries is the Chart.js~\cite{chartjs_url} library which is used to generate the graphs and charts in execution's page.
 
-\subsection{New functionality of Elgg Social Network Platform}
-As described in the previous section, the new functionality of Elgg Social Networking Platform can be introduced by new plugins. Since the modification of the core system is not a good practice, because it makes the system more difficult to implement and does not let it upgrade to the new versions of Elgg framework. The following plugins are implemented:
+\subsection{Extending the core Elgg platform}
+As described in the previous Section, the new functionality of Elgg social networking platform can be introduced by new plugins. Since the modification of the core system is not a good practice, because it makes the system more difficult to implement and does not let it upgrade to the new versions of Elgg framework. The following plugins are implemented:
 
 \textbf{ApplicationModel}. The ApplicationModel plugin has a {\it page handler} to manage the application Model pages. Also, ApplicationModel has client side JavaScript for manipulating User Interaction and dynamic pages. Furthermore, some php libraries are implemented, for example a library for interaction with CDO client or a library for manipulating Application models. 
 
 \textbf{Components}. The Components plugin has a {\it page handler} to manage the Components pages and their Categories and a PHP library to interact with Chef supermarket.
 
-\textbf{CustomView}. The CustomView plugin has all the necessary customization of the PaaSage Social Networking Platform (PSNP). All custom views of the system are implemented in this plugin. This plugin overrides all the default views of the Elgg that should be changed and contains client side JavaScript. Furthermore, CustomView has the following seven page handlers: {\t profile} responsible for profile pages, {\t avatar} responsible for the photos of user pages, {\t settings} responsible for the pages of user settings, {\t friends} responsible for the friends of the user pages, {\t contact} responsible for the Contact Information of the PSNP, {\t review} responsible for the reviews of Application Models and {\t search} responsible for the main search facility of PSNP. Finally, CustomView has all the required \emph{Actions} of the plugin such as the vote up or down, the action to add a review etc.
+\textbf{CustomView}. The CustomView plugin has all the necessary customization of the PaaSage social networking platform (PSNP). All custom views of the system are implemented in this plugin. This plugin overrides all the default views of the Elgg that should be changed and contains client side JavaScript. Furthermore, CustomView has the following seven page handlers: {\t profile} responsible for profile pages, {\t avatar} responsible for the photos of user pages, {\t settings} responsible for the pages of user settings, {\t friends} responsible for the friends of the user pages, {\t contact} responsible for the Contact Information of the PSNP, {\t review} responsible for the reviews of Application Models and {\t search} responsible for the main search facility of PSNP. Finally, CustomView has all the required \emph{Actions} of the plugin such as the vote up or down, the action to add a review etc.
 
 \textbf{NotificationSystem}. This plugin is responsible for the notifications of the Social Network which contains a relevant page handler, JavaScript for client side scripting and a php server side library.
 
@@ -93,9 +93,9 @@ As described in the previous section, the new functionality of Elgg Social Netwo
 
 \textbf{UserStatistics}. This plugin is responsible for collecting and displaying the information about the Users.
 
-\textbf{Memcached}. This plugin has all the essential functionality for memcached implementation as will be described in section~\ref{sec:memcache_implementation}.
+\textbf{Memcached}. This plugin has all the essential functionality for memcached implementation as will be described in Section~\ref{sec:memcache_implementation}.
 
-\textbf{ZookeeperRecipes}. This plugin has all the essential functionality for memcached implementation as will be described in section~\ref{sec:engine_scale}.
+\textbf{ZookeeperRecipes}. This plugin has all the essential functionality for memcached implementation as will be described in Section~\ref{sec:engine_scale}.
 
 \textbf{Groups}. The Groups plugin is the default plugin of Elgg Framework modified to support the required functionality.
 
@@ -108,7 +108,7 @@ Twitter Bootstrap~\cite{twitter_bootstrap}~\cite{cochran2012twitter} is a free a
 
 We customize the Elgg View inserting the Twitter Bootstrap View System. The default View System of Elgg changed to support the Twitter Bootstrap responsive grid.
 
-\subsection{CDO communication with Social Networking Platform}
+\subsection{Communicating with CDO server}
 \label{sec:cdo_comm}
 As mentioned in~\ref{sec:background}, the execution history of deployments of application models and the description of those models are stored in the CAMEL information repository, which is implemented as an Eclipse CDO server. In order to communicate with the CDO Server, a CDO Java Client is needed. The CDO client stands between the Social Networking Engine (Elgg Server) and the CDO server, making the exchange of information between those two possible, as shown in figure~\ref{fig:system_architecture}.
 
@@ -118,42 +118,45 @@ For example, when a user from the Social Network requests the execution historie
 
 As a future work, message queue techniques can be used for the communication between the CDO Client and the Social Networking Engine. One message queue technique is ZeroMQ~\cite{zeromq_url} which is a high-performance asynchronous messaging library, aimed at use in scalable distributed applications. Another well-known message queue system is RabbitMQ~\cite{rabbitmq_url}, which is a messaging broker and provides a common platform to send and receive messages. Those techniques achieve communication between different language components of an application.
 
-\section{Scaling Social Network Engine}
+\section{Scalability}
+A lot of work has been made on the scalability of social networks. We integrate known practises to make the social networking platform scalable and efficient. We replicated the social networking engine and we introduced caching techniques into our architecture.
+
+\subsection{Social networking engine}
 \label{sec:engine_scale}
-This section describes how the horizontal scale of Social Network engine is achieved by adding more than one Elgg Servers. At the layer 1 of figure~\ref{fig:elgg_architecture} lives the Apache2 server, which as the stress test of the system indicates in chapter~\ref{chapt:evaluation}, takes a heavy load on CPU utilization. 
+This Section describes how the horizontal scale of social network engine is achieved by adding more than one Elgg Servers. At the layer 1 of figure~\ref{fig:elgg_architecture} lives the Apache2 server, which as the stress test of the system indicates in Chapter~\ref{chapt:evaluation}, takes a heavy load on CPU utilization. 
 
-The heavy load of Apache2 server occurs by the nature of Elgg Framework. Because the Elgg core system is implemented to be extensible and configurable, every time a simple page or just an AJAX call is received by the Elgg, the Elgg Framework performs the following heavy tasks: it broadcasts an {\it init system} event; this event is caught by all plugins of Elgg and at this initialization phase the plugins register: (1) the page handlers, (2) the PHP libraries, (3) the actions, (4) the events and hooks, (5) the JavaScript libraries and (6) the CSS scripts. Therefore, all those actions generate a heavy load resulting in consuming CPU utilization and slowing the response time of the system. We introduce more than one Apache2 Servers running the Social Networking Engine of Elgg Framework to overcome this.  
+The heavy load of Apache2 server occurs by the nature of Elgg framework. Because the Elgg core system is implemented to be extensible and configurable, every time a simple page or just an AJAX call is received by the Elgg, the Elgg framework performs the following heavy tasks: it broadcasts an {\it init system} event; this event is caught by all plugins of Elgg and at this initialization phase the plugins register: (1) the page handlers, (2) the PHP libraries, (3) the actions, (4) the events and hooks, (5) the JavaScript libraries and (6) the CSS scripts. Therefore, all those actions generate a heavy load resulting in consuming CPU utilization and slowing the response time of the system. We introduce more than one Apache2 Servers running the Social Networking Engine of Elgg Framework to overcome this.  
 
-The Social Networking Engine keeps some information in the file system instead of in the Social Network Database. This information includes the profile photos of users and any other images such as photos that users add to the community groups. Furthermore, the initial configuration of Social Networking Engine keeps in the file system some caching files. Those files represent some views of the web pages which are independent of any specific users and remain unchanged among all users. This file system caching feature is removed from the Social Network Engine because it is more efficient to use memcached for the caching instead of the slow file system.
+The Social Networking Engine keeps some information in the file system instead of in the social network database. This information includes the profile photos of users and any other images such as photos that users add to the community groups. Furthermore, the initial configuration of Social Networking Engine keeps in the file system some caching files. Those files represent some views of the web pages which are independent of any specific users and remain unchanged among all users. This file system caching feature is removed from the Social Network Engine because it is more efficient to use memcached for the caching instead of the slow file system.
 
 In order to all SN Engines have access to the same file system, the Network File System (NFS)~\cite{sahni2015network} is used. NFS allows a server to share directories and files with clients over a network. With NFS, users and programs can access files on remote systems as if they were stored locally.
 
-In our implementation, NFS is configured and used in order to allow all Social Networking Engines to gain access to the same file system store. An NFS server is installed in one of the SN Engines and all the other SN Engines have an NFS client accessing the remote file system.   
+In our implementation, NFS is configured and used in order to allow all social networking engines to gain access to the same file system store. An NFS server is installed in one of the SN Engines and all the other SN engines have an NFS client accessing the remote file system.   
 
-Distributing Social Network Engine was not an easy problem to solve, so Apache ZooKeeper~\cite{zookeeper_url} is used. 
+Distributing social network engine was not an easy problem to solve, so Apache ZooKeeper~\cite{zookeeper_url} is used. 
 Apache ZooKeeper~\cite{hunt2010zookeeper} is a service for coordinating processes of distributed applications. Since
 ZooKeeper is a part of a critical infrastructure, it aims to provide a simple and high performance kernel
 for building more complex coordination primitives at the client. 
 We use this service in order to enable highly reliable distributed coordination among the file system and the Social Networking Engine. 
 Apache ZooKeeper provides a tree abstraction where every node in that tree (or znode) is a file on which a variety of simple operations can be performed. ZooKeeper orders operations on znodes so that they occur atomically. Therefore there is no need to use complex locking protocols to ensure that only one process can access a znode at a time. The tree represents a hierarchical namespace, so that many distinct distributed systems can use a single ZooKeeper instance without worrying about their files. 
 
-Social Networking Engine uses Apache ZooKeeper in order to keep the file system consistent, in rare but possible scenarios like two users trying to upload a file to the same group simultaneously. When a Social Networking Engine wants to write a file in file system, it first locks the specific path and after finishing the write operation it releases the lock. Thus, a file can never be corrupted.
+Social networking engine uses Apache ZooKeeper in order to keep the file system consistent, in rare but possible scenarios like two users trying to upload a file to the same group simultaneously. When a Social Networking Engine wants to write a file in file system, it first locks the specific path and after finishing the write operation it releases the lock. Thus, a file can never be corrupted.
 
 For communication between the Apache ZooKeeper and the Elgg framework, the php-zookeeper-recipes~\cite{zookeeper_recipes_url} are used by the ZookeeperRecipes plugin. Specifically, the {\it exclusive locks} of Zookeeper are used to keep the system in consistent mode.
 
-\section{Memcached}
+\subsection{Memcached}
 \label{sec:memcache_implementation}
-This section describes how we integrated and impemented memcached~\cite{memcache_url} to our system architecture. Memcached is an open source, high-performance, distributed memory object caching system. We chose memcached, because it is a generic simple in-memory key-value store. It has a powerful API available for PHP. After memcached integration the system decreased its response time and its performance.
+This Section describes how we integrated memcached~\cite{memcache_url} to our system architecture. Memcached is an open source, high-performance, distributed memory object caching system. We chose memcached, because it is a generic simple in-memory key-value store. It has a powerful API available for PHP. After memcached integration the system decreased its response time and its performance.
 
 Memcached is added in layer 2 of the system architecture as shown in figure~\ref{fig:system_architecture} and is used for storing the key-value tuples. The following data are stored in Memcached: 
 \begin{enumerate}
-\item MySQL responses, which are values from Social Network Database such as entities of Social Network, applications, components, users, group discussions. By storing those values, there is no need to query the Social Network Database, but SN Engine is getting the key-values directly from Memcached.
+\item MySQL responses, which are values from Social Network Database such as entities of Social Network, applications, components, users, group discussions. By storing those values, there is no need to query the Social Network Database, but SN Engine is getting the key-values directly from memcached.
 \item Views of the web pages which are independent of any specific users and remain unchanged among all users, and werte previously were stored in the file system.
 \item JavaScript code results. Some JavaScript code is time consuming to be generated. For example, PHP sends the execution data to JavaScript and then it iterates the data in order to generate the tables and the graphs of execution histories.
-\item Executions histories from repository of application models. By storing the executions of applications at Memcached, the system's response time decreases. That is due to the PHP modules not needing to go through the heavy CDO client-server communication but them getting the executions of applications directly from Memcached.
+\item Executions histories from repository of application models. By storing the executions of applications at memcached, the system's response time decreases. That is due to the PHP modules not needing to go through the heavy CDO client-server communication but them getting the executions of applications directly from memcached.
 \end{enumerate}
 
-The keys stored in Memcached must be unique. This is implemented using as a prefix of the key the globally unique identifier (GUID), generated by Elgg, and a string value which is describing the data. So, the execution data of an application model with QUID 1000 is stored in memcached with key {\it 1000:execution-data} and the value is the json representation of those data. All tuples at Memcached are inserted with the maximum key expiration time of thirty days.
+The keys stored in memcached must be unique. This is implemented using as a prefix of the key the globally unique identifier (GUID), generated by Elgg, and a string value which is describing the data. So, the execution data of an application model with QUID 1000 is stored in memcached with key {\it 1000:execution-data} and the value is the json representation of those data. All tuples at memcached are inserted with the maximum key expiration time of thirty days.
 
 \begin{figure}[h]
 	\caption{The scenario (a) depicts a request from memcached when the key does not exist and scenario (b) depicts an updated operation of a value}
@@ -162,16 +165,16 @@ The keys stored in Memcached must be unique. This is implemented using as a pref
 	\label{fig:memcache_key_value}
 \end{figure}
 
-The basic actions of Memcached are the get, set and delete of a tuple, as shown in figure~\ref{fig:memcache_key_value}. In the first scenario, when a value from SNP is requested for a particular key {\it k}, first a query will be send to Memcached requesting the tuple with that key {\it k}, if {\it k} not found or it has expired, the SNP will request that key from the Social Network Database. Finally, when SNP gets in touch with the data of the key, it will send those data to be cached in Memcached, as shown in the figure~\ref{fig:memcache_key_value}a. In the other scenario, when a value in the SNP is updated, the memcached key will be deleted(invalidated) as shown in the figure~\ref{fig:memcache_key_value}b.
+The basic actions of memcached are the get, set and delete of a tuple, as shown in figure~\ref{fig:memcache_key_value}. In the first scenario, when a value from SNP is requested for a particular key {\it k}, first a query will be send to memcached requesting the tuple with that key {\it k}, if {\it k} not found or it has expired, the SNP will request that key from the Social Network Database. Finally, when SNP gets in touch with the data of the key, it will send those data to be cached in memcached, as shown in the figure~\ref{fig:memcache_key_value}a. In the other scenario, when a value in the SNP is updated, the memcached key will be deleted(invalidated) as shown in the figure~\ref{fig:memcache_key_value}b.
 
-The Elgg Framework comes with the potential use of memcached but is restricted to the fact that a memcached node must be in the same machine as the Elgg Framework. Plus, it makes it more difficult to configure when an insertion in memcached node will take place. Therefore, a new Elgg plugin is implemented called \textbf{Memcached} using the memcached PHP library~\cite{memcached_php_doc}. The basic memcached functions offered by this plugin are: (1) Add memcached nodes, (2) add a key to a node, (3) get a value of a key and (4) delete a key-value item. 
+The Elgg framework comes with the potential use of memcached but is restricted to the fact that a memcached node must be in the same machine as the Elgg framework. Plus, it makes it more difficult to configure when an insertion in memcached node will take place. Therefore, a new Elgg plugin is implemented called \textbf{Memcached} using the memcached PHP library~\cite{memcached_php_doc}. The basic memcached functions offered by this plugin are: (1) Add memcached nodes, (2) add a key to a node, (3) get a value of a key and (4) delete a key-value item. 
 
 The Apache JMeter~\cite{jmeter_url} was used to measure the response time of the system and the sysstat tool~\cite{sysstat_url} was used to measure the CPU usage. Section~\ref{sec:eval_memcache} 
  shows the performance results of this implementation.
 
 \section{Topic classification}
 \label{sec:natural_implementation}
-Topic classification, using Natural Language Processing(NLP)~\cite{manning1999foundations}, is a feature added to the Social Network Platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
+Topic classification, using Natural Language Processing(NLP)~\cite{manning1999foundations}, is a feature added to the social network platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
 
 As the figure~\ref{fig:auto_classification} shows, a user of SNP poses a question to our platform. The platform can process the user's input and classify it into: (1) a similar question that exists in our community or (2) an automated generated query to the CAMEL repository. In the first scenario, a list of answers from the pre-existing question can be provided as feedback to the new question. In the second scenario, the question can be further processed and a query to CAMEL repository be automatically generated. An automated mechanism can be implement for the second scenario but this is out of the scope of this thesis.  
 
@@ -182,7 +185,7 @@ As the figure~\ref{fig:auto_classification} shows, a user of SNP poses a questio
 	\label{fig:auto_classification}
 \end{figure}
 
-Our implementation is in-between of those two scenarios. Some queries to the CAMEL repository are implemented and if a question is asked that in a way resembles to a specific query, the Platform will provide this query's results as an answer to the user's question. Furthermore, if this question has a similar question and that last question has an answer from a sophisticated user, who had created an hand-crafted query to the repository and had provided the results back to the user, those results can be used as a feedback to the new question. 
+Our implementation is in-between of those two scenarios. Some queries to the CAMEL repository are implemented and if a question is asked that in a way resembles to a specific query, the platform will provide this query's results as an answer to the user's question. Furthermore, if this question has a similar question and that last question has an answer from a sophisticated user, who had created an hand-crafted query to the repository and had provided the results back to the user, those results can be used as a feedback to the new question. 
 
 Particularly, Naivy Bayes Natural Language Understanding algorithm is added to the SN using the Natural framework~\cite{nodenatural_url} implemented with node.js. In general, Machine Learning algorithms such as Naivy Bayes, want an input, called data set, of training data. This training data is pulled from questions users post in StackOverflow (SO). Those questions are an excellent repository to train the NB algorithm, because they are categorised by tags and because by the time that this implementation took place, the Social Network did not include a big variety of questions in the repository.
 
@@ -201,7 +204,7 @@ The first training set of our Natural Processing Tool consisted of five tags, re
 
 Every time a user asks a question to one of the platform's communities, the classifier determines the class of the question. After the class is found, and if the platform is able to determine a heuristic answer, it will post then the answer to the user's question automatically. All the users of the platform can vote this answer up or down, depending on its accuracy, or provide their own answers.
 
-The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with ten thousand (10000) questions from StackOverflow Q\&A site, fifty questions per each discovered tag. The general algorithm is shown below. Firstly, the algorithm starts with a tag that is relevant to the Social Network Platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the populateClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the populateClassifier proceeds to the next tag of this question. When the populateClassifier is finished the NB is trained. It should be noted that a question may have more than one tags, so a question can be classified to up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{populateClassifier} can classify questions with an arbitrary number of tags. At the following section the process to Bayes classification is described in more details.
+The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with ten thousand (10000) questions from StackOverflow Q\&A site, fifty questions per each discovered tag. The general algorithm is shown below. Firstly, the algorithm starts with a tag that is relevant to the social network platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the populateClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the populateClassifier proceeds to the next tag of this question. When the populateClassifier is finished the NB is trained. It should be noted that a question may have more than one tags, so a question can be classified to up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{populateClassifier} can classify questions with an arbitrary number of tags. At the following Section the process to Bayes classification is described in more details.
 
 \begin{lstlisting} 
 01:var tags = ['scalability']
@@ -218,8 +221,8 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 12:}		
 \end{lstlisting}
 
-\subsection{Bayes Classification Algorithm}
-In this section the Bayes classification algorithm will described. As the above code snippet shows at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. This \emph{body} is the content of the question that will be classified into the class \emph{t}, which is the tag of the question. Diving in this function, the \emph{body} is transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural form of the words and the suffixes are removed (such as \emph{-ing} and \emph{s}). For example, the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting}, {\it connectionless} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm does not use any dictionary but a simple list of suffixes. This practise, makes the algorithm fast (10.000 different words in 8.1 seconds). After this process a table of words of this \emph{body} is kept.
+\subsection{Bayes classification algorithm}
+In this Section the Bayes classification algorithm will described. As the above code snippet shows at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. This \emph{body} is the content of the question that will be classified into the class \emph{t}, which is the tag of the question. Diving in this function, the \emph{body} is transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural form of the words and the suffixes are removed (such as \emph{-ing} and \emph{s}). For example, the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting}, {\it connectionless} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm does not use any dictionary but a simple list of suffixes. This practise, makes the algorithm fast (10.000 different words in 8.1 seconds). After this process a table of words of this \emph{body} is kept.
 
 After the populateClassifier has finished, the \emph{trainClassifier} is called (for simplicity the classifier is not shown in the above code snippet). The objective of \emph{trainClassifier} is to make the document body ready for Bayes Classification. The purpose of \emph{trainClassifier} is to count the number of occurrences of each word in each class.
 
@@ -231,9 +234,9 @@ Where the probability of a document {\it d} to be in a class {\it c} is the loga
 
 \subsection{Automated answers}
 \label{sec:example_nlp}
-As described in section~\ref{sec:natural_implementation} Natural Language Processing is used to determine the users' input question in groups. 
+As described in Section~\ref{sec:natural_implementation} Natural Language Processing is used to determine the users' input question in groups. 
 
-When a user asks a question, the body of the question classified into categories and when the NLP classifies the question to a specific category, an approximate answer can be given in response. As the example shows in figure~\ref{fig:nlp_example}, after the user's question, the classifier process the body and if the question is about the {\it JEnterprise} and the {\it cost effectivess} the approxiame answer ``The most cost effectiveness configuration of SPEC JEntreprise2010 is: jEnterprise18F \ldots'' is given. The users of the PaaSage Social Network Platform can vote up or down the answer and/or provide their own answers.
+When a user asks a question, the body of the question classified into categories and when the NLP classifies the question to a specific category, an approximate answer can be given in response. As the example shows in figure~\ref{fig:nlp_example}, after the user's question, the classifier process the body and if the question is about the {\it JEnterprise} and the {\it cost effectivess} the approxiame answer ``The most cost effectiveness configuration of SPEC JEntreprise2010 is: jEnterprise18F \ldots'' is given. The users of the PaaSage social network platform can vote up or down the answer and/or provide their own answers.
 
 \begin{figure}
   \centering
@@ -247,25 +250,25 @@ The automated replies provide the user with a direct possible answer to the ques
 Finally, a relevant question can be asked to the platform as ``Which deployments of JEnterprise provide the best performance for the lowest cost in a multi-cloud setup?''. This question is a paraphrased question of the previous one, talking about the same thing. The platform can find this similarity and provide the same automated answer.
 
 \section{User interface}
-This part of the thesis describes the User Interface of the Social Network Platform that is implementated based on 104 mock-ups created by HCI expert team. A mockup is a realistic representation of what the product will look like, in our case the Social Network Platform. The design of look \& feel of SNP is made by HCI expert team in order to follow the modern trends in Web Applications design. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
+This part of the thesis describes the User Interface of the social network platform that is implemented based on 104 mock-ups created by HCI expert team. A mockup is a realistic representation of what the product will look like, in our case the social network platform. The design of look \& feel of SNP is made by HCI expert team in order to follow the modern trends in Web Applications design. In order to support those look \& feel and the functionality of those mock-ups 25K lines of php, js and css code is written.
 The key design objective of the social network platform is to create a strong bond between (i) software engineering services for managing and deploying cloud-targeted application models; and (ii) community-oriented facilities for communication and
 collaboration between users. The interconnections between the two in the design of the user interface are depicted in Figure \ref{fig:two_aspects}.
 The prototype implementation is publicly accessible on-line at http://socialnetwork.paasage.eu. 
 
 \begin{figure}[h]
-	\caption{The engineering \& social activities are seamlessly within the Platform.}
+	\caption{The engineering \& social activities are seamlessly within the platform.}
 	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/two_aspectes.png}
 	\centering
 	\label{fig:two_aspects}
 \end{figure}
 
-\subsection{User Interface Design Principles}
-The discrete entities, which bind together the Social Networking with the application model aspects of Platform are:
+\subsection{Design principles}
+The discrete entities, which bind together the Social Networking with the application model aspects of platform are:
 \begin{itemize}
 \item \emph{Application Models}. Application Models is a key entity of the platform. An example is shown if figure \ref{fig:jenter_home}, consisting of a human friendly description (label 1 in fig.\ref{fig:jenter_home}), the Camel Description of the model (label 2 in fig.\ref{fig:jenter_home}), reviews about the model (label 3 in fig.\ref{fig:jenter_home}). An overview of engineering aspects such as version and runs (label 4 in fig.\ref{fig:jenter_home}) and an overview of social aspects such as share and watch (label 5 in fig.\ref{fig:jenter_home}). The {\it share} action broadcast the model to the friends of the user that shares the model. The {\it watch} action notifies the user for future updates of the application model. 
-\item \emph{Components}. We have integrated the Chef supermarket components into Social Network Platform. The components help the DevOps users to generate their application models as described in~\ref{sec:automatedcreation}. 
+\item \emph{Components}. We have integrated the Chef supermarket components into social network platform. The components help the DevOps users to generate their application models as described in~\ref{sec:automatedcreation}. 
 \item \emph{Users}. Users who basically are Cloud Deployment specialists and other users who want to know which deployment configuration they should use. Users can exchange knowledge to groups and benefit from the CAMEL repository. They can create or join groups, ask and answer questions, follow application models and create their own network of friends.
-\item \emph{Groups}. As mentioned, every user of PaaSage Social Network Platform can create or join groups. Groups help users to interact with each other and gain knowledge from experts.
+\item \emph{Groups}. As mentioned, every user of PaaSage social network platform can create or join groups. Groups help users to interact with each other and gain knowledge from experts.
 \end{itemize}
 
 \begin{figure}[h]
@@ -279,14 +282,14 @@ The discrete entities, which bind together the Social Networking with the applic
 Following recent trends in social networks design and with the aim to motivate users active and regular participation in
 the professional network, the design employs gamification features, meaning the use of video game elements in order to improve user experience and user engagement in non-game services and applications~\cite{deterding2011gamification}. One gamification feature in the Social Network design is the reward system for active community members. As users contribute content (models, components, ratings, reviews, questions, or answers) they receive experience points leading to special badges visible to all community members. Other features are the Profile completeness bar with suggestions on how to increase it. Finally, the concept of Model badges awarded to application and component models in case of excelling performance. Badges can serve among others as goal-setting devices, status symbols, and indications of reputation assessment procedures~\cite{antin2011badges}.
 
-\section{Application Model Generation}
-The DevOps users of PaaSage Social Network Platform can benefit from the automated creation of CAMEL baseline models presented at section~\ref{sec:automatedcreation} or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor presented at section~\ref{sec:gmf}.
+\section{Generating application models}
+The DevOps users of PaaSage social network platform can benefit from the automated creation of CAMEL baseline models presented at Section~\ref{sec:automatedcreation} or upload their own created models using external editors like EMF~\cite{cdomodel} tree based editor or GMF~\cite{gmf_url} editor presented at Section~\ref{sec:gmf}.
 
-\subsection{Automated baseline Application Model Generation}
+\subsection{Baseline models}
 \label{sec:automatedcreation}
 In order for users to create automated generated baseline CAMEL models, they can browse around the integrated Chef Components inside the Social Network and find the appropriate components for their applications. The platform has integrate a pointer for each Chef cookbook to the Social Network Database using the Chef Supermarket API~\cite{chef_api_url}. A PHP command has implemented in order to iterated through all Chef cookbooks and update the repository of SNP. This command has been configured and runs one time every day.
 
-Through the Application Model Creation Page of the PaaSage Social Network Platform, the users can upload an external CAMEL model description of their application or create a new one with the help of the Platform in 4 simple steps as shown in figure ~\ref{fig:model_creation_0}. In the step zero~\ref{fig:sfig0}, the user is asked whether the new Application model already has an CAMEL model or whether the user wants to create a new Application CAMEL model through automated generation. For automated generation, the user must previously put the Chef cookbooks that he/she wants in the user's cart. The selected Chef cookbooks will be shown as a list of components. Then, in step one~\ref{fig:sfig1}, the user selects from this list which of the components will be included in the Application Model. 
+Through the Application Model Creation Page of the PaaSage social network platform, the users can upload an external CAMEL model description of their application or create a new one with the help of the platform in 4 simple steps as shown in figure ~\ref{fig:model_creation_0}. In the step zero~\ref{fig:sfig0}, the user is asked whether the new Application model already has an CAMEL model or whether the user wants to create a new Application CAMEL model through automated generation. For automated generation, the user must previously put the Chef cookbooks that he/she wants in the user's cart. The selected Chef cookbooks will be shown as a list of components. Then, in step one~\ref{fig:sfig1}, the user selects from this list which of the components will be included in the Application Model. 
 In the example shown, the user has four components {\it mysqld}, {\it apache2}, {\it nodejs} and 
 {\it ruby\_installer} and selects three of them. In the next step, shown in figure~\ref{fig:sfig2}, the user provides the deployment information (to which cloud provider the Application will run and which type of VMs will be used). Also, some components can be collocated in the same VM. In this example, the {\it nodejs} component will be collocated in the same VM as the {\it apache2}. In step tree, shown in figure~\ref{fig:sfig3}, the user provides the communication information between the components, for example the 
 {\it nodejs} communicates with {\it mysqld} in the default mysql port {\it 3306}.
@@ -333,10 +336,9 @@ For the creation of the base line CAMEL model an Ajax request is sent to a Java 
 
 \clearpage
 
-\subsection{Graphical modeling of applications}
+\subsection{Graphical modeling}
 \label{sec:gmf}
-
-Advanced users of the PaaSage Social Network Platform can compose application models through Graphical Modeling Framework (GMF)~\cite{gmf_url} which is an external Eclipse editor. GMF provides a set of generative components and runtime infrastructures for developing graphical editors based on Eclipse Modeling Framework (EMF) and Graphical Editing Framework (GEF). The GMF editor is generated from CAMEL {\em ecore} schema and provides the graphical palette to compose applications. 
+Advanced users of the PaaSage social network platform can compose application models through Graphical Modeling Framework (GMF)~\cite{gmf_url} which is an external Eclipse editor. GMF provides a set of generative components and runtime infrastructures for developing graphical editors based on Eclipse Modeling Framework (EMF) and Graphical Editing Framework (GEF). The GMF editor is generated from CAMEL {\em ecore} schema and provides the graphical palette to compose applications. 
 
 Figure~\ref{fig:sensapp_as_gmf} shows the composition of a sample application model with the GMF editor. The palette in the right, contains all nodes and relationships needed to describe an application model. In the center, the composition of a sample application is shown, consisting of three VM types, the VM information about these VMs and the owner/user of the application. The GMF editor generates two files, one responsible for the graphical representation and the XMI description of the application model that can be uploaded to the social networking platform.
 

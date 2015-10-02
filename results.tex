@@ -1,7 +1,10 @@
 \chapter{Evaluation}
 \label{chapt:evaluation}
+This Chapter describes the evaluation of the scalability of the system architecture, the evaluation of the topic classification mechanism and the collaboration and contribution to user interface evaluation.  
 
-This chapter describes the evaluation of the two different implementations of the system architecture. In the first architecture, more than one memcached instances at layer 2 were introduced, as figure~\ref{fig:system_architecture} shows. In the second, more than one Social Network engines were introduced at layer 1.
+\section{Scalability}
+\label{sec:eval_scalability}
+This Section describes the evaluation of the two different implementations of the system architecture. In the first architecture, more than one memcached instances at layer 2 were introduced, as figure~\ref{fig:system_architecture} shows. In the second, more than one Social Network engines were introduced at layer 1.
 
 In order to measure the response time (RT) the Apache JMeter application~\cite{jmeter_url} is used. The Apache JMeter is an open source benchmark designed to test functional behaviour and  measure performance, targeting web applications. Notably, the RT measured by JMeter may not be the real one, because the JMeter measures the elapsed time from just before sending the request to just after the last response from the server has been received. As a result, the time to render the web page to the client web browser and the execution time of JavaScript code is not measured. Because those two time intervals are client limited and depend on client performance and on which web browser is used, they are excluded from the following performance test benches. For the next experiments, a specific web page will be used. This page does not use any AJAX call, in order to not misguide the results. Therefore, the RT measures the time from just before JMeter sends the request to just after the last response is received. During this measured time interval, the Social Network engine performs the following actions:
 \begin{enumerate}[I]
@@ -14,7 +17,7 @@ In order to measure the response time (RT) the Apache JMeter application~\cite{j
 
 The presented system architecture was deployed on Amazon EC2~\cite{amazon_url} and the system CPU Utilization and the response time of SNP is measured.
 
-\section{Improving Performance with Memcached}
+\subsection{Focusing on memcached}
 \label{sec:eval_memcache}
 By adding a Memcached node at the system architecture, the Social Network Engine first asks the Memcached node if it has the tuples that the SN Engine needs. So the steps(\emph{I} to \emph{V}), mentioned previously, are not necessary if the Memcached node has cached the values that the Social Network Engine needs. The loop through CDO CIient - CDO Server and the repositories is bypassed. 
 
@@ -73,7 +76,7 @@ For all three loads at C3, the first Memcached node had more CPU utilization fro
 \end{tabular}
 \end{table}
 
-\section{Improving Performance with engine}
+\subsection{Focusing on the Elgg engine}
 
 \begin{figure}[h]
 	\caption{The Response time for two Social Network Engines.}
@@ -89,21 +92,21 @@ For all three loads at C3, the first Memcached node had more CPU utilization fro
 	\label{fig:cpu2SNavg}
 \end{figure}
 
-This section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the table~\ref{vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. 
+This Section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the table~\ref{vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. 
 
 So, the system architecture now consists of two Social Networking Engines as front-end. At the back-end of the system we have: (1) one Memcached node and (2) the CDO client - server, the Social Network Database and the CDO repocitory. The two SN Engines are deployed to a dedicated VM each. Furthermore, each SN Engine has its own CDO client deployed with them. The Memcached node is deployed on its own VM and the CDO Server, the Social Network Database and the CDO repository are deployed on the same VM.
 
 The figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the Memcached, the MySql Database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN Engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
 
-With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the Memcached node increased, but this can be solved by introducing more Memcached nodes as the previous section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
+With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the Memcached node increased, but this can be solved by introducing more Memcached nodes as the previous Section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
 
 Since, the load from one SN Engine is now distributed to two SN Engines instances, the response time improved for the Load 3, as shown in the figure~\ref{fig:rt2SN} compared to the previous test-bench. The best achieved RT of previous architecture was 992 ms and with this architecture it reduced to 502 ms.
 
 We can combine the two architectures together, meaning that we have more than one SN Engine and more than one Memcached to support as many loads as we want.
 
-\section{Evaluation of topic classification}
+\section{Topic classification}
 \label{sec:nlp_evaluation}
-This section evaluates the topic classification tool as described in section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
+This Section evaluates the topic classification tool as described in Section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
 
 Another example showing that the classifier is not misclassifying, but the problem stands in the users' tagging, is the following question:
 ``I want to perform some data manipulation tasks and analysis in spark and want to \textbf{optimize} the run times. 
@@ -129,12 +132,15 @@ scalability   & 6                               & 3                           & 
 \end{tabular}
 \end{table}
 
-\section{Evaluation of requirements and User interface}
-The User Interface of SNP is designed through the iterative process of several expert-based evaluations being carried out in group sessions. To obtain additional feedback from non-experts, three additional user-based evaluation experiments were designed and carried out involving potential users and presented in~\cite{magoutis2015design}. The contributions of the author, in this user interface evaluation, was to make the platform support them and author took part in the third evaluation process.  
+\section{Requirements and user interface}
+\label{eval_ui}
+The User Interface of social networking platform is designed through the iterative process of several expert-based evaluations being carried out in group sessions. To obtain additional feedback from non-experts, three additional user-based evaluation experiments were designed and carried out involving potential users and presented in~\cite{magoutis2015design}. 
+
+The author collaborated in the expert-based evaluations sessions focusing on the platform user interface design. Furthermore, the contributions of the author, in the user interface evaluations, was to make the platform support them and also author took part in the third evaluation process.  
 
 The first experiment, carried out by Flexiant Ltd. aimed at assessing the overall look and feel of the network, the navigation mechanisms, as well as the design of fundamental functionality.
 
-The second evaluation experiment aimed to collect subjective results rather than performance metrics. It involved another set of 12 users who, after a brief introduction to the available facilities, were asked to use the interactive prototype~\cite{Virzi1996} using the free exploration method of the Thinking Aloud protocol~\cite{jordan1998introduction} and fill-in a questionnaire in order to rate and comment their experience. 
+The second evaluation experiment, carried out by HCI team, aimed to collect subjective results rather than performance metrics. It involved another set of 12 users who, after a brief introduction to the available facilities, were asked to use the interactive prototype~\cite{Virzi1996} using the free exploration method of the Thinking Aloud protocol~\cite{jordan1998introduction} and fill-in a questionnaire in order to rate and comment their experience. 
 
 The third evaluation experiment involved 15 participants who were guided through the interactive prototype of the PaaSage social network using specific scenarios. They were interviewed on their requirements and feedback following a semi-structured interview approach [84]. The evaluation session was carried out via Skype. Participants were recruited through European companies and organizations associated with the PaaSage EU project~\cite{paasage}. They were either developers or operations staff, thus within the target user groups of the PaaSage social network. Participants were not users of the PaaSage platform; some however were familiar with the project’s goals and objectives. Before the experiment, each participant was requested to fill-in a background information form and was sent an informed consent form, explaining all the recording and anonymity-ensuring procedures. 
 

@@ -1,25 +1,25 @@
 \chapter{Related Work}
 \label{sec:related}
-In this chapter the related work of other professional networks is presented in section~\ref{sec:networks_rel} and their caching architecture is described in section~\ref{sec:caching_rel}. In addition, the section~\ref{sec:config_manag} describes related tools and systems that the DevOps use in order to make their deployment faster. Finally, an overview and related work of topic classification is presented in section~\ref{sec:topic_class}. 
+In this Chapter the related work of other professional networks is presented in Section~\ref{sec:networks_rel} and their caching architecture is described in Section~\ref{sec:caching_rel}. In addition, the Section~\ref{sec:config_manag} describes related tools and systems that the DevOps use in order to make their deployment faster. Finally, an overview and related work of topic classification is presented in Section~\ref{sec:topic_class}. 
 
-\section{Professional Networks} 
+\section{Professional and social networks} 
 \label{sec:networks_rel}
-This section reviews the related work on other professional social networking platforms and what they provide. Having the requirements of DevOps users as a priority, we compare those platforms with our proposed SNP, pointing their deficiencies and filling in the gaps with our innovation. 
+This Section reviews the related work on other professional social networking platforms and what they provide. Having the requirements of DevOps users as a priority, we compare those platforms with our proposed SNP, pointing their deficiencies and filling in the gaps with our innovation. 
 
-The table~\ref{tab:related} summarizes
+Table~\ref{tab:related} summarizes
 and categorizes the characteristics of the most important related approaches along the following dimensions
-(depicted as columns of table~\ref{tab:related}): 
+(depicted as columns of Table~\ref{tab:related}): 
 \begin{itemize}
-\item which of the following key social features are supported by the platform: follow
+\item Which of the following key social features are supported by the platform: follow
 users; news feeds; groups; Q\&A; personal messages;
-\item does the platform rely on one or more repositories
+\item Does the platform rely on one or more repositories
 to store the following type of information: software code,
 software models, configuration information, execution
 histories; and whether these repositories are community sourced;
-\item does the social networking platform leverage
+\item Does the social networking platform leverage
 the repositories to provide users with specific suggestions
 and hints; 
-\item does it support application deployment?
+\item Does it support application deployment?
 \end{itemize}
 
 Information Technology (IT)~\cite{jorgenson1999information} professionals use a variety of online sources as aids in their daily tasks. Developers typically prefer community-moderated forums over vendor-moderated sites~\cite{evans-date}. Social networks focusing on software technology in particular provide developers with the opportunity to leverage the knowledge and expertise of their peers.
@@ -104,9 +104,9 @@ Linkedin is widely adopted across a range of professional communities due to its
 
 The lack of Social Networking features of github came to fill the Geeklist platform~\cite{geeklist_url}, where developers and IT companies can discover and share the work they have done, connect with other companies in a social network manner or join development communities. Another code hosting platform is Snipplr ~\cite{snipplr_url}, where developers can upload short code snippets but not full programs, in order to keep all of their frequently used code in one place that is accessible from any computer and any user. Masterbranch~\cite{masterbranch_url} is a new under development platform that allows collating and sharing of projects within a user's profile. This profile works similarly to LinkedIn and has an incentivisation scheme called DevScore, coupled with unlockable achievements that add a gamification element. Dzone~\cite{dzone_url} is essentially a link repository for developers allowing link sharing and incentivisation based on voting for the popular links. The Code project~\cite{codeproject_url} website and forum allow code-specific discussion and share relevant articles and news, contains blogs, newsletter and a questions and answers section.
 
-The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowd sourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowd sourcing. Our Social Network Platform is the only solution that analyzes information in its software-related repositories in order to provide users with assisting suggestions and hints. The Platform targets the model of the application and the Software code of the application is not stored inside the Social Network Platform. 
+The above systems can be further classified based on whether they use a repository to store software-related information (code, models, configuration, or execution histories) and whether this information is shared and raised through crowd sourcing~\cite{	howe2006rise}.  GitHub, GoogleCode, CodePlex, SourceForge, BlueMix, Chef supermarket, and our platform store at least one type of software-related information and all systems but BlueMix are raising shared content in their software-related repositories via crowd sourcing. Our social network platform is the only solution that analyzes information in its software-related repositories in order to provide users with assisting suggestions and hints. The platform targets the model of the application and the Software code of the application is not stored inside the social network platform. 
 
-\section{Scalable caching in professional networks}
+\section{Scalability in social networks}
 \label{sec:caching_rel}
 Arguably two of the largest existing networking platforms are Linkedin and Facebook. The caching technologies of these networks are of great interest for the way they are managing and storing vast amounts of data.
 
@@ -125,11 +125,11 @@ The PaaSage Social Network, inspired by Facebook, integrates memcached in its ba
 \label{sec:config_manag}
 Another key component in a portfolio of DevOps tools is configuration management (CM)~\cite{lueninghoener2011getting}, the process of maintaining a detailed recording of software and hardware components in an infrastructure. An effective CM process provides significant benefits including reduced complexity through abstraction, greater flexibility, faster machine deployment, faster disaster recovery, etc. There are numerous configuration management tools from which a system administrator can choose, however the most widely known are: Bcfg2~\cite{Bcfg2}, CFEngine~\cite{CFEngine}, Chef~\cite{Chef_base} and Puppet~\cite{Puppet}. Each of these tools has its strengths and weaknesses~\cite{tsalolikhin2010summary},~\cite{Delaet2010a}. In a DevOps environment, a CM solution is often combined with provisioning and deployment tooling~\cite{ibm-devops}.
 
-The Social Network Platform uses Chef as a CM and deployment automation tool to support professional network users, and SNP integrates the Chef cookbooks in its platform.
+The social network platform uses Chef as a CM and deployment automation tool to support professional network users, and SNP integrates the Chef cookbooks in its platform.
 
 Furthermore, a recent trend in DevOps software development is continuous integration (CI)~\cite{fowler2006continuous} and automated code deployment and testing off of online code repositories. Travis~\cite{travis_url} is a CI tool that automatically detects when a commit has been made and pushed to a GitHub repository, subsequently tries to build the project, deploy and run tests, and notify the user of the status. Another popular CI tool is Jenkins~\cite{jenkins_url}, an open-source software tool for testing and reporting on isolated code changes in real time. Similar to Travis, Jenkins enables developers to find and solve defects in their code rapidly and automates the testing of their builds. 
 
-Although our Social Networking Platform does not provide a complete CI solution because it is not a code hosting platform, but it automates the deployment of complex applications through a model-driven process. 
+Although our social networking platform does not provide a complete CI solution because it is not a code hosting platform, but it automates the deployment of complex applications through a model-driven process. 
 
 \section{Topic classification}
 \label{sec:topic_class}
@@ -142,9 +142,9 @@ An autoComment tool~\cite{wong2013autocomment} is proposed using NLP which maps 
 
 A trend in Social Networking sites is the ability of users to ``tag'' their posts. Those tags describe the users' goals and interests. Tagging SO questions involves askers selecting appropriate keywords to broadly identify the domains
 to which their questions are related. There also exist mechanisms by which other users can subscribe to tags, search via
-tags, mark tags as favorites, etc. This users' classification of context is used by PaaSage Social Network Platform as described in section~\ref{sec:natural_implementation}. 
+tags, mark tags as favorites, etc. This users' classification of context is used by PaaSage social network platform as described in Section~\ref{sec:natural_implementation}. 
 
-Social Network Platform uses those tags and Natural Language Processing to answer the following research questions:
+The social network platform uses those tags and the Natural Language Processing to answer the following research questions:
 \begin{itemize}
 \item Can the platform identify the similarity of a given question with other questions already posted in the system.
 \item Can the platform map a question with a relevant query to the repository in order to provide the one who asks with an appropriate response.
