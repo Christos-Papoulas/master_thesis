@@ -147,7 +147,7 @@ For communication between the Apache ZooKeeper and the Elgg framework, the php-z
 \label{sec:memcache_implementation}
 This Section describes how we integrated memcached~\cite{memcache_url} to our system architecture. Memcached is an open source, high-performance, distributed memory object caching system. We chose memcached, because it is a generic simple in-memory key-value store. It has a powerful API available for PHP. After memcached integration the system decreased its response time and its performance.
 
-Memcached is added in layer 2 of the system architecture as shown in Figure~\ref{fig:system_architecture} and is used for storing the key-value tuples. The following data are stored in Memcached: 
+Memcached is added in layer 2 of the system architecture as shown in Figure~\ref{fig:system_architecture} and is used for storing the key-value tuples. The following data are stored in memcached: 
 \begin{enumerate}
 \item MySQL responses, which are values from Social Network Database such as entities of Social Network, applications, components, users, group discussions. By storing those values, there is no need to query the Social Network Database, but SN Engine is getting the key-values directly from memcached.
 \item Views of the web pages which are independent of any specific users and remain unchanged among all users, and werte previously were stored in the file system.

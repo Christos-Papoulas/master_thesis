@@ -17,9 +17,9 @@ In order to measure the response time (RT) the Apache JMeter application~\cite{j
 
 The presented system architecture was deployed on Amazon EC2~\cite{amazon_url} and the system CPU Utilization and the response time of SNP is measured.
 
-\subsection{Focusing on memcached}
+\subsection{Scaling the caching tier}
 \label{sec:eval_memcache}
-By adding a Memcached node at the system architecture, the Social Network Engine first asks the Memcached node if it has the tuples that the SN Engine needs. So the steps(\emph{I} to \emph{V}), mentioned previously, are not necessary if the Memcached node has cached the values that the Social Network Engine needs. The loop through CDO CIient - CDO Server and the repositories is bypassed. 
+By adding a memcached node at the system architecture, the Social Network Engine first asks the memcached node if it has the tuples that the SN Engine needs. So the steps(\emph{I} to \emph{V}), mentioned previously, are not necessary if the memcached node has cached the values that the Social Network Engine needs. The loop through CDO CIient - CDO Server and the repositories is bypassed. 
 
 \begin{table}[]
 \centering
@@ -30,12 +30,12 @@ State        & \# of Queries \\
 Fresh start  & 1938          \\
 Fresh Query  & 15182         \\
 Cached Query from CDO & 251           \\
-Cached Query from Memcached & 147  
+Cached Query from memcached & 147  
 \end{tabular}
 \end{table} 
 
-For the following experiments all the Memcached nodes are warmed up and have already cached all the needed CDO and Social entities information. Furthermore the CDO server has been warmed up after a fresh restart. As the Table~\ref{tab:num_of_queries} shows,
-the starting process of the CDO server produces 1938 queries to MySQL database. The \emph{fresh query} for an application model (both social information and executions) produces 15182 queries to MySQL database. The CDO server caches the results, so a second query for this application model produces 251 queries, most of which are the queries for the social information of the application. Introducing Memcached, if the request for the application model is cached, the queries to database are lowering to 147.  
+For the following experiments all the memcached nodes are warmed up and have already cached all the needed CDO and Social entities information. Furthermore the CDO server has been warmed up after a fresh restart. As the Table~\ref{tab:num_of_queries} shows,
+the starting process of the CDO server produces 1938 queries to MySQL database. The \emph{fresh query} for an application model (both social information and executions) produces 15182 queries to MySQL database. The CDO server caches the results, so a second query for this application model produces 251 queries, most of which are the queries for the social information of the application. Introducing memcached, if the request for the application model is cached, the queries to database are lowering to 147.  
 
 \begin{figure}[h]
 	\caption{The average response time for all configurations.}
@@ -44,10 +44,10 @@ the starting process of the CDO server produces 1938 queries to MySQL database. 
 	\label{fig:rtavg}
 \end{figure}
 
-The test performed with the following loads: (L1) ten users request \emph{two} applications, (L2) ten users request \emph{four} applications and (L3) ten users request \emph{eight} applications. All three Loads run consecutively one hundred times each. Those Loads request applications, which have ten execution rows pulled from the repository of applications models and executions, and about one hundred queries to the Social Network DB. In this experiment we kept the following components of the system constant: the Elgg front-end Apache2 server, the Social Network Database, and the CDO server - client communication but we increased the number of Memcached nodes.
-The Figure~\ref{fig:rtavg} shows the  average response time (RT) in milliseconds with the following system configuration(C): (C1) no Memcached node , (C2) one Memcached node and (C3) two Memcached nodes have added to the system architecture.
+The test performed with the following loads: (L1) ten users request \emph{two} applications, (L2) ten users request \emph{four} applications and (L3) ten users request \emph{eight} applications. All three Loads run consecutively one hundred times each. Those Loads request applications, which have ten execution rows pulled from the repository of applications models and executions, and about one hundred queries to the Social Network DB. In this experiment we kept the following components of the system constant: the Elgg front-end Apache2 server, the Social Network Database, and the CDO server - client communication but we increased the number of memcached nodes.
+The Figure~\ref{fig:rtavg} shows the  average response time (RT) in milliseconds with the following system configuration(C): (C1) no memcached node , (C2) one memcached node and (C3) two memcached nodes have added to the system architecture.
 
-As we going from C1 to C3 and specifically for L3, the RT is reduced by 80,4\% at C2 and by 88,78\% at C3. As the Figure~\ref{fig:rtavg} shows, at the first configuration C1, the L3 takes 8836 ms, an RT which is definitely prohibitive for web applications. Introducing more Memcached nodes at C2 and C3 the RT is decreased dramatically at 1764 ms at L2 and at 992 ms at L3. Going from C1 to C2, the 80,4\% reduction of RT is due to the introduction of Memcached node and bypassed the steps I - V. Going from C2 to C3, the 43,77\% reduction of RT. The reduction of RT is achieved by adding more Memcached nodes, which results to more CPU cores introduced to the architecture as described below.
+As we going from C1 to C3 and specifically for L3, the RT is reduced by 80,4\% at C2 and by 88,78\% at C3. As the Figure~\ref{fig:rtavg} shows, at the first configuration C1, the L3 takes 8836 ms, an RT which is definitely prohibitive for web applications. Introducing more memcached nodes at C2 and C3 the RT is decreased dramatically at 1764 ms at L2 and at 992 ms at L3. Going from C1 to C2, the 80,4\% reduction of RT is due to the introduction of memcached node and bypassed the steps I - V. Going from C2 to C3, the 43,77\% reduction of RT. The reduction of RT is achieved by adding more memcached nodes, which results to more CPU cores introduced to the architecture as described below.
 
 \begin{figure}[h]
 	\caption{The average CPU utilization for all components.}
@@ -58,9 +58,9 @@ As we going from C1 to C3 and specifically for L3, the RT is reduced by 80,4\% a
 
 The CPU utilization is measured using the sysstat tool~\cite{sysstat_url}. We measured the CPU utilization for all the VMs running the experiment. The information about the VM resources is listed in the Table~\ref{vms_resources}. The Social Network Engine and the CDO Client were running at t1.micro instance. The mysql (repositories) and the CDO Server were running at m1.xlarge. The average CPU utilization is shown in the Figure~\ref{fig:cpuavg}. At the simple configuration C1, even in small loads such as L1, the SN Engine reached 50,39\% CPU utilization. In the medium load L2 and big load L3 the SN Engine is kneeled down to 91,96\% and 92,86\%. This big consumption of CPU was due to all the initialization that Elgg Social Network Engine has to do for each request and due to CDO Server queries.
 
-Moving from configuration C1 to C2, the CPU consumption went to Memcached node. Thus, the Social Network engine was de-congested and the RT improved. However, for the big load L3 the Memcached node reached 89,79\%. To solve Memcached CPU overhead, one more Memcached node was added at configuration C3. This second Memcached node shared the CPU overhead with the first Memcached node and the RT improved furthermore. 
+Moving from configuration C1 to C2, the CPU consumption went to memcached node. Thus, the Social Network engine was de-congested and the RT improved. However, for the big load L3 the memcached node reached 89,79\%. To solve memcached CPU overhead, one more memcached node was added at configuration C3. This second memcached node shared the CPU overhead with the first memcached node and the RT improved furthermore. 
 
-For all three loads at C3, the first Memcached node had more CPU utilization from the second by an approximately factor of 2,2. This difference between the two Memcached nodes appeared due to the first node storing more popular key-value pairs than the other.
+For all three loads at C3, the first memcached node had more CPU utilization from the second by an approximately factor of 2,2. This difference between the two memcached nodes appeared due to the first node storing more popular key-value pairs than the other.
 
 \begin{table}[]
 \centering
@@ -76,7 +76,7 @@ For all three loads at C3, the first Memcached node had more CPU utilization fro
 \end{tabular}
 \end{table}
 
-\subsection{Focusing on the Elgg engine}
+\subsection{Scaling the Elgg engine tier}
 
 \begin{figure}[h]
 	\caption{The Response time for two Social Network Engines.}
@@ -94,15 +94,15 @@ For all three loads at C3, the first Memcached node had more CPU utilization fro
 
 This Section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the Table~\ref{vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. 
 
-So, the system architecture now consists of two Social Networking Engines as front-end. At the back-end of the system we have: (1) one Memcached node and (2) the CDO client - server, the Social Network Database and the CDO repocitory. The two SN Engines are deployed to a dedicated VM each. Furthermore, each SN Engine has its own CDO client deployed with them. The Memcached node is deployed on its own VM and the CDO Server, the Social Network Database and the CDO repository are deployed on the same VM.
+So, the system architecture now consists of two Social Networking Engines as front-end. At the back-end of the system we have: (1) one memcached node and (2) the CDO client - server, the Social Network Database and the CDO repocitory. The two SN Engines are deployed to a dedicated VM each. Furthermore, each SN Engine has its own CDO client deployed with them. The memcached node is deployed on its own VM and the CDO Server, the Social Network Database and the CDO repository are deployed on the same VM.
 
-The Figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the Memcached, the MySql Database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN Engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
+The Figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the memcached, the MySql Database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN Engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
 
-With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the Memcached node increased, but this can be solved by introducing more Memcached nodes as the previous Section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
+With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the memcached node increased, but this can be solved by introducing more memcached nodes as the previous Section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
 
 Since, the load from one SN Engine is now distributed to two SN Engines instances, the response time improved for the Load 3, as shown in the Figure~\ref{fig:rt2SN} compared to the previous test-bench. The best achieved RT of previous architecture was 992 ms and with this architecture it reduced to 502 ms.
 
-We can combine the two architectures together, meaning that we have more than one SN Engine and more than one Memcached to support as many loads as we want.
+We can combine the two architectures together, meaning that we have more than one SN Engine and more than one memcached to support as many loads as we want.
 
 \section{Topic classification}
 \label{sec:nlp_evaluation}
