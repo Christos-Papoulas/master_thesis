@@ -23,8 +23,6 @@ By adding a memcached node at the system architecture, the Social Network Engine
 
 \begin{table}[]
 \centering
-
-\label{tab:num_of_queries}
 \begin{tabular}{ll}
 State        & \# of Queries \\
 Fresh start  & 1938          \\
@@ -33,6 +31,7 @@ Cached Query from CDO & 251           \\
 Cached Query from memcached & 147  
 \end{tabular}
 \caption{Number of queries from social network and CDO server repository}
+\label{tab:num_of_queries}
 \end{table} 
 
 For the following experiments all the memcached nodes are warmed up and have already cached all the needed CDO and Social entities information. Furthermore the CDO server has been warmed up after a fresh restart. As the Table~\ref{tab:num_of_queries} shows,
@@ -65,8 +64,6 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
 
 \begin{table}[]
 \centering
-
-\label{vms_resources}
 \begin{tabular}{|l|l|}
 \hline
  Component &  VM type \\ \hline
@@ -76,6 +73,7 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
  jmeter &  m1.large \\ \hline
 \end{tabular}
 \caption{VM resources}
+\label{vms_resources}
 \end{table}
 
 \subsection{Scaling the Elgg engine tier}
@@ -121,8 +119,6 @@ The true positive, which means a document is recognized in the correct class, ac
 
 \begin{table}[]
 \centering
-
-\label{table:nlp_eval}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 class / class & \multicolumn{1}{l|}{reliability} & \multicolumn{1}{l|}{design} & \multicolumn{1}{l|}{optimization} & \multicolumn{1}{l|}{performance} & \multicolumn{1}{l|}{scalability} \\ \hline
@@ -133,6 +129,7 @@ performance   & 1                                & 1                           &
 scalability   & 6                               & 3                           & 3                                 & 3                                & \textbf{15}                     \\ \hline
 \end{tabular}
 \caption{Evaluation of topic classification}
+\label{table:nlp_eval}
 \end{table}
 
 \section{Requirements and user interface}

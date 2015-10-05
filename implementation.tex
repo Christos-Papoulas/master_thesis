@@ -19,7 +19,7 @@ In order to achieve the scalability of the system, two system architectures are 
 \label{sec:implementaion_of_social_netowrk}
 The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is an open source software written in PHP, that uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
 
-The overall architecture of Elgg Social Network is shown in Figure ~\ref{fig:elgg_architecture}. The Elgg Social Network is structured following the key concepts of Model-View-Controller (MVC) known architectural pattern for User Interfaces. The MVC system is analyzed here, depicting the most important aspects of it from the Elgg's perspective. Explaining the Elgg's architecture by using MVC system will make the understanding of Elgg less complex.
+The overall architecture of Elgg Social Network is shown in Figure ~\ref{fig:elgg_architecture}. The Elgg Social Network is structured following the key concepts of Model - View - Controller (MVC) known architectural pattern for User Interfaces. The MVC system is analyzed here, depicting the most important aspects of it from the Elgg's perspective. Explaining the Elgg's architecture by using MVC system will make the understanding of Elgg less complex.
 
 Figure~\ref{fig:elgg_architecture} shows the model, view, and controller parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page that is returned to the web client.
 
@@ -208,9 +208,9 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 \begin{lstlisting} 
 01:var tags = ['scalability']
 02:populateClassifier(0)
-03:function populateClassifier(index) {
-04:  var questions = stackexchange.api.getQuestionsByTag(tags[index])
-05:  foreach(questions as q)
+03:function populateClassifier(i) {
+04:  var qs = stackexchange.api.getQuestionsByTag(tags[i])
+05:  foreach(qs as q)
 06:    body = clear(q.body)
 07:    foreach(q.tags as t)
 08:    	 classify(body, t)
@@ -333,7 +333,7 @@ For the creation of the base line CAMEL model an Ajax request is sent to a Java 
   \label{fig:sfig4}
 \end{figure}
 
-%\clearpage
+\clearpage
 
 \subsection{Graphical modeling}
 \label{sec:gmf}
