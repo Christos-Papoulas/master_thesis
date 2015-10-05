@@ -1,10 +1,10 @@
 \chapter{Evaluation}
 \label{chapt:evaluation}
-This Chapter describes the evaluation of the scalability of the system architecture, the evaluation of the topic classification mechanism and the collaboration and contribution to user interface evaluation.  
+This chapter describes the evaluation of the scalability of the system architecture, the evaluation of the topic classification mechanism and the collaboration and contribution to user interface evaluation.  
 
 \section{Scalability}
 \label{sec:eval_scalability}
-This Section describes the evaluation of the two different implementations of the system architecture. In the first architecture, more than one memcached instances at layer 2 were introduced, as Figure~\ref{fig:system_architecture} shows. In the second, more than one Social Network engines were introduced at layer 1.
+This section describes the evaluation of the two different implementations of the system architecture. In the first architecture, more than one memcached instances at layer 2 were introduced, as Figure~\ref{fig:system_architecture} shows. In the second, more than one Social Network engines were introduced at layer 1.
 
 In order to measure the response time (RT) the Apache JMeter application~\cite{jmeter_url} is used. The Apache JMeter is an open source benchmark designed to test functional behaviour and  measure performance, targeting web applications. Notably, the RT measured by JMeter may not be the real one, because the JMeter measures the elapsed time from just before sending the request to just after the last response from the server has been received. As a result, the time to render the web page to the client web browser and the execution time of JavaScript code is not measured. Because those two time intervals are client limited and depend on client performance and on which web browser is used, they are excluded from the following performance test benches. For the next experiments, a specific web page will be used. This page does not use any AJAX call, in order to not misguide the results. Therefore, the RT measures the time from just before JMeter sends the request to just after the last response is received. During this measured time interval, the Social Network engine performs the following actions:
 \begin{enumerate}[I]
@@ -23,7 +23,7 @@ By adding a memcached node at the system architecture, the Social Network Engine
 
 \begin{table}[]
 \centering
-\caption{Number of Queries from Social Network and CDO server repository.}
+
 \label{tab:num_of_queries}
 \begin{tabular}{ll}
 State        & \# of Queries \\
@@ -32,15 +32,16 @@ Fresh Query  & 15182         \\
 Cached Query from CDO & 251           \\
 Cached Query from memcached & 147  
 \end{tabular}
+\caption{Number of queries from social network and CDO server repository}
 \end{table} 
 
 For the following experiments all the memcached nodes are warmed up and have already cached all the needed CDO and Social entities information. Furthermore the CDO server has been warmed up after a fresh restart. As the Table~\ref{tab:num_of_queries} shows,
 the starting process of the CDO server produces 1938 queries to MySQL database. The \emph{fresh query} for an application model (both social information and executions) produces 15182 queries to MySQL database. The CDO server caches the results, so a second query for this application model produces 251 queries, most of which are the queries for the social information of the application. Introducing memcached, if the request for the application model is cached, the queries to database are lowering to 147.  
 
 \begin{figure}[h]
-	\caption{The average response time for all configurations.}
-	\includegraphics[width=0.9\textwidth,natwidth=200,natheight=150]{./fig/RTavg.pdf}
 	\centering
+	\includegraphics[width=0.9\textwidth,natwidth=200,natheight=150]{./fig/RTavg.pdf}
+	\caption{The average response time for all configurations}
 	\label{fig:rtavg}
 \end{figure}
 
@@ -50,9 +51,9 @@ The Figure~\ref{fig:rtavg} shows the  average response time (RT) in milliseconds
 As we going from C1 to C3 and specifically for L3, the RT is reduced by 80,4\% at C2 and by 88,78\% at C3. As the Figure~\ref{fig:rtavg} shows, at the first configuration C1, the L3 takes 8836 ms, an RT which is definitely prohibitive for web applications. Introducing more memcached nodes at C2 and C3 the RT is decreased dramatically at 1764 ms at L2 and at 992 ms at L3. Going from C1 to C2, the 80,4\% reduction of RT is due to the introduction of memcached node and bypassed the steps I - V. Going from C2 to C3, the 43,77\% reduction of RT. The reduction of RT is achieved by adding more memcached nodes, which results to more CPU cores introduced to the architecture as described below.
 
 \begin{figure}[h]
-	\caption{The average CPU utilization for all components.}
-	\includegraphics[width=1.1\textwidth,natwidth=200,natheight=250]{./fig/UsageAVG.pdf} 
 	\centering
+	\includegraphics[width=1.1\textwidth,natwidth=200,natheight=250]{./fig/UsageAVG.pdf} 
+	\caption{The average CPU utilization for all components}
 	\label{fig:cpuavg}
 \end{figure}
 
@@ -64,7 +65,7 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
 
 \begin{table}[]
 \centering
-\caption{VM resources. }
+
 \label{vms_resources}
 \begin{tabular}{|l|l|}
 \hline
@@ -74,31 +75,32 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
  repositories, CDO Server &  m1.xlarge \\ \hline
  jmeter &  m1.large \\ \hline
 \end{tabular}
+\caption{VM resources}
 \end{table}
 
 \subsection{Scaling the Elgg engine tier}
 
 \begin{figure}[h]
-	\caption{The Response time for two Social Network Engines.}
-	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/RT2SN.pdf}
 	\centering
+	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/RT2SN.pdf}
+	\caption{The response time for two social network engines}
 	\label{fig:rt2SN}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{The CPU utilization for two Social Network Engines.}
+	\caption{The CPU utilization for two social network engines}
 	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/Usage2SN.pdf}
 	\centering
 	\label{fig:cpu2SNavg}
 \end{figure}
 
-This Section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the Table~\ref{vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. 
+This section evaluates the horizontal scale of Social Network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the Social Networking Engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the Table~\ref{vms_resources}. One more Social Networking Engine instance was added with the same type as former SN Engine. 
 
 So, the system architecture now consists of two Social Networking Engines as front-end. At the back-end of the system we have: (1) one memcached node and (2) the CDO client - server, the Social Network Database and the CDO repocitory. The two SN Engines are deployed to a dedicated VM each. Furthermore, each SN Engine has its own CDO client deployed with them. The memcached node is deployed on its own VM and the CDO Server, the Social Network Database and the CDO repository are deployed on the same VM.
 
 The Figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the memcached, the MySql Database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN Engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
 
-With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the memcached node increased, but this can be solved by introducing more memcached nodes as the previous Section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
+With only one SN Engine the CPU Utilization was 57,09\% and now with two SN Engines the CPU Utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU Utilization of the memcached node increased, but this can be solved by introducing more memcached nodes as the previous section describes. Furthermore, we can introduce more SN Engines to support more heavy loads.
 
 Since, the load from one SN Engine is now distributed to two SN Engines instances, the response time improved for the Load 3, as shown in the Figure~\ref{fig:rt2SN} compared to the previous test-bench. The best achieved RT of previous architecture was 992 ms and with this architecture it reduced to 502 ms.
 
@@ -106,7 +108,7 @@ We can combine the two architectures together, meaning that we have more than on
 
 \section{Topic classification}
 \label{sec:nlp_evaluation}
-This Section evaluates the topic classification tool as described in Section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in Table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at Table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
+This section evaluates the topic classification tool as described in Section~\ref{sec:natural_implementation} for the first training set. This set had five different classes or, according to StackOverflow dialect, five tags, as described in~\ref{sec:natural_implementation} and shown in Table~\ref{table:nlp_eval}. For the testing set, thirty questions from StackOverflow were used per class. Those questions were different from the training set and had the highest activity during that specific time period. Each row at Table~\ref{table:nlp_eval} shows a class as classified by StackOverflow users, and each column shows how our classifier classifies the question. For example, twenty one questions about \emph{reliability} were classified correctly, but eight were wrongly classified as \emph{optimization} and one was wrongly classified as \emph{performance}. The misclassification however, was not an error of our classifier. The reason of these mistakes is that  some questions from the testing set were either wrongly classified by the StackOverflow users or had more than one tags. For example, one question that was wrongly classified as \emph{performance} instead of \emph{reliability} was: ``can somebody explain me how to handle errors. my code is: \ldots''. The above question is out of the scope of reliability and even though the user tagged it as a reliability question, it was downvoted and marked as ``very low quality'' from the StackOverflow community.
 
 Another example showing that the classifier is not misclassifying, but the problem stands in the users' tagging, is the following question:
 ``I want to perform some data manipulation tasks and analysis in spark and want to \textbf{optimize} the run times. 
@@ -119,7 +121,7 @@ The true positive, which means a document is recognized in the correct class, ac
 
 \begin{table}[]
 \centering
-\caption{NLP Evaluation of Classification}
+
 \label{table:nlp_eval}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
@@ -130,6 +132,7 @@ optimization  & 2                                & 3                           &
 performance   & 1                                & 1                           & 11                                & \textbf{16}                     & 1                                \\ \hline
 scalability   & 6                               & 3                           & 3                                 & 3                                & \textbf{15}                     \\ \hline
 \end{tabular}
+\caption{NLP evaluation of topic classification}
 \end{table}
 
 \section{Requirements and user interface}
@@ -145,9 +148,9 @@ The second evaluation experiment, carried out by HCI team, aimed to collect subj
 The third evaluation experiment involved 15 participants who were guided through the interactive prototype of the PaaSage social network using specific scenarios. They were interviewed on their requirements and feedback following a semi-structured interview approach [84]. The evaluation session was carried out via Skype. Participants were recruited through European companies and organizations associated with the PaaSage EU project~\cite{paasage}. They were either developers or operations staff, thus within the target user groups of the PaaSage social network. Participants were not users of the PaaSage platform; some however were familiar with the project’s goals and objectives. Before the experiment, each participant was requested to fill-in a background information form and was sent an informed consent form, explaining all the recording and anonymity-ensuring procedures. 
 
 \begin{figure}[h]
-	\caption{SNP features that were mostly liked by the users.}
-	\includegraphics[width=1\textwidth,natwidth=200,natheight=150]{./fig/most-liked.pdf}
 	\centering
+	\includegraphics[width=1\textwidth,natwidth=200,natheight=150]{./fig/most-liked.pdf}
+	\caption{Features that were mostly liked by the users}
 	\label{fig:most-liked}
 \end{figure}
 

@@ -26,7 +26,7 @@ This thesis is structured as follows: Section~\ref{sec:background} provides back
 
 \section{Background}
 \label{sec:background}
-This Section presents an overview of the descriptions of the application models that are available on the Social Network Platform and a summary of the technologies that are used by the PaaSage in order to assist the cloud deployment specialists to deploy the aforementioned application models.
+This section presents an overview of the descriptions of the application models that are available on the Social Network Platform and a summary of the technologies that are used by the PaaSage in order to assist the cloud deployment specialists to deploy the aforementioned application models.
 
 Application models inside social network platform are described in CAMEL. CAMEL integrates various domain-specific languages (DSLs).
 DSLs provide a notation tailored towards an application domain and are based on the relevant concepts and features of that domain. As such, a DSL is a means to describe and generate members of a family of programs in the domain. 
@@ -37,9 +37,9 @@ CloudML~\cite{FerryRossiniCMS13} is a recent approach that focuses on the provis
 CAMEL is using the Eclipse Modelling Framework (EMF)~\cite{steinberg2008emf} on top of the Connected Data Objects (CDO)~\cite{cdomodel}~\cite{paasage-d4.1.1}. Application Models are persisted on the CDO repository. EMF is used as a building tool for the application models. CAMEL model specification is written in XMI format (XML Metadata Interchange) which is a standard for exchanging metadata information via Extensible Markup Language (XML). Thus, XMI consists the main describing system of CAMEL and EMF provides tools that enable viewing and command-based or tree-based editing of the application models. 
 
 \begin{figure}[h]
-	\caption{CAMEL DSLs.}
-	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/dsl.png}
 	\centering
+	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/dsl.png}
+	\caption{CAMEL DSLs}
 	\label{fig:dsls}
 \end{figure}
 
@@ -48,9 +48,9 @@ A representation of a model using the EMF editor is shown in Figure~\ref{fig:app
 The CAMEL repository is currently being populated with a wealth of information from multi-cloud deployments of various distributed applications~\cite{Papaioannou2013}. Also, SNP performs analytics over the CAMEL repository to extract knowledge about deployments characteristics that work best for certain applications and use it in the context of the professional network.
 
 \begin{figure}[h]
-	\caption{An application model view from EMF editor.}
-	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/camel_model_example.png}
 	\centering
+	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/camel_model_example.png}
+	\caption{An application model view from EMF editor}
 	\label{fig:app_view_emf}
 \end{figure}
 
