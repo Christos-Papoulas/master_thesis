@@ -94,7 +94,8 @@ Although StackOverflow and GitHub address different aspects of software developm
       \item[b] User assistance based on data analysis of the repository
 \end{tablenotes}
 \end{threeparttable}
-\caption{Feature comparison of other platforms}\label{tab:related}
+\caption{Feature comparison}
+\label{tab:related}
 \end{table*}
 
 IBM's BlueMix~\cite{Bluemix-dev} is a key component of IBM's DevOps best practices~\cite{ibm-devops} for achieving rapid prototyping, automated deployment, and continuous testing of software. BlueMix encourages its users to ask their questions to StackOverflow but also includes a community forum~\cite{Bluemix-dev} with rating of answers contributes to eventually building a basic knowledge base, similar to traditional approaches such as StackOverflow.  The proposed social network platform system differs from BlueMix in its support for expressing applications as models (CloudML, CAMEL) and its use of two information repositories, the PaaSage repository of models and execution histories and Chef Supermarket, and the use of analytics over past executions to enable users to reason about application deployments. A common feature between the proposed social network platform and BlueMix is support for deployment of distributed applications. 
@@ -112,12 +113,14 @@ Arguably two of the largest existing networking platforms are LinkedIn and Faceb
 LinkedIn, the largest professional network, stores hundreds of terabytes of data to Project Voldemort~\cite{sumbaly2012serving}, a key-value store, inspired by Amazon Dynamo~\cite{decandia2007dynamo}, another well-known key-value store. LinkedIn stores to Voldemort pre-computed offline data. For example, it stores the results of data mining applications, such as ``People You May Know'' feature, that are running on hundreds of terabytes to make an estimation and are using Hadoop as the computational component of those estimations. 
 Voldemort and Dynamo have the same following requirements: (1) a simple \emph{get/put} application interface (2) A \emph{replication} factor, the number of replicas for each key-value tuble, implemented using vector clock, (3) a \emph{required read} factor to succeed a get request and (4) a \emph{required write} factor to succeed a put request. 
 
-Facebook, the largest social network, serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
+Facebook, the largest social network, needs to handle large amounts of information every second. An overview of its architecture is presented at~\cite{barrigas2014overview}. Facebook uses Linux Apache Memcached PHP (LAMP) website and communicate with other services and components to achieve scalability and performance. Facebook uses PHP, with an integrated compiler to optimize and turn PHP into C++ code. It continues use MySQL as a simple key value store without the relational aspect of the database. For the rendering of the web pages the BigPipe~\cite{bigpipe} is used.
+
+Facebook serves billions of requests per second using memcached~\cite{nishtala2013scaling}. In this magnitude of scale, Facebook has several pools of memcached servers (regional pools) around the globe. A request for a single page can produce hundred of requests to the back-end system. Memcached is used to store not only key-value from MySQL queries but also pre-computed results from sophisticated algorithms. 
 In order to achieve a near real time communication experience to the end user, memcached servers have to be efficient, reducing latency to minimum. 
 
 The research question in such systems is when a particular key will be invalidated. This problem occurs according to ~\cite{nishtala2013scaling} in two cases: (1) \emph{stale sets} and (2) \emph{thundering herds}. A stale set occurs when a web server sets a value to the memcached that does not reflect the real value of the database. Thundering herds occur when a specific key has a heavy read and write activity at the same time. Stale sets are resolved by an N-bit token, that is bound to a specific key and sent from the memcached to the web server that wants to update the key when a cache miss occurs. If a delete request is received, the request for updating this value from the client is rejected. The thundering herbs are solved by configuring the memcached servers to return an N-bit token only once every ten seconds per key.
 
-The PaaSage Social Network, inspired by Facebook, integrates memcached in its back-end architecture and it is configured to properly interact with the caching application.
+Our social networking platform, inspired by Facebook, integrates memcached in its back-end architecture and it is configured to properly interact with the caching application.
 
 
 \section{Configuration management and deployment}
