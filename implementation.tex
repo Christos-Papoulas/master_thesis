@@ -173,7 +173,16 @@ The Apache JMeter~\cite{jmeter_url} was used to measure the response time of the
 
 \section{Topic classification}
 \label{sec:natural_implementation}
-Topic classification, using Natural Language Processing(NLP)~\cite{manning1999foundations}, is a feature added to the social network platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input. 
+Topic classification, using Natural Language Processing (NLP)~\cite{manning1999foundations}, is a feature added to the social network platform. NLP is used in the interactions between the users and the SNP, in the way the platform can understand and determine the type of user input and provide helpful possible answers.
+
+For example, one real question from the StackOverflow is shown in figure~\ref{fig:so_question}, which is asks the community about the scalability of SQLite and MySQL. From this specific question several important outcomes can be mined. First, this question is very difficult to answered without the presence of a execution history repository. Second, similar questions can be asked to our own social networking community and would be helpful to use it as a training set to our topic classification tool presented in this section. Finally, a lot of this type of questions exist in StackOverflow community and we would like to get touch with them and use them for classification.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth,height=1.65in]{./fig/SOquestion.png}
+	\caption{A real example question from StackOverflow}	
+	\label{fig:so_question}
+\end{figure}
 
 As the Figure~\ref{fig:auto_classification} shows, a user of SNP poses a question to our platform. The platform can process the user's input and classify it into: (1) a similar question that exists in our community or (2) an automated generated query to the CAMEL repository. In the first scenario, a list of answers from the pre-existing question can be provided as feedback to the new question. In the second scenario, the question can be further processed and a query to CAMEL repository be automatically generated. An automated mechanism can be implement for the second scenario but this is out of the scope of this thesis.  
 
@@ -194,7 +203,7 @@ For the training sets, the data to train the NB algorithm, the most voted questi
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\textwidth]{./fig/StackOverFlow.pdf}
+	\includegraphics{./fig/StackOverFlow.pdf}
 	\caption{The main StackOverflow users' actions and the topic classifier}
 	\label{fig:stackoverflow_questions}
 \end{figure}
