@@ -2,24 +2,27 @@
 \label{chap:implementation}
 This chapter describes the implementation of our social networking site, the User Interface and how the system scales.
 
-The system consists of the following components, as shown in Figure~\ref{fig:system_architecture}: In the first layer lives (1) the social networking engine, which runs all PHP scripts, as described in Section~\ref{sec:implementaion_of_social_netowrk}. 
-In the second layer lives (2) the Memcached caching system, which described in Section~\ref{sec:memcache_implementation}. 
-In the third layer lives (3) the social network MySQL database, and (4) the CDO server - client components as well as the CDO repository. The Social Networking Engine at layer 1 is defined as the front end system and the CDO Client, the memcached nodes, the CDO Server and the repositories are defined as the back end system. 
+The system architecture is consisting of the following components, as shown in Figure~\ref{fig:system_architecture}: 
+\begin{itemize}
+\item In the first layer, which is the front-end layer, lives (1) the social networking engine, which runs all the PHP scripts, as described in Section~\ref{sec:implementaion_of_social_netowrk} and (2) the CDO client which is responsible for the communication with the repository of the application models, as described in Section~\ref{sec:cdo_comm}. 
+\item In the second layer, which is the caching layer, lives the Memcached caching system, which described in Section~\ref{sec:memcache_implementation}. 
+\item In the third layer, which is the back-end of the system, lives the social network MySQL database, the CDO server, as well as the CDO repository of application models, which is a MySQL database. 
 
+\end{itemize}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth,natwidth=200,natheight=150]{./fig/system_architecture.pdf}
+	\includegraphics[width=0.9\textwidth,natwidth=200,natheight=150]{./fig/system_architecture.pdf}
 	\caption{The overall social networking architecture}
 	\label{fig:system_architecture}
 \end{figure}
 
-In order to achieve the scalability of the system, two system architectures are examined at two layers of the system: (1) We added more than one social network engines at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integrated Apache Zookeeper~\cite{zookeeper_url} as described in Section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more cpu capacity and improve the system's response time as described in Section~\ref{sec:memcache_implementation}.
+In order to achieve the scalability of the system, two different system architectures are examined at the first two layers: (1) We added more than one social network engines at the first layer of the system. In this implementation, in order to keep the file system in consistent mode we integrated NFS server along with Apache Zookeeper~\cite{zookeeper_url} as described in Section~\ref{sec:engine_scale}. (2) We added more than one memcached nodes at the second layer in order to add more CPU capacity and improve the system's response time.
 
 \section{Social networking platform}
 \label{sec:implementaion_of_social_netowrk}
 The social networking platform is implemented over the extensible Elgg social network framework~\cite{elgg_url}.  Elgg is an open source software written in PHP, that uses MySQL for data persistence and supports jQuery~\cite{jquery_url} for client-side scripting.  
 
-The overall architecture of Elgg Social Network is shown in Figure ~\ref{fig:elgg_architecture}. The Elgg Social Network is structured following the key concepts of Model - View - Controller (MVC) known architectural pattern for User Interfaces. The MVC system is analyzed here, depicting the most important aspects of it from the Elgg's perspective. Explaining the Elgg's architecture by using MVC system will make the understanding of Elgg less complex.
+The overall architecture of Elgg Social Network is shown in Figure~\ref{fig:elgg_architecture}. The Elgg Social Network is structured following the key concepts of Model - View - Controller (MVC) known architectural pattern for User Interfaces. The MVC system is analyzed here, depicting the most important aspects of it from the Elgg's perspective. Explaining the Elgg's architecture by using MVC system will make the understanding of Elgg less complex.
 
 Figure~\ref{fig:elgg_architecture} shows the model, view, and controller parts of Elgg's architecture. In a typical scenario, a web client requests an HTML page (e.g., the description of an application model).  The request arrives at the \emph{Controller}, which confirms that the application exists and instructs \emph{Model} to increase the view counter on the application model object. The controller dispatches the request to the appropriate handler (e.g., application model, component handler, community handler) which then turns the request to the view system. View pulls the information about the application model and creates the HTML page that is returned to the web client.
 

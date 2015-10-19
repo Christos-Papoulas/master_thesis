@@ -21,14 +21,15 @@ The presented system architecture was deployed on Amazon EC2~\cite{amazon_url} a
 \label{sec:eval_memcache}
 By adding a memcached node at the system architecture, the social network engine first asks the memcached node if it has the tuples that the SN engine needs. So the steps(\emph{I} to \emph{V}), mentioned previously, are not necessary if the memcached node has cached the values that the social network engine needs. The loop through CDO client - CDO server and the repositories is bypassed. 
 
-\begin{table}[]
+\begin{table}[H]
 \centering
-\begin{tabular}{ll}
-State        & \# of Queries \\
-Fresh start  & 1938          \\
-Fresh Query  & 15182         \\
-Cached Query from CDO & 251           \\
-Cached Query from memcached & 147  
+\begin{tabular}{|l|l|}
+\hline
+State        & \# of Queries \\ \hline \hline
+Fresh start  & 1938          \\ \hline
+Fresh Query  & 15182         \\ \hline
+Cached Query from CDO & 251           \\ \hline
+Cached Query from memcached & 147 \\ \hline 
 \end{tabular}
 \caption{Number of queries from social network and CDO server repository}
 \label{tab:num_of_queries}
@@ -92,11 +93,11 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
 	\label{fig:cpu2SNavg}
 \end{figure}
 
-This section evaluates the horizontal scale of social network engine as described in~\ref{sec:engine_scale}. A memcached node was living between the social networking engines and the back end system. The VM resources were kept the same as in the previous experiment and shown in the Table~\ref{vms_resources}. One more social networking engine instance was added with the same type as former SN engine. 
+This section evaluates the horizontal scale of social network engine as described in Section~\ref{sec:engine_scale}. A memcached node was living between the social networking engines and the back end system. The VM resources were kept the same as in the previous experiment and are shown in Table~\ref{vms_resources}. One more social networking engine instance was added with the same type as former SN engine. 
 
 So, the system architecture now consists of two social networking engines as front-end. At the back-end of the system we have: (1) one memcached node and (2) the CDO client - server, the social network database and the CDO repository. The two SN engines are deployed to a dedicated VM each. Furthermore, each SN engine has its own CDO client deployed with them. The memcached node is deployed on its own VM and the CDO Server, the social network database and the CDO repository are deployed on the same VM.
 
-The Figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the memcached, the MySQL database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
+The Figure~\ref{fig:cpu2SNavg} shows the average CPU utilization for the memcached, the MySQL database (db) and the two SN Engines (SN1, SN2). The load for this experiment is the same as the previous load L3, which means we have ten users that request \emph{eight} applications for one hundred times consecutively. The first SN engine has 43,2\% CPU usage and the second one has 12,8\% less. This difference is due to the first instance being deployed together with the NFS server and Apache Zookeeper on the same VM. 
 
 With only one SN engine the CPU utilization was 57,09\% and now with two SN engines the CPU utilization is reduced to 43,2\%. This reduction is due to the requests being distributed to two instances instead of the only one instance. The CPU utilization of the memcached node increased, but this can be solved by introducing more memcached nodes as the previous section describes. Furthermore, we can introduce more SN engines to support more heavy loads.
 
@@ -127,7 +128,6 @@ For future work, this evaluation can be extended by imported questions and answe
   
 \begin{table}[]
 \centering
-\caption{My caption}
 \label{my-label}
 \begin{tabular}{|l|l|l|l|l|}
 \hline
@@ -162,4 +162,4 @@ The third evaluation experiment involved 15 participants who were guided through
 
 Users, in the third experiment, were asked to identify up to three most-liked and three most-disliked features. Most-liked features presented in Figure~\ref{fig:most-liked} included: the employment of social features in a development environment; the use of charts and statistical information to represent data; the detailed model information that could be retrieved and the model execution histories; the automatically-generated hints provided by the network as replies in discussion topics; the concept of sharing one’s models; the overall UI design; the direct connection between projects and users, and the user profile tags that allowed them to find users that would be interesting to connect with.
 
-Those evaluation experiments show that a platform that couples together the employment of social networking features in community-building activities with the DevOps demands about application deployment, the execution histories and analysis, the automatically generated hints based on data analysis is a helpful tool that people would like to use. Furthermore, those evaluation experiments show that the design and the implementation of our social networking platform was correct.
+Those user interface evaluation experiments show that a platform that couples together the employment of social networking features in community-building activities with the DevOps demands about application deployment, the execution histories and analysis, the automatically generated hints based on data analysis is a helpful tool that people would like to use. Furthermore, those evaluation experiments show that the design and the implementation of our social networking platform was correct and easy to use.
