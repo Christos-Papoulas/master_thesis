@@ -8,4 +8,4 @@ clean:
 	rm -rfv *.toc *.aux *.log *.out
 
 cleanall: 
-	rm -rfv *.toc *.pdf *.aux *.log *.out
+	rm -rfv *.toc thesis.pdf *.aux *.log *.out

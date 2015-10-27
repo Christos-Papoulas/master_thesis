@@ -61,9 +61,23 @@
 \newcommand{\thesisdate}{October 2015}
 
 \newcounter{savepage} %begin counter coupled with (1)
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, foreach, as, and, not},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
 \begin{document}
-\lstset{language=C++}
+\lstset{language=JavaScript}
 \input {./frontpage.tex}
 \input{./signatures.tex}
 \input{./abstract_en.tex}	

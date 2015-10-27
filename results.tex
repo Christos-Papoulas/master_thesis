@@ -57,13 +57,7 @@ Going from C1 to C3 and specifically for L3, the RT is reduced by 80,4\% in C2 a
 	\label{fig:cpuavg}
 \end{figure}
 
-The CPU utilization is measured using the sysstat tool~\cite{sysstat_url}. We measured the CPU utilization for all the VMs running the experiment. The information about the VM resources is listed in Table~\ref{vms_resources}. The social network engine and the CDO Client were running at t1.micro instance. The MySQL (repositories) and the CDO Server were running at m1.xlarge. The average CPU utilization is shown in Figure~\ref{fig:cpuavg}. At the simple configuration C1, even in small loads such as L1, the SN engine reached 50,39\% CPU utilization. In the medium load L2 and big load L3 the SN Engine is kneeled down to 91,96\% and 92,86\%. This big consumption of CPU was due to all the initialization process that Elgg social network engine has to do for each request and due to CDO server queries. Also, the CPU bottleneck of Elgg engine is responsible for the slow response time.
-
-Moving from configuration C1 to C2, the CPU consumption went to memcached node. Thus, the social network engine was de-congested and the RT improved. However, for the big load L3 the memcached node reached 89,79\%. To solve memcached CPU overhead, one more memcached node was added at configuration C3. This second memcached node shared the CPU overhead with the first memcached node and the RT improved furthermore. 
-
-For all three loads at C3, the first memcached node had more CPU utilization from the second by an approximately factor of 2,2. This difference between the two memcached nodes appeared due to the first node storing more popular key-value pairs than the other.
-
-\begin{table}[]
+\begin{table}[bp] 
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -77,7 +71,11 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
 \label{vms_resources}
 \end{table}
 
-\subsection{Scaling the Elgg engine tier}
+The CPU utilization is measured using the sysstat tool~\cite{sysstat_url}. We measured the CPU utilization for all the VMs running the experiment. The information about the VM resources is listed in Table~\ref{vms_resources}. The social network engine and the CDO Client were running at t1.micro instance. The MySQL (repositories) and the CDO Server were running at m1.xlarge. The average CPU utilization is shown in Figure~\ref{fig:cpuavg}. At the simple configuration C1, even in small loads such as L1, the SN engine reached 50,39\% CPU utilization. In the medium load L2 and big load L3 the SN Engine is kneeled down to 91,96\% and 92,86\%. This big consumption of CPU was due to all the initialization process that Elgg social network engine has to do for each request and due to CDO server queries. Also, the CPU bottleneck of Elgg engine is responsible for the slow response time.
+
+Moving from configuration C1 to C2, the CPU consumption went to memcached node. Thus, the social network engine was de-congested and the RT improved. However, for the big load L3 the memcached node reached 89,79\%. To solve memcached CPU overhead, one more memcached node was added at configuration C3. This second memcached node shared the CPU overhead with the first memcached node and the RT improved furthermore. 
+
+For all three loads at C3, the first memcached node had more CPU utilization from the second by an approximately factor of 2,2. This difference between the two memcached nodes appeared due to the first node storing more popular key-value pairs than the other.
 
 \begin{figure}[h]
 	\centering
@@ -87,11 +85,13 @@ For all three loads at C3, the first memcached node had more CPU utilization fro
 \end{figure}
 
 \begin{figure}[h]
-	\caption{The CPU utilization for two social network engines}
-	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/Usage2SN.pdf}
 	\centering
+	\includegraphics[width=0.8\textwidth,natwidth=200,natheight=150]{./fig/Usage2SN.pdf}
+	\caption{The CPU utilization for two social network engines}
 	\label{fig:cpu2SNavg}
 \end{figure}
+
+\subsection{Scaling the Elgg engine tier}
 
 This section evaluates the horizontal scale of social network engine as described in Section~\ref{sec:engine_scale}. A memcached node was living between the social networking engines and the back end system. The VM resources were kept the same as in the previous experiment and are shown in Table~\ref{vms_resources}. One more social networking engine instance was added with the same type as former SN engine. 
 

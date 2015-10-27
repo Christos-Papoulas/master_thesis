@@ -215,8 +215,14 @@ The first training set of our Natural Processing Tool consisted of five tags, re
 
 Every time a user asks a question to one of the platform's communities, the classifier determines the class of the question. After the class is found, and if the platform is able to determine a heuristic answer, it will post then the answer to the user's question automatically. All the users of the platform can vote this answer up or down, depending on its accuracy, or provide their own answers.
 
-The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with 10,000 questions from StackOverflow Q\&A site, fifty questions per each discovered tag. The general algorithm is shown below. Firstly, the algorithm starts with a tag that is relevant to the social network platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the populateClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the populateClassifier proceeds to the next tag of this question. When the populateClassifier is finished the NB is trained. It should be noted that a question may have more than one tags, so a question can be classified to up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{populateClassifier} can classify questions with an arbitrary number of tags. At the following section the process to Bayes classification is described in more details.
+The second training set of Natural Processing Tool was retrieved by automatically discovering tags. NB is trained with 10,000 questions from StackOverflow Q\&A site, fifty questions per each discovered tag. The general algorithm is shown in Table~\ref{tab:training_alg}. Firstly, the algorithm starts with a tag that is relevant to the social network platform such as \emph{scalability} at line 01. Afterwards, using the SE API the algorithm gets the 5 most voted questions tagged with \emph{scalability}. For each question (line 04), the populateClassifier clears the body from any html tags inserted by the StackOverflow users to beatify their questions (line 05) and classifies this question's body with each tag. Automatically, the populateClassifier proceeds to the next tag of this question. When the populateClassifier is finished the NB is trained. It should be noted that a question may have more than one tags, so a question can be classified to up to five tags / classes. Changing the threshold parameter at the following algorithm, the \emph{populateClassifier} can classify questions with an arbitrary number of tags. At the following section the process to Bayes classification is described in more details.
 
+
+\begin{table}[]
+\centering
+
+\label{my-label}
+\begin{tabular}{l}
 \begin{lstlisting} 
 01:var tags = ['scalability']
 02:populateClassifier(0)
@@ -231,6 +237,10 @@ The second training set of Natural Processing Tool was retrieved by automaticall
 11:        populateClassifier(tags.indexOf(t))
 12:}		
 \end{lstlisting}
+\end{tabular}
+\caption{Training algorithm}
+\label{tab:training_alg}
+\end{table}
 
 \subsection{Bayes classification algorithm}
 This section describes the Bayes classification algorithm. As the above code snippet shows at line 08, the algorithm classifies a document named \emph{body} into the class \emph{t}. This \emph{body} is the content of the question that will be classified into the class \emph{t}, which is the tag of the question. Diving in this function, the \emph{body} is transformed to lower case and the Porter Stemming Algorithm~\citep{porter1980algorithm} is used for suffix stripping, so the plural form of the words and the suffixes are removed (such as \emph{-ing} and \emph{s}). For example, the following words: {\it connected}, {\it connection}, {\it connections}, {\it connecting}, {\it connectionless} will all be transformed to the single word ``connect''. The Porter Stemming Algorithm does not use any dictionary but a simple list of suffixes. This practise, makes the algorithm fast (10.000 different words in 8.1 seconds). After this process a table of words of this \emph{body} is kept.
